@@ -19,13 +19,26 @@ class SmallLandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: SingleChildScrollView(
           child: Column(
         children: [
           SizedBox(height: kDefaultPadding * 1),
           SmallHeader(),
           SmallLandingSection1(),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            constraints: BoxConstraints(maxHeight: 320, minHeight: 200),
+            margin: EdgeInsets.only(left: 100, right: 0, top: 0),
+            // width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                image: AssetImage("assets/images/f1.png"),
+              ),
+            ),
+          ),
           // SizedBox(height: kDefaultPadding / 2),
           SmallLandingSection2(),
           SizedBox(height: kDefaultPadding / 2),

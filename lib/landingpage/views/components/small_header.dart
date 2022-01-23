@@ -25,11 +25,11 @@ class _SmallHeaderState extends State<SmallHeader> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/ic_logo_4x.png", width: 74, height: 67),
+            // Image.asset("assets/images/ic_logo_4x.png", width: 74, height: 67),
             SizedBox(
               width: 20,
             ),
-            SvgPicture.asset("assets/Icons/bw_text.svg", width: 150),
+            SvgPicture.asset("assets/Icons/logo_txt.svg", width: 150),
             // Text(
             //   "ninjapay",
             //   style: GoogleFonts.montserrat(
