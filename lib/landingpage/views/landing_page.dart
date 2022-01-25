@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'components/footer.dart';
 import 'components/landing_section_1.dart';
-import 'components/landing_section_2.dart';
+import 'components/landing_section_2';
 import 'components/landing_section_3.dart';
 
 const kDefaultPadding = 20.0;
