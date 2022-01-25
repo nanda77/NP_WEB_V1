@@ -23,7 +23,7 @@ class StoreUrls {
 
   mailURL() async {
     const url =
-        'mailto:<support@medinin.com>?subject=New Ticket(from web)&body=';
+        'mailto:<support@medinin.com>?subject=Ninja Ticket(from web)&body=';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

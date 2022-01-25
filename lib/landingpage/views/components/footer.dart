@@ -35,7 +35,7 @@ class Footer extends StatelessWidget {
                     style: GoogleFonts.montserrat(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF282F3F).withOpacity(0.97)),
+                        color: Color(0xFF88A1AC).withOpacity(0.97)),
                   ),
                 ),
                 Container(
@@ -43,8 +43,11 @@ class Footer extends StatelessWidget {
                   child: Row(
                     children: [
                       TextButton.icon(
-                        icon: SvgPicture.asset("assets/Icons/contact_us.svg",
-                            height: 57),
+                        icon: SvgPicture.asset(
+                          "assets/Icons/contact_us.svg",
+                          height: 57,
+                          color: Color(0xFF88A1AC),
+                        ),
                         label: Text(""),
                         onPressed: StoreUrls().mailURL,
                       ),
