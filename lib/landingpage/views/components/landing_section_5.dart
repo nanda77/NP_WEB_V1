@@ -8,7 +8,7 @@ import 'package:ninjapay/landingpage/views/utils/gradient_text.dart';
 
 import '../../../constants.dart';
 
-class LandingSection1 extends StatelessWidget {
+class LandingSection5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -16,25 +16,25 @@ class LandingSection1 extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       constraints: BoxConstraints(maxHeight: 1000, minHeight: 400),
-      margin: EdgeInsets.only(left: 100, right: 0, top: 70),
+      margin: EdgeInsets.only(left: 140, right: 0, top: 70),
       // width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.contain,
-          image: AssetImage("assets/images/f1.png"),
+          image: AssetImage("assets/images/f5.png"),
         ),
       ),
 
       child: Container(
-        margin: EdgeInsets.only(top: 147),
+        margin: EdgeInsets.only(top: 270),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisSize: MainAxisSize.max,
           children: [
-            Image.asset(
-              'assets/images/t1.png',
-              width: screenSize.width / 1.8,
+            SvgPicture.asset(
+              'assets/icons/t5.svg',
+              width: screenSize.width / 3,
             ),
             // Container(
             //   alignment: Alignment.topLeft,

@@ -5,7 +5,7 @@ import 'components/SmallLandingSection2.dart';
 import 'components/footer.dart';
 import 'components/landing_section_1.dart';
 import 'components/landing_section_2';
-import 'components/landing_section_3.dart';
+import 'components/landing_section_3';
 import 'components/small_footer.dart';
 import 'components/small_header.dart';
 import 'components/small_landing_section_1.dart';
