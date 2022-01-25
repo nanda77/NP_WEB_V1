@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class LandingSection3 extends StatelessWidget {
+class LandingSection2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -36,6 +36,7 @@ class LandingSection3 extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/icons/t2.svg',
+                  width: screenSize.width / 1.8,
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 50),
