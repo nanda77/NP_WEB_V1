@@ -8,6 +8,7 @@ import 'components/landing_section_2.dart';
 import 'components/landing_section_3.dart';
 import 'components/landing_section_4.dart';
 import 'components/landing_section_6.dart';
+import 'components/landing_section_7.dart';
 
 const kDefaultPadding = 20.0;
 
@@ -34,6 +35,8 @@ class LandingPage extends StatelessWidget {
           LandingSection5(),
           SizedBox(height: kDefaultPadding * 2),
           LandingSection6(),
+          SizedBox(height: kDefaultPadding * 2),
+          LandingSection7(),
           SizedBox(height: kDefaultPadding * 8),
           Footer(),
         ],

@@ -16,14 +16,6 @@ class LandingSection6 extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       constraints: BoxConstraints(maxHeight: 840, minHeight: 500),
       margin: EdgeInsets.only(left: 140, right: 100, top: 50),
-      // width: double.infinity,
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //     fit: BoxFit.fill,
-      //     image: AssetImage("assets/images/bg3.png"),
-      //   ),
-      // ),
-
       child: Column(
         children: [
           SvgPicture.asset(
