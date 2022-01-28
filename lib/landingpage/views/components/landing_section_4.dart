@@ -15,7 +15,7 @@ class LandingSection4 extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       constraints: BoxConstraints(maxHeight: 740, minHeight: 500),
-      margin: EdgeInsets.only(left: 140, right: 100, top: 50),
+      margin: EdgeInsets.only(left: 100, right: 100, top: 50),
       // width: double.infinity,
       // decoration: BoxDecoration(
       //   image: DecorationImage(
@@ -28,7 +28,7 @@ class LandingSection4 extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 142),
+              // margin: EdgeInsets.only(top: 142),
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -40,14 +40,14 @@ class LandingSection4 extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
-                      margin:
-                          EdgeInsets.only(left: screenSize.width / 8, top: 147),
+                      margin: EdgeInsets.only(
+                          left: screenSize.width / 12, top: 307),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             'assets/icons/t4.svg',
-                            width: screenSize.width / 2.8,
+                            width: screenSize.width / 2.5,
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 40),
@@ -60,14 +60,6 @@ class LandingSection4 extends StatelessWidget {
                                       height: 57),
                                   label: Text(""),
                                   onPressed: StoreUrls().playStoreURL,
-                                ),
-                                TextButton.icon(
-                                  icon: SvgPicture.asset(
-                                      "assets/icons/girl_shopping.svg",
-                                      height: 200),
-                                  label: Text(""),
-                                  onPressed: StoreUrls()
-                                      .appStoreURL, // https://apps.apple.com/in/app/ninjapay-manage-construction/id1547753533
                                 ),
                               ],
                             ),

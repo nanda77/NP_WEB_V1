@@ -35,7 +35,7 @@ class _HeaderState extends State<Header> {
                 width: 20,
               ),
               SvgPicture.asset(
-                "assets/Icons/logo_txt.svg",
+                "assets/Icons/logo_txt1.svg",
                 // width: 102.86,
                 height: 15,
               ),
