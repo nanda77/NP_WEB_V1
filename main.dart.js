@@ -55831,7 +55831,7 @@ p=b.C(p).f
 o=o.a.a
 s=o/2.5
 r=t.p
-return A.aa(q,A.cC(A.aa(q,A.bQ(A.a([A.jY("assets/images/s4.png",s),A.cC(A.aa(q,A.b3(A.a([A.at("assets/icons/t4.svg",q,q,s),A.aa(q,A.bQ(A.a([A.cz(A.at("assets/icons/download_store.svg",q,57,q),A.bF("",q,q,q),new A.bv().gbU())],r),B.z,B.j,B.k),q,q,q,q,new A.X(0,40,0,0),q,q)],r),B.z,B.j,B.k),q,q,q,q,new A.X(o/12,307,0,0),q,q))],r),B.o,B.j,B.k),q,q,q,q,q,q,q)),q,new A.ac(0,1/0,500,740),q,p.a.b,new A.X(100,0,100,0),q,n.a.a)}}
+return A.aa(q,A.cC(A.aa(q,A.bQ(A.a([A.jY("assets/images/s4.png",s),A.cC(A.aa(q,A.b3(A.a([A.at("assets/icons/t2.svg",q,q,s),A.aa(q,A.bQ(A.a([A.cz(A.at("assets/icons/download_store.svg",q,57,q),A.bF("",q,q,q),new A.bv().gbU())],r),B.z,B.j,B.k),q,q,q,q,new A.X(0,40,0,0),q,q)],r),B.z,B.j,B.k),q,q,q,q,new A.X(o/12,307,0,0),q,q))],r),B.o,B.j,B.k),q,q,q,q,q,q,q)),q,new A.ac(0,1/0,500,740),q,p.a.b,new A.X(100,0,100,0),q,n.a.a)}}
 A.Cd.prototype={
 K(a,b){var s,r,q=null,p=t.w,o=b.C(p).f,n=b.C(p).f
 p=b.C(p).f

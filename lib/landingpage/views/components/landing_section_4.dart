@@ -44,7 +44,7 @@ class LandingSection4 extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset(
-                        'assets/icons/t4.svg',
+                        'assets/icons/t2.svg',
                         width: screenSize.width / 2.5,
                       ),
                       Container(
@@ -59,14 +59,6 @@ class LandingSection4 extends StatelessWidget {
                               label: Text(""),
                               onPressed: StoreUrls().playStoreURL,
                             ),
-                            // TextButton.icon(
-                            //   icon: SvgPicture.asset(
-                            //       "assets/icons/girl_shopping.svg",
-                            //       height: 200),
-                            //   label: Text(""),
-                            //   onPressed: StoreUrls()
-                            //       .appStoreURL, // https://apps.apple.com/in/app/ninjapay-manage-construction/id1547753533
-                            // ),
                           ],
                         ),
                       ),
