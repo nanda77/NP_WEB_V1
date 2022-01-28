@@ -26,11 +26,6 @@ class LandingSection4 extends StatelessWidget {
 
       child: Column(
         children: [
-          SvgPicture.asset(
-            'assets/icons/t2.1.svg',
-            height: 16,
-            // width: 118,
-          ),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(top: 142),
@@ -39,9 +34,9 @@ class LandingSection4 extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 // mainAxisSize: MainAxisSize.max,
                 children: [
-                  Image.asset(
-                    'assets/images/s2.png',
-                    width: screenSize.width / 3.4,
+                  SvgPicture.asset(
+                    'assets/icons/s4.svg',
+                    width: screenSize.width / 2.5,
                   ),
                   Expanded(
                     child: Container(
@@ -51,7 +46,7 @@ class LandingSection4 extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
-                            'assets/icons/t2.svg',
+                            'assets/icons/t4.svg',
                             width: screenSize.width / 2.8,
                           ),
                           Container(
