@@ -39,7 +39,7 @@ class SmallFooter extends StatelessWidget {
             // alignment: Alignment.center,
             // margin: EdgeInsets.only(left: 5),
             child: TextButton.icon(
-              icon: SvgPicture.asset("assets/Icons/contact_us.svg",
+              icon: Image.asset("assets/images/contact_us.png",
                   width: screenSize.width / 1.2),
               label: Text(""),
               onPressed: StoreUrls().mailURL,

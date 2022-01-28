@@ -43,8 +43,8 @@ class Footer extends StatelessWidget {
                   child: Row(
                     children: [
                       TextButton.icon(
-                        icon: SvgPicture.asset(
-                          "assets/Icons/contact_us.svg",
+                        icon: Image.asset(
+                          "assets/images/contact_us.png",
                           height: 57,
                           color: Color(0xFF88A1AC),
                         ),
