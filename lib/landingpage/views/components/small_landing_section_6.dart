@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class SmallLandingSection3 extends StatelessWidget {
+class SmallLandingSection6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 650, minHeight: 300),
+      constraints: BoxConstraints(maxHeight: 850, minHeight: 700),
       margin: EdgeInsets.only(left: 20, right: 20, top: 50),
       // width: double.infinity,
       // decoration: BoxDecoration(
@@ -25,36 +25,37 @@ class SmallLandingSection3 extends StatelessWidget {
       //   ),
       // ),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SizedBox(height: 40),
+          SvgPicture.asset(
+            'assets/icons/t6.1.svg',
+            height: 16,
+            // width: 118,
+          ),
+          SizedBox(height: 100),
           Expanded(
-            child: Image.asset(
-              'assets/images/s3.1.png',
+            child: SvgPicture.asset(
+              'assets/icons/s6.svg',
             ),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 10, top: 40),
-                  child: SvgPicture.asset(
-                    'assets/icons/t3.svg',
-                  ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 10, top: 40),
+                child: SvgPicture.asset(
+                  'assets/icons/t6.svg',
                 ),
-                Container(
-                  child: TextButton.icon(
-                    icon: SvgPicture.asset("assets/icons/download_store.svg",
-                        height: 47),
-                    label: Text(""),
-                    onPressed: StoreUrls().playStoreURL,
-                  ),
+              ),
+              Container(
+                child: TextButton.icon(
+                  icon: SvgPicture.asset("assets/icons/download_store.svg",
+                      height: 47),
+                  label: Text(""),
+                  onPressed: StoreUrls().playStoreURL,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),

@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class SmallLandingSection3 extends StatelessWidget {
+class SmallLandingSection4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -31,8 +31,9 @@ class SmallLandingSection3 extends StatelessWidget {
         children: [
           SizedBox(height: 40),
           Expanded(
-            child: Image.asset(
-              'assets/images/s3.1.png',
+            child: SvgPicture.asset(
+              'assets/icons/s4.svg',
+              width: screenSize.width / 1.5,
             ),
           ),
           Expanded(
@@ -42,7 +43,7 @@ class SmallLandingSection3 extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(bottom: 10, top: 40),
                   child: SvgPicture.asset(
-                    'assets/icons/t3.svg',
+                    'assets/icons/t4.svg',
                   ),
                 ),
                 Container(

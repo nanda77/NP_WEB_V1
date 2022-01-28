@@ -8,14 +8,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class SmallLandingSection3 extends StatelessWidget {
+class SmallLandingSection7 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 650, minHeight: 300),
+      constraints: BoxConstraints(maxHeight: 1200, minHeight: 1060),
       margin: EdgeInsets.only(left: 20, right: 20, top: 50),
       // width: double.infinity,
       // decoration: BoxDecoration(
@@ -25,35 +25,32 @@ class SmallLandingSection3 extends StatelessWidget {
       //   ),
       // ),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SizedBox(height: 40),
-          Expanded(
-            child: Image.asset(
-              'assets/images/s3.1.png',
+          Container(
+            margin: EdgeInsets.only(bottom: 10, top: 40),
+            child: SvgPicture.asset(
+              'assets/icons/t7.svg',
+              width: screenSize.width / 1.6,
             ),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 10, top: 40),
-                  child: SvgPicture.asset(
-                    'assets/icons/t3.svg',
-                  ),
-                ),
-                Container(
-                  child: TextButton.icon(
-                    icon: SvgPicture.asset("assets/icons/download_store.svg",
-                        height: 47),
-                    label: Text(""),
-                    onPressed: StoreUrls().playStoreURL,
-                  ),
-                ),
-              ],
+          // SizedBox(height: 40),
+          SvgPicture.asset(
+            'assets/icons/b_tools1.2.svg',
+            width: screenSize.width,
+          ),
+          SvgPicture.asset(
+            'assets/icons/b_tools1.3.svg',
+            width: screenSize.width,
+          ),
+          Container(
+            alignment: Alignment.topRight,
+            child: TextButton.icon(
+              icon: SvgPicture.asset("assets/icons/learnmore.svg", height: 47),
+              label: Text(""),
+              onPressed: StoreUrls().playStoreURL,
             ),
           ),
         ],

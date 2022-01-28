@@ -7,15 +7,15 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class LandingSection6 extends StatelessWidget {
+class MediumLandingSection6 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 840, minHeight: 500),
-      margin: EdgeInsets.only(left: 140, right: 100, top: 50),
+      constraints: BoxConstraints(maxHeight: 600, minHeight: 300),
+      margin: EdgeInsets.only(left: 60, right: 0, top: 70),
       child: Column(
         children: [
           SvgPicture.asset(
@@ -25,7 +25,7 @@ class LandingSection6 extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.only(top: 142),
+              margin: EdgeInsets.only(top: 42),
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -38,13 +38,13 @@ class LandingSection6 extends StatelessWidget {
                   Expanded(
                     child: Container(
                       margin:
-                          EdgeInsets.only(left: screenSize.width / 8, top: 227),
+                          EdgeInsets.only(left: screenSize.width / 8, top: 127),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             'assets/icons/t6.svg',
-                            width: screenSize.width / 2.8,
+                            width: screenSize.width / 2.7,
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 40),

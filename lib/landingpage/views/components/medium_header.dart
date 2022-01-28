@@ -8,12 +8,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
 
-class Header extends StatefulWidget {
+class MediumHeader extends StatefulWidget {
   @override
-  _HeaderState createState() => _HeaderState();
+  _MediumHeaderState createState() => _MediumHeaderState();
 }
 
-class _HeaderState extends State<Header> {
+class _MediumHeaderState extends State<MediumHeader> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -22,7 +22,7 @@ class _HeaderState extends State<Header> {
       child: Container(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.only(left: 80, right: 20, top: 20),
+          padding: EdgeInsets.only(left: 40, right: 20, top: 20),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

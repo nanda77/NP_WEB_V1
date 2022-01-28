@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
 import 'landingpage/views/landing_page.dart';
+import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //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
 
 StreamController<int> streamController = StreamController<int>();
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Responsive(
       desktop: LandingPage(),
-      tablet: LandingPage(),
+      tablet: MediumLandingPage(),
       mobile: SmallLandingPage(),
     );
   }

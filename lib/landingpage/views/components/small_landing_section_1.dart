@@ -14,15 +14,16 @@ class SmallLandingSection1 extends StatelessWidget {
     return Container(
       // width: MediaQuery.of(context).size.width,
       // height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 320, minHeight: 200),
-      margin: EdgeInsets.only(left: 20, right: 0, top: 100, bottom: 0),
+      constraints: BoxConstraints(maxHeight: 400, minHeight: 200),
+      margin: EdgeInsets.only(left: 20, right: 0, top: 00, bottom: 0),
       // width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.contain,
-          image: AssetImage("assets/images/f1.png"),
-        ),
-      ),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     fit: BoxFit.fill,
+      //     image: AssetImage("assets/images/f1.png"),
+      //     opacity: 0.7,
+      //   ),
+      // ),
 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +39,7 @@ class SmallLandingSection1 extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
-                  'assets/images/t1.png',
+                  'assets/images/t1.1.png',
                   // width: screenSize.width / 1.8,
                 ),
                 // Container(
@@ -86,30 +87,28 @@ class SmallLandingSection1 extends StatelessWidget {
                   //           blurRadius: 80)
                   //     ]),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton.icon(
-                        icon: Image.asset("assets/images/play_store.png",
+                        icon: SvgPicture.asset(
+                            "assets/icons/download_store.svg",
                             height: 57),
                         label: Text(""),
                         onPressed: StoreUrls().playStoreURL,
                       ),
-                      TextButton.icon(
-                        icon: Image.asset("assets/images/app_store.png",
-                            height: 57),
-                        label: Text(""),
-                        onPressed: StoreUrls()
-                            .appStoreURL, // https://apps.apple.com/in/app/ninjapay-manage-construction/id1547753533
-                      ),
+                      // TextButton.icon(
+                      //   icon: Image.asset("assets/images/app_store.png",
+                      //       height: 57),
+                      //   label: Text(""),
+                      //   onPressed: StoreUrls()
+                      //       .appStoreURL, // https://apps.apple.com/in/app/ninjapay-manage-construction/id1547753533
+                      // ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          // Image.asset(
-          //   'assets/images/s1.png',
-          // ),
         ],
       ),
     );

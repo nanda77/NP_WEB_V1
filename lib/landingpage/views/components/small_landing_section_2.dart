@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class SmallLandingSection3 extends StatelessWidget {
+class SmallLandingSection2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -29,20 +29,35 @@ class SmallLandingSection3 extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SizedBox(height: 40),
+          // Image.asset(
+          //   'assets/images/s3.png',
+          // ),
+          Center(
+            child: SvgPicture.asset(
+              'assets/icons/t2.1.svg',
+              height: 16,
+              // width: 118,
+            ),
+          ),
+          SizedBox(height: 100),
           Expanded(
             child: Image.asset(
-              'assets/images/s3.1.png',
+              'assets/images/s2.png',
             ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // SvgPicture.asset(
+                //   'assets/icons/t2.1.svg',
+                //   height: 16,
+                //   // width: 118,
+                // ),
                 Container(
                   margin: EdgeInsets.only(bottom: 10, top: 40),
                   child: SvgPicture.asset(
-                    'assets/icons/t3.svg',
+                    'assets/icons/t2.svg',
                   ),
                 ),
                 Container(
@@ -56,6 +71,11 @@ class SmallLandingSection3 extends StatelessWidget {
               ],
             ),
           ),
+          // Expanded(
+          //   child: Image.asset(
+          //     'assets/images/s2.png',
+          //   ),
+          // ),
         ],
       ),
     );

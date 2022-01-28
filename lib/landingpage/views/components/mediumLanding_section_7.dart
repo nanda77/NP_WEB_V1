@@ -8,17 +8,17 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../constants.dart';
 
-class LandingSection7 extends StatelessWidget {
+class MediumLandingSection7 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 940, minHeight: 500),
-      margin: EdgeInsets.only(left: 140, right: 100, top: 150),
+      constraints: BoxConstraints(maxHeight: 900, minHeight: 300),
+      margin: EdgeInsets.only(left: 60, right: 0, top: 150),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,20 +33,17 @@ class LandingSection7 extends StatelessWidget {
               ),
               SvgPicture.asset(
                 'assets/icons/b_tools.svg',
-                width: screenSize.width / 1.2,
+                width: screenSize.width,
               ),
             ],
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextButton.icon(
-                icon:
-                    SvgPicture.asset("assets/icons/learnmore.svg", height: 57),
-                label: Text(""),
-                onPressed: StoreUrls().playStoreURL,
-              ),
-            ],
+          Container(
+            // alignment: Alignment.topRight,
+            child: TextButton.icon(
+              icon: SvgPicture.asset("assets/icons/learnmore.svg", height: 57),
+              label: Text(""),
+              onPressed: StoreUrls().playStoreURL,
+            ),
           ),
         ],
       ),
