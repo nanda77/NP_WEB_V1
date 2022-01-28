@@ -3,7 +3,7 @@ import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
-import 'landingpage/views/smalllanding_page.dart'; //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
+import 'landingpage/views/smalllanding_page.dart'; //g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
 
 StreamController<int> streamController = StreamController<int>();
 
