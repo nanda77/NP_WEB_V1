@@ -32,7 +32,7 @@ class LandingSection4 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             // mainAxisSize: MainAxisSize.max,
             children: [
-              SvgPicture.asset(
+              SvgPicture.string(
                 'assets/icons/s4.svg',
                 width: screenSize.width / 2.5,
               ),
@@ -43,7 +43,7 @@ class LandingSection4 extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset(
+                      SvgPicture.string(
                         'assets/icons/t4.svg',
                         width: screenSize.width / 2.5,
                       ),
