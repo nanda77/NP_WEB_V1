@@ -15,7 +15,7 @@ class SmallLandingSection7 extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 1200, minHeight: 1060),
+      constraints: BoxConstraints(maxHeight: 1400, minHeight: 1260),
       margin: EdgeInsets.only(left: 20, right: 20, top: 50),
       // width: double.infinity,
       // decoration: BoxDecoration(

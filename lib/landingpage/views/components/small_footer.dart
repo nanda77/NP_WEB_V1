@@ -14,12 +14,12 @@ class SmallFooter extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 170, minHeight: 70),
+      constraints: BoxConstraints(maxHeight: 270, minHeight: 70),
       margin: EdgeInsets.only(left: 0, right: 0),
       // width: double.infinity,
 
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(

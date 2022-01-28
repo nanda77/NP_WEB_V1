@@ -29,7 +29,7 @@ class _SmallHeaderState extends State<SmallHeader> {
             SizedBox(
               width: 20,
             ),
-            SvgPicture.asset("assets/Icons/logo_txt.svg", width: 150),
+            Image.asset("assets/images/logo_txt.png", width: 150),
             // Text(
             //   "ninjapay",
             //   style: GoogleFonts.montserrat(
