@@ -15,7 +15,7 @@ class MediumLandingSection4 extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       constraints: BoxConstraints(maxHeight: 600, minHeight: 300),
-      margin: EdgeInsets.only(left: 60, right: 0, top: 0),
+      margin: EdgeInsets.only(left: 60, right: 100, top: 0),
       // width: double.infinity,
       // decoration: BoxDecoration(
       //   image: DecorationImage(
@@ -24,59 +24,55 @@ class MediumLandingSection4 extends StatelessWidget {
       //   ),
       // ),
 
-      child: Expanded(
-        child: Container(
-          // margin: EdgeInsets.only(top: 142),
-          child: Row(
-            // crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.start,
-            // mainAxisSize: MainAxisSize.max,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/s4.svg',
-                width: screenSize.width / 2.5,
-              ),
-              Expanded(
-                child: Container(
-                  margin:
-                      EdgeInsets.only(left: screenSize.width / 12, top: 207),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/t4.svg',
-                        width: screenSize.width / 2.5,
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: 40),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextButton.icon(
-                              icon: SvgPicture.asset(
-                                  "assets/icons/download_store.svg",
-                                  height: 57),
-                              label: Text(""),
-                              onPressed: StoreUrls().playStoreURL,
-                            ),
-                            // TextButton.icon(
-                            //   icon: SvgPicture.asset(
-                            //       "assets/icons/girl_shopping.svg",
-                            //       height: 200),
-                            //   label: Text(""),
-                            //   onPressed: StoreUrls()
-                            //       .appStoreURL, // https://apps.apple.com/in/app/ninjapay-manage-construction/id1547753533
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ],
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              // margin: EdgeInsets.only(top: 142),
+              child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisSize: MainAxisSize.max,
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/s4.svg',
+                    width: screenSize.width / 2.5,
                   ),
-                ),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: screenSize.width / 12, top: 207),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/t4.svg',
+                            width: screenSize.width / 2.5,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 40),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextButton.icon(
+                                  icon: SvgPicture.asset(
+                                      "assets/icons/download_store.svg",
+                                      height: 57),
+                                  label: Text(""),
+                                  onPressed: StoreUrls().playStoreURL,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -34,8 +34,8 @@ class _HeaderState extends State<Header> {
               SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "assets/Icons/logo_txt1.svg",
+              Image.asset(
+                "assets/images/logo_txt.png",
                 // width: 102.86,
                 height: 15,
               ),
