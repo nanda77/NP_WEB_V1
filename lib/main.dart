@@ -3,7 +3,7 @@ import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
-import 'landingpage/views/smalllanding_page.dart'; //g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
+import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
 
 StreamController<int> streamController = StreamController<int>();
 
