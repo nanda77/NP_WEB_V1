@@ -34,11 +34,16 @@ class _MediumHeaderState extends State<MediumHeader> {
               SizedBox(
                 width: 20,
               ),
-              SvgPicture.asset(
-                "assets/Icons/logo_txt.svg",
+              Image.asset(
+                "assets/images/logo_txt.png",
                 // width: 102.86,
                 height: 15,
               ),
+              // SvgPicture.asset(
+              //   "assets/Icons/logo_txt.svg",
+              //   // width: 102.86,
+              //   height: 15,
+              // ),
               // Text(
               //   "ninjapay",
               //   style: GoogleFonts.montserrat(

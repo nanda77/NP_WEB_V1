@@ -14,12 +14,12 @@ class SmallFooter extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      constraints: BoxConstraints(maxHeight: 170, minHeight: 70),
+      constraints: BoxConstraints(maxHeight: 270, minHeight: 70),
       margin: EdgeInsets.only(left: 0, right: 0),
       // width: double.infinity,
 
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
@@ -39,7 +39,7 @@ class SmallFooter extends StatelessWidget {
             // alignment: Alignment.center,
             // margin: EdgeInsets.only(left: 5),
             child: TextButton.icon(
-              icon: SvgPicture.asset("assets/Icons/contact_us.svg",
+              icon: Image.asset("assets/images/contact_us.png",
                   width: screenSize.width / 1.2),
               label: Text(""),
               onPressed: StoreUrls().mailURL,
