@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:ninjapay/tipsmodule/screens/enter_tip_page.dart';
+import 'package:ninjapay/tipsmodule/screens/qr_page.dart';
+import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: const Color(0xff000000)),
       // home: MainScreen(),
-      home: HomePage(),
+      home: EnterTipPage(),
     );
   }
 }
