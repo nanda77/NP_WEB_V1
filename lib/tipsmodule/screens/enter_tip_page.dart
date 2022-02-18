@@ -1,11 +1,14 @@
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
+import 'package:ninjapay/tipsmodule/screens/custom_tip_page.dart';
 import 'package:ninjapay/tipsmodule/screens/qr_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/app_progress_indicator.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
@@ -48,19 +51,41 @@ class _EnterTipPageState extends State<EnterTipPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: height*0.1),
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
+                    SizedBox(height: height*0.1),
+
+                    CachedNetworkImage(
+                      imageUrl: state.response?.image??'',
+                      imageBuilder: (context, imageProvider) => Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: darkBackgroundColor,
                           border: Border.all(
                             color: kGreyTextColor,
                             width: 2,
-                          )
+                          ),
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                          ),
+                        ),
                       ),
-                      child: Icon(Icons.person, size: 60, color: Colors.white),
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Container(
+                        height: 80,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: darkBackgroundColor,
+                          border: Border.all(
+                            color: kGreyTextColor,
+                            width: 2,
+                          ),
+                        ),
+                        child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                      ),
                     ),
 
                     SizedBox(height: height*0.02),
@@ -83,7 +108,6 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 data = value;
                               }
                             });
-
                             return BlocBuilder<GetUserBloc, GetUserState>(
                                 builder: (context, state){
                                   if(state is GetUserSuccessState){
@@ -100,6 +124,10 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                                   setState(() {
                                                     index = e.id;
                                                   });
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                                  );
                                                 },
                                                 child: customIcon("assets/Icons/menu.png", "Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
                                               );
@@ -187,6 +215,8 @@ class _EnterTipPageState extends State<EnterTipPage> {
                       child: CustomTextField(
                         noteController,
                         hintText: "Add notes",
+                        maxLength: 100,
+                        maxLines: 1,
                       ),
                     ),
 
@@ -214,6 +244,9 @@ class _EnterTipPageState extends State<EnterTipPage> {
                         onTap: (){
                           if(data == null){
                             Fluttertoast.showToast(msg: "Select btc value!");
+                          }
+                          else if(fiatValue == 0){
+                            Fluttertoast.showToast(msg: "Enter right amount!");
                           }
                           else{
                             String notes = noteController.text.trim().isEmpty ? "Tip" : "Tip: ${noteController.text}";
@@ -268,7 +301,15 @@ class _EnterTipPageState extends State<EnterTipPage> {
                         children: [
                           ...[1,2,3,4,5,6].map((e) {
                             if(e==6){
-                              return customIcon("assets/Icons/menu.png", "Custom");
+                              return InkWell(
+                                onTap: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                  );
+                                },
+                                child: customIcon("assets/Icons/menu.png", "Custom"),
+                              );
                             }
                             return icon(0, 0.0);
                           }).toList(),

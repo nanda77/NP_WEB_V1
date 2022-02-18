@@ -59,7 +59,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           fontSize: 12
         ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        fillColor: darkLightColor,
+        fillColor: darkGreyTransColor,
         filled: true,
         hintText: widget.hintText,
         border: OutlineInputBorder(
@@ -68,7 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         //fillColor: Colors.green
       ),
-      maxLines: 3,
+      maxLines: widget.maxLines,
       validator: widget.validator,
       style: const TextStyle(
         fontFamily: "Poppins",

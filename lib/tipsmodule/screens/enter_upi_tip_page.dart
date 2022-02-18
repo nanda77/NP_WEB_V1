@@ -1,5 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
+import 'package:ninjapay/tipsmodule/screens/custom_upi_page.dart';
+import 'package:ninjapay/tipsmodule/screens/enter_tip_page.dart';
+import 'package:ninjapay/tipsmodule/screens/upi_qr_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 
@@ -12,6 +19,7 @@ class EnterUpiTipPage extends StatefulWidget {
 
 class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
   TextEditingController noteController = TextEditingController();
+  int? index, tipUpi;
 
   @override
   Widget build(BuildContext context) {
@@ -21,99 +29,151 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
     return Scaffold(
       backgroundColor: darkBackgroundColor,
 
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: height*0.1),
-            height: 80,
-            width: 80,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: darkBackgroundColor,
-                border: Border.all(
-                  color: kGreyTextColor,
-                  width: 2,
-                )
-            ),
-            child: Icon(Icons.person, size: 60, color: Colors.white),
-          ),
-
-          SizedBox(height: height*0.02),
-
-          Text("@satoshinakamoto", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
-
-          SizedBox(height: height*0.02),
-
-          Text("Satoshi Nakamoto", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-
-          SizedBox(height: height*0.02),
-
-          SizedBox(height: height*0.05),
-
-          Container(
-            width: width*0.25,
-            child: Wrap(
-              runSpacing: height*0.03,
-              spacing: width*0.05,
+      body: BlocBuilder<GetUserBloc, GetUserState>(
+        builder: (context, state){
+          if(state is GetUserSuccessState){
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ...[1,2,3,4,5,6].map((e) {
-                  if(e==6){
-                    return customIcon("assets/Icons/menu.png", "Custom");
-                  }
-                  return InkWell(
+                SizedBox(height: height*0.1),
+
+                CachedNetworkImage(
+                  imageUrl: state.response?.image??'',
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: darkBackgroundColor,
+                      border: Border.all(
+                        color: kGreyTextColor,
+                        width: 2,
+                      ),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                        // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: darkBackgroundColor,
+                      border: Border.all(
+                        color: kGreyTextColor,
+                        width: 2,
+                      ),
+                    ),
+                    child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                  ),
+                ),
+
+                SizedBox(height: height*0.02),
+
+                Text(state.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
+
+                SizedBox(height: height*0.02),
+
+                Text(state.response?.fullName??"", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+
+                SizedBox(height: height*0.02),
+
+                SizedBox(height: height*0.05),
+
+                Container(
+                  width: width*0.25,
+                  child: Wrap(
+                    runSpacing: height*0.03,
+                    spacing: width*0.05,
+                    children: [
+                      ...list.map((e) {
+                        if(e.id==6){
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                index = e.id;
+                              });
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const CustomUpiTip()),
+                              );
+                            },
+                            child: customIcon("Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                          );
+                        }
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              index = e.id;
+                              tipUpi = e.value;
+                            });
+                          },
+                          child: icon("₹${e.value}", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: height*0.05),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+                    SizedBox(width: 5),
+                    Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
+                  ],
+                ),
+
+                SizedBox(height: height*0.04),
+
+                Container(
+                  height: 45,
+                  width: width*0.3,
+                  child: CustomTextField(
+                    noteController,
+                    hintText: "Add notes",
+                    maxLength: 100,
+                    maxLines: 1,
+                  ),
+                ),
+
+                SizedBox(height: height*0.02),
+
+                SimpleButton(
+                    "NEXT",
                     onTap: (){
-                      setState(() {
-                        noteController.text = e.toString();
-                      });
-                    },
-                    child: icon("\$$e"),
-                  );
-                }).toList(),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UpiQrPage(notes: noteController.text, tipPrice: tipUpi.toString(), upiId: state.response?.upi??"", name: state.response?.fullName??"")),
+                      );
+                    }
+                )
+
               ],
-            ),
-          ),
-
-          SizedBox(height: height*0.05),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-              SizedBox(width: 5),
-              Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
-            ],
-          ),
-
-          SizedBox(height: height*0.04),
-
-          Container(
-            height: 45,
-            width: width*0.3,
-            child: CustomTextField(
-              noteController,
-              hintText: "Add notes",
-            ),
-          ),
-
-          SizedBox(height: height*0.02),
-
-          SimpleButton("NEXT")
-
-        ],
-      ),
+            );
+          }
+          if(state is GetUserLoadingState){
+            return Center(child: CircularProgressIndicator());
+          }
+          return Container();
+        }
+      )
     );
   }
 
-  icon(String label){
-    bool color = false;
-    Color colors = Colors.transparent;
+  icon(String label, {Color color = Colors.transparent}){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         // color: color ? Colors.grey.shade800 : null
-        color: colors,
+        color: color,
       ),
       child: Column(
         children: [
@@ -129,16 +189,17 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
     );
   }
 
-  customIcon(String icon, String label){
+  customIcon(String label, {Color color = Colors.transparent}){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          // color: Colors.grey.shade800
+        borderRadius: BorderRadius.circular(8),
+        // color: Colors.grey.shade800
+        color: color
       ),
       child: Column(
         children: [
-          Image.asset(icon, height: 40, width: 40),
+          Image.asset("assets/Icons/menu.png", height: 40, width: 40),
 
           SizedBox(height: 10),
 
@@ -149,4 +210,14 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
       ),
     );
   }
+
+  List<Tip> list = [
+    Tip(1, 1),
+    Tip(2, 2),
+    Tip(3, 5),
+    Tip(4, 7),
+    Tip(5, 10),
+    Tip(6, 0)
+  ];
+
 }

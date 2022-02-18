@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/transaction_status_bloc.dart';
 import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
+import 'package:ninjapay/tipsmodule/screens/expire_page.dart';
+import 'package:ninjapay/tipsmodule/screens/success_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -18,7 +22,7 @@ class QRPage extends StatefulWidget {
 class _QRPageState extends State<QRPage> {
   String status = "pending";
   final interval = const Duration(seconds: 1);
-
+  String? upiId;
   final int timerMaxSeconds = 600;
 
   int currentSeconds = 0;
@@ -35,6 +39,11 @@ class _QRPageState extends State<QRPage> {
         currentSeconds = timer.tick;
         if (timer.tick >= timerMaxSeconds) {
           timer.cancel();
+          apiTimer?.cancel();
+          upiId = null;
+          Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ExpirePage()),
+          );
           //redirect to payment cancelled screen
         }
       });
@@ -73,7 +82,7 @@ class _QRPageState extends State<QRPage> {
             if(state.response?.data?.status == "success"){
               apiTimer?.cancel();
               Navigator.push(context,
-                MaterialPageRoute(builder: (context) => EnterUpiTipPage()),
+                MaterialPageRoute(builder: (context) => SuccessPage()),
               );
             }
           }
@@ -83,6 +92,7 @@ class _QRPageState extends State<QRPage> {
         child: BlocBuilder<LightningTipBloc, LightningTipState>(
             builder: (context, state){
               if(state is LightningTipSuccessState){
+                upiId = state.response?.data?.lightningInvoicePayReq;
                 print(state.response?.data?.toJson()??"");
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,7 +112,7 @@ class _QRPageState extends State<QRPage> {
                       width: 220,
                       color: Colors.white,
                       child: QrImage(
-                        data: state.response?.data?.lightningInvoicePayReq??"",
+                        data: upiId??"",
                         version: QrVersions.auto,
                         size: 200,
                         gapless: false,
@@ -132,7 +142,11 @@ class _QRPageState extends State<QRPage> {
 
                     SizedBox(height: height*0.04),
 
-                    BorderButton("COPY INVOICE"),
+                    BorderButton("COPY INVOICE", onTap: (){
+                      FlutterClipboard.copy(state.response?.data?.lightningInvoicePayReq??"").then((value) {
+                        Fluttertoast.showToast(msg: "Copied");
+                      });
+                    }),
 
                     SizedBox(height: height*0.02),
 

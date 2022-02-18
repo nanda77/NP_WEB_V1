@@ -35,20 +35,24 @@ class ButtonWithIcon extends StatelessWidget {
 
 class SimpleButton extends StatelessWidget {
   String text;
-  SimpleButton(this.text, {Key? key}) : super(key: key);
+  GestureTapCallback? onTap;
+  SimpleButton(this.text, {Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: 45,
-      width: width*0.3,
-      decoration: BoxDecoration(
-        color: kBlueColor,
-        borderRadius: BorderRadius.circular(35)
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 45,
+        width: width*0.3,
+        decoration: BoxDecoration(
+          color: kBlueColor,
+          borderRadius: BorderRadius.circular(35)
+        ),
+        child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
       ),
-      child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
     );
 
   }
@@ -56,24 +60,28 @@ class SimpleButton extends StatelessWidget {
 
 class BorderButton extends StatelessWidget {
   String text;
-  BorderButton(this.text, {Key? key}) : super(key: key);
+  GestureTapCallback? onTap;
+  BorderButton(this.text, {Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: 45,
-      width: width*0.3,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(35),
-        border: Border.all(
-          color: kBlueColor,
-          width: 1
-        )
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 45,
+        width: width*0.3,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(35),
+          border: Border.all(
+            color: kBlueColor,
+            width: 1
+          )
+        ),
+        child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBlueColor))),
       ),
-      child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBlueColor))),
     );
 
   }
