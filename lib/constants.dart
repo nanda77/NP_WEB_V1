@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 const darkBackgroundColor = Colors.black87; //0xFF366CF6
 const darkLightColor = Colors.black38; //0xFF366CF6
 const kGreyTextColor = Color(0xFFE5E5E5); //0xFF366CF6
+const kBlueTextColor = Color(0xFF88A1AC); //0xFF366CF6
 const kBlueColor = Color(0xFF21728D); //0xFF366CF6
 
 const kPrimaryColor = Color(0xFF282f3f); //0xFF366CF6

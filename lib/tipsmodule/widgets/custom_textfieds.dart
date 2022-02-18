@@ -49,6 +49,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
             borderRadius: BorderRadius.circular(35.0)
         ),
         labelText: widget.labelText,
+        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        labelStyle: TextStyle(
+          color: kBgWorksColor
+        ),
         counterText: "",
         hintStyle: TextStyle(
           color: kGreyTextColor,
@@ -68,6 +72,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       style: const TextStyle(
         fontFamily: "Poppins",
+        color: kBgWorksColor
       ),
     );
   }

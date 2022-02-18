@@ -21,6 +21,16 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.1
+  get: ^4.3.8
+  http: ^0.13.3
+  # handle SVGs for Android, iOS, and Web.
+  flutter_svg: ^0.22.0
+  # which supports multiple columns with rows of varying sizes
+  flutter_staggered_grid_view: ^0.3.3
   syncfusion_flutter_gauges: ^18.2.44
   auto_route: ^2.2.0
   responsive_builder: ^0.4.1
@@ -37,23 +47,11 @@ dependencies:
   flutter_spinkit: ^5.0.0
   google_fonts: ^2.1.0
   carousel_slider: ^4.0.0
+  dio: ^4.0.4
+  shared_preferences: ^2.0.13
+  fluttertoast: ^8.0.8
+  qr_flutter: ^4.0.0
 
-
-  
-  flutter:
-    sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.1
-  get: ^4.3.8
-  http: ^0.13.3
-
-  # handle SVGs for Android, iOS, and Web.
-  flutter_svg: ^0.22.0
-
-  # which supports multiple columns with rows of varying sizes
-  flutter_staggered_grid_view: ^0.3.3
 
 dev_dependencies:
 

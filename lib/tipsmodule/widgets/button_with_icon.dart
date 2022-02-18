@@ -3,27 +3,31 @@ import 'package:ninjapay/constants.dart';
 
 class ButtonWithIcon extends StatelessWidget {
   String text, icon;
-  ButtonWithIcon(this.text, this.icon, {Key? key}) : super(key: key);
+  GestureTapCallback? onTap;
+  ButtonWithIcon(this.text, this.icon, {Key? key, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
 
-    return Container(
-      width: width*0.3,
-      height: 45,
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(35),
-        color: Colors.black87,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(text, style: TextStyle(fontSize: 17, color: kBgWorksColor),),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: width*0.3,
+        height: 45,
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(35),
+          color: Colors.black87,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(text, style: TextStyle(fontSize: 17, color: kBgWorksColor),),
 
-          Image.asset(icon, height: 25, width: 25,)
-        ],
+            Image.asset(icon, height: 25, width: 25,)
+          ],
+        ),
       ),
     );
   }
