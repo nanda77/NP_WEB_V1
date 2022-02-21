@@ -11,6 +11,7 @@ import 'package:ninjapay/tipsmodule/screens/expire_page.dart';
 import 'package:ninjapay/tipsmodule/screens/success_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:square_percent_indicater/square_percent_indicater.dart';
 
 class QRPage extends StatefulWidget {
   String transActionId;
@@ -23,7 +24,7 @@ class _QRPageState extends State<QRPage> {
   String status = "pending";
   final interval = const Duration(seconds: 1);
   String? upiId;
-  final int timerMaxSeconds = 600;
+  final int timerMaxSeconds = 30;
 
   int currentSeconds = 0;
   Timer? countDownTimer;
@@ -108,6 +109,45 @@ class _QRPageState extends State<QRPage> {
                     SizedBox(height: height*0.02),
 
                     Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black38,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: SquarePercentIndicator(
+                        width: 220,
+                        height: 220,
+                        // startAngle: StartAngle.bottomRight,
+                        reverse: false,
+                        borderRadius: 10,
+                        shadowWidth: 5.0,
+                        progressWidth: 5,
+                        shadowColor: Colors.green,
+                        progressColor: Colors.black,
+                        progress: currentSeconds / 30,
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: QrImage(
+                            data: upiId??"",
+                            version: QrVersions.auto,
+                            size: 180,
+                            gapless: false,
+                            backgroundColor: Colors.white,
+                            errorStateBuilder: (cxt, err) {
+                              return Container(
+                                child: Center(
+                                  child: Text(
+                                    "Uh oh! Something went wrong...",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    /*Container(
                       height: 220,
                       width: 220,
                       color: Colors.white,
@@ -127,7 +167,7 @@ class _QRPageState extends State<QRPage> {
                           );
                         },
                       ),
-                    ),
+                    ),*/
 
                     SizedBox(height: height*0.02),
 

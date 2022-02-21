@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
 import 'package:ninjapay/tipsmodule/screens/qr_page.dart';
 import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 import 'package:ninjapay/tipsmodule/screens/upi_qr_page.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
@@ -19,7 +22,12 @@ import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-ren
 StreamController<int> streamController = StreamController<int>();
 
 void main() {
-  runApp(MyApp());
+  setPathUrlStrategy();
+  DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  );
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -46,12 +54,16 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        useInheritedMediaQuery: true,
+        locale: DevicePreview.locale(context),
+        builder: DevicePreview.appBuilder,
         title: 'Welcome Ninja',
         theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
             scaffoldBackgroundColor: const Color(0xff000000)),
         // home: MainScreen(),
         home: TipsLeadPage(),
+
       )
     );
   }

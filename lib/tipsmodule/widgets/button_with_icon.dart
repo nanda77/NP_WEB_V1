@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/responsive.dart';
 
 class ButtonWithIcon extends StatelessWidget {
   String text, icon;
@@ -12,22 +13,58 @@ class ButtonWithIcon extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Container(
-        width: width*0.3,
-        height: 45,
-        padding: EdgeInsets.symmetric(horizontal: 30),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(35),
-          color: Colors.black87,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(text, style: TextStyle(fontSize: 17, color: kBgWorksColor),),
+      child: Responsive(
+          mobile: Container(
+            width: width*0.35,
+            height: 45,
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              color: Colors.black87,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(text, style: TextStyle(fontSize: 14, color: kBgWorksColor),),
 
-            Image.asset(icon, height: 25, width: 25,)
-          ],
-        ),
+                Image.asset(icon, height: 15, width: 15,)
+              ],
+            ),
+          ),
+          tablet: Container(
+            width: width*0.3,
+            height: 45,
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              color: Colors.black87,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(text, style: TextStyle(fontSize: 17, color: kBgWorksColor),),
+
+                Image.asset(icon, height: 25, width: 25,)
+              ],
+            ),
+          ),
+          desktop: Container(
+            width: width*0.3,
+            height: 45,
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              color: Colors.black87,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(text, style: TextStyle(fontSize: 17, color: kBgWorksColor),),
+
+                Image.asset(icon, height: 25, width: 25,)
+              ],
+            ),
+          )
       ),
     );
   }

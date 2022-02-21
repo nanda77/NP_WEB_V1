@@ -15,9 +15,9 @@ class UpiQrPage extends StatefulWidget {
 }
 
 class _UpiQrPageState extends State<UpiQrPage> {
-  final interval = const Duration(seconds: 1);
+  // final interval = const Duration(seconds: 1);
   String? upiId;
-  final int timerMaxSeconds = 600;
+/*  final int timerMaxSeconds = 600;
 
   int currentSeconds = 0;
   Timer? countDownTimer;
@@ -41,24 +41,24 @@ class _UpiQrPageState extends State<UpiQrPage> {
         }
       });
     });
-    /*apiTimer = Timer.periodic(Duration(seconds: 5), (timer) {
+    *//*apiTimer = Timer.periodic(Duration(seconds: 5), (timer) {
       BlocProvider.of<TransactionStatusBloc>(context).add(TransactionStatusRefreshEvent(widget.transActionId));
-    });*/
-  }
+    });*//*
+  }*/
 
   @override
   void initState() {
     super.initState();
     upiId = "upi://pay?pa=${widget.upiId.trim()}&pn=${widget.name.trim()}&am=${widget.tipPrice.trim()}&tn=${widget.notes.trim()}";
-    startTimeout();
+    // startTimeout();
   }
 
-  @override
+/*  @override
   void dispose() {
     apiTimer?.cancel();
     countDownTimer?.cancel();
     super.dispose();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -77,19 +77,25 @@ class _UpiQrPageState extends State<UpiQrPage> {
 
           SizedBox(height: height*0.04),
 
-          Text("Expires in $timerText", style: TextStyle(fontSize: 11, color: kGreyTextColor)),
+          // Text("Expires in $timerText", style: TextStyle(fontSize: 11, color: kGreyTextColor)),
 
           SizedBox(height: height*0.02),
 
           Container(
+            padding: const EdgeInsets.all(20.0),
             height: 220,
             width: 220,
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            // color: Colors.white,
             child: QrImage(
               data: upiId??"Something went wrong!",
               version: QrVersions.auto,
-              size: 200,
+              size: 180,
               gapless: false,
+              backgroundColor: Colors.white,
               errorStateBuilder: (cxt, err) {
                 return Container(
                   child: Center(
