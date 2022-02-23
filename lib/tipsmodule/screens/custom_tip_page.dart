@@ -88,7 +88,7 @@ class _CustomTipPageState extends State<CustomTipPage> {
                                     width: 2,
                                   ),
                                 ),
-                                child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                                child: Center(child: Text('${(state.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
                               ),
                             ),
 

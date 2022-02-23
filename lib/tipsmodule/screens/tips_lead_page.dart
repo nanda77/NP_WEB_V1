@@ -82,7 +82,7 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
                           width: 2,
                         ),
                     ),
-                    child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                    child: Center(child: Text('${(state.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
                   ),
                 ),
 
@@ -188,7 +188,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
                 width: 2,
               ),
             ),
-            child: Center(child: Text('${(widget.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+            child: Center(child: Text('${(widget.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
           ),
         ),
 
@@ -283,7 +283,7 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
                 width: 2,
               ),
             ),
-            child: Center(child: Text('${(widget.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+            child: Center(child: Text('${(widget.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
           ),
         ),
 
