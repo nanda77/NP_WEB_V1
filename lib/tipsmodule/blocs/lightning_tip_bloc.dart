@@ -41,6 +41,7 @@ class LightningTipBloc extends Bloc<LightningTipEvent, LightningTipState> {
         int tip = ConvertorClass.btcToSats(event.tip);
 
         var response = await provider.lightingTipDeposit(tip: tip, notes: event.notes, btcPrice: event.btcPrice, fiatvalue: event.fiatvalue);
+        print(response?.toJson().toString());
         if(response?.status != null && response?.status == true){
           yield LightningTipSuccessState(response);
         }

@@ -23,11 +23,11 @@ StreamController<int> streamController = StreamController<int>();
 
 void main() {
   setPathUrlStrategy();
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  );
-  // runApp(MyApp());
+  // DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => MyApp(), // Wrap your app
+  // );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

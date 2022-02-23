@@ -1,4 +1,3 @@
-import 'dart:html' as html;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,11 +22,10 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
   @override
   void initState() {
     super.initState();
-    // html.window.history.replaceState(null, '/', '/robin');
     baseUrl = Uri.base.toString();
     print(baseUrl);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(/*baseUrl!.split("/").last*/ "robin"));
+      BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(baseUrl!.split("/").last /*"robin"*/));
     });
   }
 

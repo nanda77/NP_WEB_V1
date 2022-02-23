@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/screens/custom_upi_page.dart';
 import 'package:ninjapay/tipsmodule/screens/enter_tip_page.dart';
@@ -84,39 +85,109 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
 
                 SizedBox(height: height*0.05),
 
-                Container(
-                  width: width*0.25,
-                  child: Wrap(
-                    runSpacing: height*0.03,
-                    spacing: width*0.05,
-                    children: [
-                      ...list.map((e) {
-                        if(e.id==6){
+                Responsive(
+                  mobile: Container(
+                    width: width*0.45,
+                    child: Wrap(
+                      runSpacing: height*0.03,
+                      spacing: width*0.01,
+                      children: [
+                        ...list.map((e) {
+                          if(e.id==6){
+                            return InkWell(
+                              onTap: (){
+                                setState(() {
+                                  index = e.id;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const CustomUpiTip()),
+                                );
+                              },
+                              child: customIcon("Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                            );
+                          }
                           return InkWell(
                             onTap: (){
                               setState(() {
                                 index = e.id;
+                                tipUpi = e.value;
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const CustomUpiTip()),
-                              );
                             },
-                            child: customIcon("Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                            child: icon("₹${e.value}", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
                           );
-                        }
-                        return InkWell(
-                          onTap: (){
-                            setState(() {
-                              index = e.id;
-                              tipUpi = e.value;
-                            });
-                          },
-                          child: icon("₹${e.value}", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
-                        );
-                      }).toList(),
-                    ],
+                        }).toList(),
+                      ],
+                    ),
                   ),
+                  tablet: Container(
+                    width: width*0.25,
+                    child: Wrap(
+                      runSpacing: height*0.03,
+                      spacing: width*0.05,
+                      children: [
+                        ...list.map((e) {
+                          if(e.id==6){
+                            return InkWell(
+                              onTap: (){
+                                setState(() {
+                                  index = e.id;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const CustomUpiTip()),
+                                );
+                              },
+                              child: customIcon("Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                            );
+                          }
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                index = e.id;
+                                tipUpi = e.value;
+                              });
+                            },
+                            child: icon("₹${e.value}", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                  ),
+                  desktop: Container(
+                    width: width*0.25,
+                    child: Wrap(
+                      runSpacing: height*0.03,
+                      spacing: width*0.05,
+                      children: [
+                        ...list.map((e) {
+                          if(e.id==6){
+                            return InkWell(
+                              onTap: (){
+                                setState(() {
+                                  index = e.id;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const CustomUpiTip()),
+                                );
+                              },
+                              child: customIcon("Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                            );
+                          }
+                          return InkWell(
+                            onTap: (){
+                              setState(() {
+                                index = e.id;
+                                tipUpi = e.value;
+                              });
+                            },
+                            child: icon("₹${e.value}", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                          );
+                        }).toList(),
+                      ],
+                    ),
+                  )
                 ),
 
                 SizedBox(height: height*0.05),
@@ -132,15 +203,37 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
 
                 SizedBox(height: height*0.04),
 
-                Container(
-                  height: 45,
-                  width: width*0.3,
-                  child: CustomTextField(
-                    noteController,
-                    hintText: "Add notes",
-                    maxLength: 100,
-                    maxLines: 1,
-                  ),
+                Responsive(
+                    mobile: Container(
+                      height: 45,
+                      width: width*0.5,
+                      child: CustomTextField(
+                        noteController,
+                        hintText: "Add notes",
+                        maxLength: 100,
+                        maxLines: 1,
+                      ),
+                    ),
+                    tablet: Container(
+                      height: 45,
+                      width: width*0.3,
+                      child: CustomTextField(
+                        noteController,
+                        hintText: "Add notes",
+                        maxLength: 100,
+                        maxLines: 1,
+                      ),
+                    ),
+                    desktop: Container(
+                      height: 45,
+                      width: width*0.3,
+                      child: CustomTextField(
+                        noteController,
+                        hintText: "Add notes",
+                        maxLength: 100,
+                        maxLines: 1,
+                      ),
+                    )
                 ),
 
                 SizedBox(height: height*0.02),
