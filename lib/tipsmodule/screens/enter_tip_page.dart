@@ -91,7 +91,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
 
                     SizedBox(height: height*0.02),
 
-                    Text(state.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
+                    Text("@${state.response?.username??" "}", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
 
                     SizedBox(height: height*0.02),
 

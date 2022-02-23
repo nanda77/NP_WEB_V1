@@ -194,7 +194,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
 
         SizedBox(height: height*0.02),
 
-        Text(widget.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
+        Text("@${widget.response?.username??" "}", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
 
         SizedBox(height: height*0.02),
 
