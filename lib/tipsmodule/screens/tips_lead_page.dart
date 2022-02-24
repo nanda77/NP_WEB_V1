@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/main.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
@@ -126,7 +127,7 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
             );*/
           }
           if(state is GetUserErrorState){
-            return Center(child: Text("User Not Found!", style: TextStyle(color: Colors.white), textScaleFactor: 1.8,));
+            return HomePage();
           }
           if(state is GetUserLoadingState){
             return Center(child: CircularProgressIndicator());
