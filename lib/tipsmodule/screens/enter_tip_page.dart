@@ -348,7 +348,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                           }
                           else{
                             String notes = noteController.text.trim().isEmpty ? "Tip" : "Tip: ${noteController.text}";
-                            BlocProvider.of<LightningTipBloc>(context).add(LightningTipRefreshEvent(notes: notes, tip: btcValue??0.0, btcPrice: data?['USD']??0.0, fiatvalue: fiatValue));
+                            BlocProvider.of<LightningTipBloc>(context).add(LightningTipRefreshEvent(notes: notes, tip: btcValue??0.0, btcPrice: data?['USD']??0.0, fiatvalue: fiatValue, userName: state.response?.username??""));
                           }
                         },
                         child: SimpleButton("NEXT"),

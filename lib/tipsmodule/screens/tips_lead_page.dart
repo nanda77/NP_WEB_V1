@@ -11,6 +11,7 @@ import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 
 class TipsLeadPage extends StatefulWidget {
+  static const String route = '/leadPage';
   const TipsLeadPage({Key? key}) : super(key: key);
 
   @override

@@ -51,7 +51,7 @@ class ApiProvider {
     }
   }
 
-  Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue}) async {
+  Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue, String? userName}) async {
     try {
       Response response = await _dio.post("/personalPage/tipLightningRequest",
           data: {
@@ -61,7 +61,7 @@ class ApiProvider {
             "fiatValue": fiatvalue,
             "fiatCurrencyUnit": "usd",
             "btcPrice": btcPrice,
-            "username": "robin"
+            "username": userName
           },
           options: Options(contentType: Headers.jsonContentType)
       );
