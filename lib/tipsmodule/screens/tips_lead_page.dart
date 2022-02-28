@@ -1,8 +1,8 @@
-import 'dart:html' as html;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/main.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
@@ -23,11 +23,11 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
   @override
   void initState() {
     super.initState();
-    // html.window.history.replaceState(null, '/', '/robin');
     baseUrl = Uri.base.toString();
     print(baseUrl);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(/*baseUrl!.split("/").last*/ "robin"));
+      BlocProvider.of<GetUserBloc>(context)
+          .add(GetUserRefreshEvent(baseUrl!.split("/").last /*"robin"*/));
     });
   }
 
@@ -38,16 +38,14 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
 
     return Scaffold(
       backgroundColor: darkBackgroundColor,
-
-      body: BlocBuilder<GetUserBloc, GetUserState>(
-        builder: (context, state){
-          if(state is GetUserSuccessState){
-            return Responsive(
-              desktop: DeskTopLeadPage(state.response),
-              mobile: MobileLeadPage(state.response),
-              tablet: DeskTopLeadPage(state.response),
-            );
-            /*return Column(
+      body: BlocBuilder<GetUserBloc, GetUserState>(builder: (context, state) {
+        if (state is GetUserSuccessState) {
+          return Responsive(
+            desktop: DeskTopLeadPage(state.response),
+            mobile: MobileLeadPage(state.response),
+            tablet: DeskTopLeadPage(state.response),
+          );
+          /*return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
@@ -84,7 +82,7 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
                           width: 2,
                         ),
                     ),
-                    child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                    child: Center(child: Text('${(state.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
                   ),
                 ),
 
@@ -126,16 +124,20 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
                 ),
               ],
             );*/
-          }
-          if(state is GetUserErrorState){
-            return Center(child: Text("User Not Found!", style: TextStyle(color: Colors.white), textScaleFactor: 1.8,));
-          }
-          if(state is GetUserLoadingState){
-            return Center(child: CircularProgressIndicator());
-          }
-          return Container();
         }
-      ),
+        if (state is GetUserErrorState) {
+          return Center(
+              child: Text(
+            "User Not Found!",
+            style: TextStyle(color: Colors.white),
+            textScaleFactor: 1.8,
+          ));
+        }
+        if (state is GetUserLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        return Container();
+      }),
     );
   }
 }
@@ -156,11 +158,9 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-
-        SizedBox(height: height*0.1),
-
+        SizedBox(height: height * 0.1),
         CachedNetworkImage(
-          imageUrl: widget.response?.image??'',
+          imageUrl: widget.response?.image ?? '',
           imageBuilder: (context, imageProvider) => Container(
             height: 80,
             width: 80,
@@ -190,44 +190,55 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
                 width: 2,
               ),
             ),
-            child: Center(child: Text('${(widget.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+            child: Center(
+                child: Text(
+              '${(widget.response?.username ?? "").substring(0, 2).toUpperCase()}',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
           ),
         ),
-
-        SizedBox(height: height*0.02),
-
-        Text(widget.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
-
-        SizedBox(height: height*0.02),
-
-        Text(widget.response?.fullName??"", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-
-        SizedBox(height: height*0.12),
-
-        ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: (){
+        SizedBox(height: height * 0.02),
+        Text("@${widget.response?.username ?? " "}",
+            style: TextStyle(
+                fontSize: 14,
+                color: kGreyTextColor,
+                fontWeight: FontWeight.bold)),
+        SizedBox(height: height * 0.02),
+        Text(widget.response?.fullName ?? "",
+            style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+        SizedBox(height: height * 0.12),
+        ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const EnterTipPage()),
           );
         }),
-
-        SizedBox(height: height*0.04),
-
-        widget.response?.upiEnabled == true ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png", onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EnterUpiTipPage()),
-          );
-        }) : Container(),
-
-        widget.response?.upiEnabled == true ? SizedBox(height: height*0.02) : Container(),
-
+        SizedBox(height: height * 0.04),
+        widget.response?.upiEnabled == true
+            ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png",
+                onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EnterUpiTipPage()),
+                );
+              })
+            : Container(),
+        widget.response?.upiEnabled == true
+            ? SizedBox(height: height * 0.02)
+            : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+            Text("Powered By",
+                style: TextStyle(fontSize: 10, color: kGreyTextColor)),
             SizedBox(width: 5),
-            Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
+            Text("NINJAPAY",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: kGreyTextColor,
+                  decoration: TextDecoration.underline,
+                ))
           ],
         ),
       ],
@@ -251,11 +262,9 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-
-        SizedBox(height: height*0.1),
-
+        SizedBox(height: height * 0.1),
         CachedNetworkImage(
-          imageUrl: widget.response?.image??'',
+          imageUrl: widget.response?.image ?? '',
           imageBuilder: (context, imageProvider) => Container(
             height: 80,
             width: 80,
@@ -285,50 +294,58 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
                 width: 2,
               ),
             ),
-            child: Center(child: Text('${(widget.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+            child: Center(
+                child: Text(
+              '${(widget.response?.username ?? "").substring(0, 1).toUpperCase()}',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            )),
           ),
         ),
-
-        SizedBox(height: height*0.02),
-
-        Text(widget.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
-
-        SizedBox(height: height*0.02),
-
-        Text(widget.response?.fullName??"", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-
-        SizedBox(height: height*0.12),
-
-        ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: (){
+        SizedBox(height: height * 0.02),
+        Text(widget.response?.username ?? "",
+            style: TextStyle(
+                fontSize: 14,
+                color: kGreyTextColor,
+                fontWeight: FontWeight.bold)),
+        SizedBox(height: height * 0.02),
+        Text(widget.response?.fullName ?? "",
+            style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+        SizedBox(height: height * 0.12),
+        ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const EnterTipPage()),
           );
         }),
-
-        SizedBox(height: height*0.04),
-
-        widget.response?.upiEnabled == true ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png", onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const EnterUpiTipPage()),
-          );
-        }) : Container(),
-
-        widget.response?.upiEnabled == true ? SizedBox(height: height*0.02) : Container(),
-
+        SizedBox(height: height * 0.04),
+        widget.response?.upiEnabled == true
+            ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png",
+                onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EnterUpiTipPage()),
+                );
+              })
+            : Container(),
+        widget.response?.upiEnabled == true
+            ? SizedBox(height: height * 0.02)
+            : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+            Text("Powered By",
+                style: TextStyle(fontSize: 10, color: kGreyTextColor)),
             SizedBox(width: 5),
-            Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
+            Text("NINJAPAY",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: kGreyTextColor,
+                  decoration: TextDecoration.underline,
+                ))
           ],
         ),
-
       ],
     );
   }
 }
-
-

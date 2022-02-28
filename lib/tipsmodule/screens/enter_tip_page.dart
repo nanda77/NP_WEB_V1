@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
@@ -84,13 +85,13 @@ class _EnterTipPageState extends State<EnterTipPage> {
                             width: 2,
                           ),
                         ),
-                        child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                        child: Center(child: Text('${(state.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
                       ),
                     ),
 
                     SizedBox(height: height*0.02),
 
-                    Text(state.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
+                    Text("@${state.response?.username??" "}", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
 
                     SizedBox(height: height*0.02),
 
@@ -111,41 +112,115 @@ class _EnterTipPageState extends State<EnterTipPage> {
                             return BlocBuilder<GetUserBloc, GetUserState>(
                                 builder: (context, state){
                                   if(state is GetUserSuccessState){
-                                    return Container(
-                                      width: width*0.3,
-                                      child: Wrap(
-                                        runSpacing: height*0.03,
-                                        spacing: width*0.06,
-                                        children: [
-                                          ...list.map((e) {
-                                            if(e.id == 6){
-                                              return InkWell(
-                                                onTap: (){
-                                                  setState(() {
-                                                    index = e.id;
-                                                  });
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                    return Responsive(
+                                        mobile: Container(
+                                          width: width*0.45,
+                                          child: Wrap(
+                                            runSpacing: height*0.03,
+                                            spacing: width*0.1,
+                                            children: [
+                                              ...list.map((e) {
+                                                if(e.id == 6){
+                                                  return InkWell(
+                                                    onTap: (){
+                                                      setState(() {
+                                                        index = e.id;
+                                                      });
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                                      );
+                                                    },
+                                                    child: customIcon("assets/Icons/menu.png", "Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
                                                   );
-                                                },
-                                                child: customIcon("assets/Icons/menu.png", "Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
-                                              );
-                                            }
-                                            return InkWell(
-                                              onTap: (){
-                                                btcValue = double.parse(((e.value)*(data?['BTC']??0.0)).toStringAsFixed(8));
-                                                setState(() {
-                                                  fiatValue = e.value;
-                                                  index = e.id;
-                                                  print(fiatValue);
-                                                });
-                                              },
-                                              child: icon(e.value, data?['BTC']??0.0, color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
-                                            );
-                                          }).toList(),
-                                        ],
-                                      ),
+                                                }
+                                                return InkWell(
+                                                  onTap: (){
+                                                    btcValue = double.parse(((e.value)*(data?['BTC']??0.0)).toStringAsFixed(8));
+                                                    setState(() {
+                                                      fiatValue = e.value;
+                                                      index = e.id;
+                                                      print(fiatValue);
+                                                    });
+                                                  },
+                                                  child: icon(e.value, data?['BTC']??0.0, color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                                                );
+                                              }).toList(),
+                                            ],
+                                          ),
+                                        ),
+                                        tablet: Container(
+                                          width: width*0.3,
+                                          child: Wrap(
+                                            runSpacing: height*0.03,
+                                            spacing: width*0.06,
+                                            children: [
+                                              ...list.map((e) {
+                                                if(e.id == 6){
+                                                  return InkWell(
+                                                    onTap: (){
+                                                      setState(() {
+                                                        index = e.id;
+                                                      });
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                                      );
+                                                    },
+                                                    child: customIcon("assets/Icons/menu.png", "Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                                                  );
+                                                }
+                                                return InkWell(
+                                                  onTap: (){
+                                                    btcValue = double.parse(((e.value)*(data?['BTC']??0.0)).toStringAsFixed(8));
+                                                    setState(() {
+                                                      fiatValue = e.value;
+                                                      index = e.id;
+                                                      print(fiatValue);
+                                                    });
+                                                  },
+                                                  child: icon(e.value, data?['BTC']??0.0, color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                                                );
+                                              }).toList(),
+                                            ],
+                                          ),
+                                        ),
+                                        desktop: Container(
+                                          width: width*0.3,
+                                          child: Wrap(
+                                            runSpacing: height*0.03,
+                                            spacing: width*0.06,
+                                            children: [
+                                              ...list.map((e) {
+                                                if(e.id == 6){
+                                                  return InkWell(
+                                                    onTap: (){
+                                                      setState(() {
+                                                        index = e.id;
+                                                      });
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => CustomTipPage()),
+                                                      );
+                                                    },
+                                                    child: customIcon("assets/Icons/menu.png", "Custom", color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                                                  );
+                                                }
+                                                return InkWell(
+                                                  onTap: (){
+                                                    btcValue = double.parse(((e.value)*(data?['BTC']??0.0)).toStringAsFixed(8));
+                                                    setState(() {
+                                                      fiatValue = e.value;
+                                                      index = e.id;
+                                                      print(fiatValue);
+                                                    });
+                                                  },
+                                                  child: icon(e.value, data?['BTC']??0.0, color: index != null && index == e.id ? Colors.grey.shade800 : Colors.transparent),
+                                                );
+                                              }).toList(),
+                                            ],
+                                          ),
+                                        )
                                     );
                                   }
                                   if(state is GetUserErrorState){
@@ -209,15 +284,37 @@ class _EnterTipPageState extends State<EnterTipPage> {
 
                     SizedBox(height: height*0.04),
 
-                    Container(
-                      height: 45,
-                      width: width*0.3,
-                      child: CustomTextField(
-                        noteController,
-                        hintText: "Add notes",
-                        maxLength: 100,
-                        maxLines: 1,
+                    Responsive(
+                      mobile: Container(
+                        height: 45,
+                        width: width*0.5,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
                       ),
+                      tablet: Container(
+                        height: 45,
+                        width: width*0.3,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
+                      ),
+                      desktop: Container(
+                        height: 45,
+                        width: width*0.3,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
+                      )
                     ),
 
                     SizedBox(height: height*0.02),
@@ -236,6 +333,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                           );
                         }
                         else if(state is LightningTipErrorState){
+                          Fluttertoast.showToast(msg: state.errorMessage);
                           Navigator.pop(context);
                         }
 

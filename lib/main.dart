@@ -23,11 +23,11 @@ StreamController<int> streamController = StreamController<int>();
 
 void main() {
   setPathUrlStrategy();
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  );
-  // runApp(MyApp());
+  // DevicePreview(
+  //   enabled: !kReleaseMode,
+  //   builder: (context) => MyApp(), // Wrap your app
+  // );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,37 +35,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<GetUserBloc>(
-          create: (context) => GetUserBloc(),
-        ),
-        BlocProvider<LightningTipBloc>(
-          create: (context) => LightningTipBloc(),
-        ),
-        BlocProvider<ExchangeRateBloc>(
-          create: (context) => ExchangeRateBloc(),
-        ),
-        BlocProvider<TransactionStatusBloc>(
-          create: (context) => TransactionStatusBloc(),
-        ),
-        BlocProvider<CounterBloc>(
-          create: (context) => CounterBloc(0),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        useInheritedMediaQuery: true,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        title: 'Welcome Ninja',
-        theme: ThemeData(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            scaffoldBackgroundColor: const Color(0xff000000)),
-        // home: MainScreen(),
-        home: TipsLeadPage(),
-
-      )
-    );
+        providers: [
+          BlocProvider<GetUserBloc>(
+            create: (context) => GetUserBloc(),
+          ),
+          BlocProvider<LightningTipBloc>(
+            create: (context) => LightningTipBloc(),
+          ),
+          BlocProvider<ExchangeRateBloc>(
+            create: (context) => ExchangeRateBloc(),
+          ),
+          BlocProvider<TransactionStatusBloc>(
+            create: (context) => TransactionStatusBloc(),
+          ),
+          BlocProvider<CounterBloc>(
+            create: (context) => CounterBloc(0),
+          ),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          useInheritedMediaQuery: true,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          title: 'Welcome Ninja',
+          theme: ThemeData(
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              scaffoldBackgroundColor: const Color(0xff000000)),
+          // home: MainScreen(),
+          home: TipsLeadPage(),
+        ));
   }
 }
 

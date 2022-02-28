@@ -75,13 +75,13 @@ class _CustomUpiTipState extends State<CustomUpiTip> {
                               width: 2,
                             ),
                           ),
-                          child: Center(child: Text('${(state.response?.username??"").substring(0,1).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
+                          child: Center(child: Text('${(state.response?.username??"").substring(0,2).toUpperCase()}', style: TextStyle(fontSize: 20, color: Colors.white),)),
                         ),
                       ),
 
                       SizedBox(height: height*0.02),
 
-                      Text(state.response?.username??"", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
+                      Text("@${state.response?.username??" "}", style: TextStyle(fontSize: 14, color: kGreyTextColor, fontWeight: FontWeight.bold)),
 
                       SizedBox(height: height*0.02),
 

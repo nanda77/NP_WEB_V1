@@ -15,7 +15,7 @@ class ButtonWithIcon extends StatelessWidget {
       onTap: onTap,
       child: Responsive(
           mobile: Container(
-            width: width*0.35,
+            width: width*0.5,
             height: 45,
             padding: EdgeInsets.symmetric(horizontal: 30),
             decoration: BoxDecoration(
@@ -81,14 +81,34 @@ class SimpleButton extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      child: Container(
-        height: 45,
-        width: width*0.3,
-        decoration: BoxDecoration(
-          color: kBlueColor,
-          borderRadius: BorderRadius.circular(35)
+      child: Responsive(
+        mobile: Container(
+          height: 45,
+          width: width*0.5,
+          decoration: BoxDecoration(
+              color: kBlueColor,
+              borderRadius: BorderRadius.circular(35)
+          ),
+          child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
         ),
-        child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
+        tablet: Container(
+          height: 45,
+          width: width*0.3,
+          decoration: BoxDecoration(
+              color: kBlueColor,
+              borderRadius: BorderRadius.circular(35)
+          ),
+          child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
+        ),
+        desktop: Container(
+          height: 45,
+          width: width*0.3,
+          decoration: BoxDecoration(
+              color: kBlueColor,
+              borderRadius: BorderRadius.circular(35)
+          ),
+          child: Center(child: Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kBgWorksColor))),
+        )
       ),
     );
 
