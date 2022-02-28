@@ -9,7 +9,11 @@ class LightningTipRefreshEvent extends LightningTipEvent {
   String notes;
   double tip, btcPrice;
   int fiatvalue;
-  LightningTipRefreshEvent({required this.notes, required this.tip, required this.btcPrice, required this.fiatvalue});
+  LightningTipRefreshEvent(
+      {required this.notes,
+      required this.tip,
+      required this.btcPrice,
+      required this.fiatvalue});
 }
 
 class LightningTipState {}
@@ -35,24 +39,26 @@ class LightningTipBloc extends Bloc<LightningTipEvent, LightningTipState> {
   @override
   Stream<LightningTipState> mapEventToState(LightningTipEvent event) async* {
     try {
-      if(event is LightningTipRefreshEvent) {
+      if (event is LightningTipRefreshEvent) {
         yield LightningTipLoadingState();
 
         int tip = ConvertorClass.btcToSats(event.tip);
 
-        var response = await provider.lightingTipDeposit(tip: tip, notes: event.notes, btcPrice: event.btcPrice, fiatvalue: event.fiatvalue);
+        var response = await provider.lightingTipDeposit(
+            tip: tip,
+            notes: event.notes,
+            btcPrice: event.btcPrice,
+            fiatvalue: event.fiatvalue);
         print(response?.toJson().toString());
-        if(response?.status != null && response?.status == true){
+        if (response?.status != null && response?.status == true) {
           yield LightningTipSuccessState(response);
-        }
-        else {
-          yield LightningTipErrorState(response?.message??"");
+        } else {
+          yield LightningTipErrorState(response?.message ?? "");
         }
       }
-    } catch(e, stacktrace) {
+    } catch (e, stacktrace) {
       print("$e : $stacktrace");
       yield LightningTipErrorState(e.toString());
     }
   }
-
 }
