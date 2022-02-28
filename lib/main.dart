@@ -63,11 +63,17 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: const Color(0xff000000)),
           // home: MainScreen(),
           home: TipsLeadPage(),
+          /*initialRoute: HomePage.route,
+        routes: {
+          HomePage.route: (context) => HomePage(),
+          TipsLeadPage.route: (context) => TipsLeadPage(),
+        },*/
         ));
   }
 }
 
 class HomePage extends StatelessWidget {
+  static const String route = '/home';
   @override
   Widget build(BuildContext context) {
     return Responsive(

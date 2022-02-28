@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 // All of our constant stuff
 
-const darkBackgroundColor = Colors.black87; //0xFF366CF6
+const darkBackgroundColor = Colors.black; //0xFF366CF6
+const darkCementColor = Color(0x1A88A1AC);
+const cementTextColor = Color(0xFF88A1AC);
 const darkLightColor = Colors.black38; //0xFF366CF6
 const darkGreyTransColor = Color(0xFF424242); //0xFF366CF6
 const kGreyTextColor = Color(0xFFE5E5E5); //0xFF366CF6

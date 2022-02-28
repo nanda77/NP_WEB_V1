@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/main.dart';
 import 'package:ninjapay/responsive.dart';
@@ -11,6 +13,7 @@ import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 
 class TipsLeadPage extends StatefulWidget {
+  static const String route = '/leadPage';
   const TipsLeadPage({Key? key}) : super(key: key);
 
   @override
@@ -126,6 +129,14 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
             );*/
         }
         if (state is GetUserErrorState) {
+          return HomePage();
+        }
+        if (state is GetUserLoadingState) {
+          return Center(child: CircularProgressIndicator());
+        }
+        //   return Container();
+        // }
+        if (state is GetUserErrorState) {
           return Center(
               child: Text(
             "User Not Found!",
@@ -180,34 +191,40 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
           ),
           placeholder: (context, url) => CircularProgressIndicator(),
           errorWidget: (context, url, error) => Container(
-            height: 80,
-            width: 80,
+            height: 87,
+            width: 87,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: darkBackgroundColor,
               border: Border.all(
-                color: kGreyTextColor,
-                width: 2,
+                color: cementTextColor,
+                width: 1.5,
               ),
             ),
             child: Center(
                 child: Text(
-              '${(widget.response?.username ?? "").substring(0, 2).toUpperCase()}',
-              style: TextStyle(fontSize: 20, color: Colors.white),
+              '${(widget.response?.username ?? "").substring(0, 2).toLowerCase()}',
+              style: GoogleFonts.montserrat(
+                  fontSize: 27,
+                  fontWeight: FontWeight.w400,
+                  color: cementTextColor),
             )),
           ),
         ),
-        SizedBox(height: height * 0.02),
+        SizedBox(height: 10),
         Text("@${widget.response?.username ?? " "}",
-            style: TextStyle(
-                fontSize: 14,
-                color: kGreyTextColor,
-                fontWeight: FontWeight.bold)),
-        SizedBox(height: height * 0.02),
+            style: GoogleFonts.montserrat(
+                fontSize: 16,
+                color: cementTextColor,
+                fontWeight: FontWeight.w800)),
+        SizedBox(height: 4),
         Text(widget.response?.fullName ?? "",
-            style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: cementTextColor,
+                fontWeight: FontWeight.w400)),
         SizedBox(height: height * 0.12),
-        ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
+        ButtonWithIcon("Tip using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const EnterTipPage()),
@@ -215,7 +232,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
         }),
         SizedBox(height: height * 0.04),
         widget.response?.upiEnabled == true
-            ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png",
+            ? ButtonWithIcon("Tip using UPI", "assets/Icons/upi_ic.png",
                 onTap: () {
                 Navigator.push(
                   context,
@@ -225,20 +242,22 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
               })
             : Container(),
         widget.response?.upiEnabled == true
-            ? SizedBox(height: height * 0.02)
+            ? SizedBox(height: height * 0.01)
             : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Powered By",
-                style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-            SizedBox(width: 5),
-            Text("NINJAPAY",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: kGreyTextColor,
-                  decoration: TextDecoration.underline,
-                ))
+            SvgPicture.asset("assets/Icons/plogo.svg"),
+            // Text("Powered By",
+            //     style: TextStyle(
+            //         fontSize: 10, color: cementTextColor.withOpacity(0.7))),
+            // SizedBox(width: 5),
+            // Text("NINJAPAY",
+            //     style: TextStyle(
+            //       fontSize: 12,
+            //       color: cementTextColor,
+            //       decoration: TextDecoration.underline,
+            //     ))
           ],
         ),
       ],
@@ -296,7 +315,7 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
             ),
             child: Center(
                 child: Text(
-              '${(widget.response?.username ?? "").substring(0, 1).toUpperCase()}',
+              '${(widget.response?.username ?? "").substring(0, 2).toUpperCase()}',
               style: TextStyle(fontSize: 20, color: Colors.white),
             )),
           ),
