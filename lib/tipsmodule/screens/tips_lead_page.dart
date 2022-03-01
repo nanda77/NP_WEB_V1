@@ -173,14 +173,14 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
         CachedNetworkImage(
           imageUrl: widget.response?.image ?? '',
           imageBuilder: (context, imageProvider) => Container(
-            height: 80,
-            width: 80,
+            height: 87,
+            width: 87,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: darkBackgroundColor,
               border: Border.all(
                 color: kGreyTextColor,
-                width: 2,
+                width: 1.5,
               ),
               image: DecorationImage(
                 image: imageProvider,
