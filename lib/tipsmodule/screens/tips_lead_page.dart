@@ -179,7 +179,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
               shape: BoxShape.circle,
               color: darkBackgroundColor,
               border: Border.all(
-                color: kGreyTextColor,
+                color: cementTextColor,
                 width: 1.5,
               ),
               image: DecorationImage(

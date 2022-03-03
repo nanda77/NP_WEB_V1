@@ -117,10 +117,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: kBgWorksColor))),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        color: kBgWorksColor,
+                        fontWeight: FontWeight.w900))),
           ),
           tablet: Container(
             height: 45,
@@ -129,10 +129,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: kBgWorksColor))),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        color: kBgWorksColor,
+                        fontWeight: FontWeight.w900))),
           ),
           desktop: Container(
             height: 45,
@@ -141,10 +141,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: kBgWorksColor))),
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        color: kBgWorksColor,
+                        fontWeight: FontWeight.w900))),
           )),
     );
   }

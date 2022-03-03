@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ninjapay/constants.dart';
@@ -123,8 +124,9 @@ class _EnterTipPageState extends State<EnterTipPage> {
                         if (state is GetUserSuccessState) {
                           return Responsive(
                               mobile: Container(
-                                width: width * 0.45,
+                                width: width * 0.5,
                                 child: Wrap(
+                                  alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
                                   spacing: width * 0.1,
                                   children: [
@@ -146,7 +148,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               "assets/Icons/menu.png", "Custom",
                                               color:
                                                   index != null && index == e.id
-                                                      ? Colors.grey.shade800
+                                                      ? darkCementColor
                                                       : Colors.transparent),
                                         );
                                       }
@@ -165,7 +167,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                             e.value, data?['BTC'] ?? 0.0,
                                             color:
                                                 index != null && index == e.id
-                                                    ? Colors.grey.shade800
+                                                    ? darkCementColor
                                                     : Colors.transparent),
                                       );
                                     }).toList(),
@@ -175,6 +177,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                               tablet: Container(
                                 width: width * 0.3,
                                 child: Wrap(
+                                  alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
                                   spacing: width * 0.06,
                                   children: [
@@ -196,7 +199,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               "assets/Icons/menu.png", "Custom",
                                               color:
                                                   index != null && index == e.id
-                                                      ? Colors.grey.shade800
+                                                      ? darkCementColor
                                                       : Colors.transparent),
                                         );
                                       }
@@ -215,7 +218,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                             e.value, data?['BTC'] ?? 0.0,
                                             color:
                                                 index != null && index == e.id
-                                                    ? Colors.grey.shade800
+                                                    ? darkCementColor
                                                     : Colors.transparent),
                                       );
                                     }).toList(),
@@ -225,6 +228,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                               desktop: Container(
                                 width: width * 0.3,
                                 child: Wrap(
+                                  alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
                                   spacing: width * 0.06,
                                   children: [
@@ -246,7 +250,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               "assets/Icons/menu.png", "Custom",
                                               color:
                                                   index != null && index == e.id
-                                                      ? Colors.grey.shade800
+                                                      ? darkCementColor
                                                       : Colors.transparent),
                                         );
                                       }
@@ -265,7 +269,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                             e.value, data?['BTC'] ?? 0.0,
                                             color:
                                                 index != null && index == e.id
-                                                    ? Colors.grey.shade800
+                                                    ? darkCementColor
                                                     : Colors.transparent),
                                       );
                                     }).toList(),
@@ -324,19 +328,20 @@ class _EnterTipPageState extends State<EnterTipPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Powered By",
-                          style:
-                              TextStyle(fontSize: 10, color: kGreyTextColor)),
-                      SizedBox(width: 5),
-                      Text("NINJAPAY",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: kGreyTextColor,
-                            decoration: TextDecoration.underline,
-                          ))
+                      SvgPicture.asset("assets/Icons/plogo.svg"),
+                      // Text("Powered By",
+                      //     style:
+                      //         TextStyle(fontSize: 10, color: kGreyTextColor)),
+                      // SizedBox(width: 5),
+                      // Text("NINJAPAY",
+                      //     style: TextStyle(
+                      //       fontSize: 12,
+                      //       color: kGreyTextColor,
+                      //       decoration: TextDecoration.underline,
+                      //     ))
                     ],
                   ),
-                  SizedBox(height: height * 0.04),
+                  SizedBox(height: 10),
                   Responsive(
                       mobile: Container(
                         height: 45,
@@ -482,7 +487,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                           ))
                     ],
                   ),
-                  SizedBox(height: height * 0.04),
+                  SizedBox(height: 10),
                   Container(
                     height: 45,
                     width: width * 0.3,
@@ -517,13 +522,21 @@ class _EnterTipPageState extends State<EnterTipPage> {
         children: [
           Image.asset("assets/Icons/bt_ic.png", height: 40, width: 40),
           SizedBox(height: 5),
-          Text("\$${label.toString()}",
-              style: TextStyle(
-                  color: kBgWorksColor,
-                  /*fontWeight: FontWeight.bold,*/ fontSize: 17)),
+          Text(
+            "\$${label.toString()}",
+            style: GoogleFonts.montserrat(
+                fontSize: 18,
+                color: kBgWorksColor,
+                fontWeight: FontWeight.w700),
+          ),
           SizedBox(height: 5),
-          Text("${double.parse(btc.toStringAsFixed(8))}",
-              style: TextStyle(fontSize: 10, color: kGreyTextColor))
+          Text(
+            "${double.parse(btc.toStringAsFixed(8))}",
+            style: GoogleFonts.montserrat(
+                fontSize: 12,
+                color: kBgWorksColor,
+                fontWeight: FontWeight.w200),
+          )
         ],
       ),
     );
@@ -538,10 +551,13 @@ class _EnterTipPageState extends State<EnterTipPage> {
         children: [
           Image.asset(icon, height: 40, width: 40),
           SizedBox(height: 10),
-          Text(label,
-              style: TextStyle(
-                  color: kBgWorksColor,
-                  /*fontWeight: FontWeight.bold,*/ fontSize: 16)),
+          Text(
+            label,
+            style: GoogleFonts.montserrat(
+                fontSize: 18,
+                color: kBgWorksColor,
+                fontWeight: FontWeight.w700),
+          ),
           SizedBox(height: 15),
         ],
       ),
