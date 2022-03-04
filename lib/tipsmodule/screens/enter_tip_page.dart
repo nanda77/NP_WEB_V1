@@ -407,7 +407,8 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                   notes: notes,
                                   tip: btcValue ?? 0.0,
                                   btcPrice: data?['USD'] ?? 0.0,
-                                  fiatvalue: fiatValue));
+                                  fiatvalue: fiatValue,
+                                  userName: state.response?.username ?? ""));
                         }
                       },
                       child: SimpleButton("NEXT"),

@@ -24,13 +24,14 @@ class _QRPageState extends State<QRPage> {
   String status = "pending";
   final interval = const Duration(seconds: 1);
   String? upiId;
-  final int timerMaxSeconds = 30;
+  final int timerMaxSeconds = 600;
 
   int currentSeconds = 0;
   Timer? countDownTimer;
   Timer? apiTimer;
 
-  String get timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+  String get timerText =>
+      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
   startTimeout() {
     var duration = interval;
@@ -42,7 +43,8 @@ class _QRPageState extends State<QRPage> {
           timer.cancel();
           apiTimer?.cancel();
           upiId = null;
-          Navigator.push(context,
+          Navigator.push(
+            context,
             MaterialPageRoute(builder: (context) => ExpirePage()),
           );
           //redirect to payment cancelled screen
@@ -50,7 +52,8 @@ class _QRPageState extends State<QRPage> {
       });
     });
     apiTimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      BlocProvider.of<TransactionStatusBloc>(context).add(TransactionStatusRefreshEvent(widget.transActionId));
+      BlocProvider.of<TransactionStatusBloc>(context)
+          .add(TransactionStatusRefreshEvent(widget.transActionId));
     });
   }
 
@@ -73,81 +76,80 @@ class _QRPageState extends State<QRPage> {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: darkBackgroundColor,
-
-      body: BlocListener<TransactionStatusBloc, TransactionStatusState>(
-        listener: (context, state){
-          if(state is TransactionStatusLoadingState){
-          }
-          else if(state is TransactionStatusSuccessState){
-            if(state.response?.data?.status == "success"){
-              apiTimer?.cancel();
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SuccessPage()),
-              );
-            }
-          }
-          else if(state is TransactionStatusErrorState){
-          }
-        },
-        child: BlocBuilder<LightningTipBloc, LightningTipState>(
-            builder: (context, state){
-              if(state is LightningTipSuccessState){
-                upiId = state.response?.data?.lightningInvoicePayReq;
-                print(state.response?.data?.toJson()??"");
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: height*0.1),
-
-                    Text("Please pay the below lightning\ninvoice to complete tipping ", style: TextStyle(fontSize: 27, color: kBlueTextColor, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-
-                    SizedBox(height: height*0.04),
-
-                    Text("Expires in $timerText", style: TextStyle(fontSize: 11, color: kGreyTextColor)),
-
-                    SizedBox(height: height*0.02),
-
-                    Container(
-                      decoration: BoxDecoration(
+        backgroundColor: darkBackgroundColor,
+        body: BlocListener<TransactionStatusBloc, TransactionStatusState>(
+          listener: (context, state) {
+            if (state is TransactionStatusLoadingState) {
+            } else if (state is TransactionStatusSuccessState) {
+              if (state.response?.data?.status == "success") {
+                apiTimer?.cancel();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SuccessPage()),
+                );
+              }
+            } else if (state is TransactionStatusErrorState) {}
+          },
+          child: BlocBuilder<LightningTipBloc, LightningTipState>(
+              builder: (context, state) {
+            if (state is LightningTipSuccessState) {
+              upiId = state.response?.data?.lightningInvoicePayReq;
+              print(state.response?.data?.toJson() ?? "");
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: height * 0.1),
+                  Text(
+                    "Please pay the below lightning\ninvoice to complete tipping ",
+                    style: TextStyle(
+                        fontSize: 27,
+                        color: kBlueTextColor,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Text("Expires in $timerText",
+                      style: TextStyle(fontSize: 11, color: kGreyTextColor)),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    decoration: BoxDecoration(
                         color: Colors.black38,
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: SquarePercentIndicator(
-                        width: 220,
-                        height: 220,
-                        // startAngle: StartAngle.bottomRight,
-                        reverse: false,
-                        borderRadius: 10,
-                        shadowWidth: 5.0,
-                        progressWidth: 5,
-                        shadowColor: Colors.green,
-                        progressColor: Colors.black,
-                        progress: currentSeconds / 30,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: QrImage(
-                            data: upiId??"",
-                            version: QrVersions.auto,
-                            size: 180,
-                            gapless: false,
-                            backgroundColor: Colors.white,
-                            errorStateBuilder: (cxt, err) {
-                              return Container(
-                                child: Center(
-                                  child: Text(
-                                    "Uh oh! Something went wrong...",
-                                    textAlign: TextAlign.center,
-                                  ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: SquarePercentIndicator(
+                      width: 220,
+                      height: 220,
+                      // startAngle: StartAngle.bottomRight,
+                      reverse: false,
+                      borderRadius: 10,
+                      shadowWidth: 5.0,
+                      progressWidth: 5,
+                      shadowColor: Colors.green,
+                      progressColor: Colors.black,
+                      progress: currentSeconds / 600,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: QrImage(
+                          data: upiId ?? "",
+                          version: QrVersions.auto,
+                          size: 180,
+                          gapless: false,
+                          backgroundColor: Colors.white,
+                          errorStateBuilder: (cxt, err) {
+                            return Container(
+                              child: Center(
+                                child: Text(
+                                  "Uh oh! Something went wrong...",
+                                  textAlign: TextAlign.center,
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
+                  ),
 
-                    /*Container(
+                  /*Container(
                       height: 220,
                       width: 220,
                       color: Colors.white,
@@ -169,96 +171,101 @@ class _QRPageState extends State<QRPage> {
                       ),
                     ),*/
 
-                    SizedBox(height: height*0.02),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-                        SizedBox(width: 5),
-                        Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
-                      ],
-                    ),
-
-                    SizedBox(height: height*0.04),
-
-                    BorderButton("COPY INVOICE", onTap: (){
-                      FlutterClipboard.copy(state.response?.data?.lightningInvoicePayReq??"").then((value) {
-                        Fluttertoast.showToast(msg: "Copied");
-                      });
-                    }),
-
-                    SizedBox(height: height*0.02),
-
-                    BorderButton("OPEN WALLET"),
-                  ],
-                );
-              }
-              if(state is LightningTipErrorState){
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: height*0.1),
-
-                    Text("Please pay the below lightning\ninvoice to complete tipping ", style: TextStyle(fontSize: 27, color: kBlueTextColor, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-
-                    SizedBox(height: height*0.04),
-
-                    Text("Expires in $timerText", style: TextStyle(fontSize: 11, color: kGreyTextColor)),
-
-                    SizedBox(height: height*0.02),
-
-                    Container(
-                      height: 220,
-                      width: 220,
-                      color: Colors.white,
-                      child: QrImage(
-                        data: "Something went wrong!",
-                        version: QrVersions.auto,
-                        size: 200,
-                        gapless: false,
-                        errorStateBuilder: (cxt, err) {
-                          return Container(
-                            child: Center(
-                              child: Text(
-                                "Uh oh! Something went wrong...",
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    SizedBox(height: height*0.02),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Powered By", style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-                        SizedBox(width: 5),
-                        Text("NINJAPAY", style: TextStyle(fontSize: 12, color: kGreyTextColor, decoration: TextDecoration.underline,))
-                      ],
-                    ),
-
-                    SizedBox(height: height*0.04),
-
-                    BorderButton("COPY INVOICE"),
-
-                    SizedBox(height: height*0.02),
-
-                    BorderButton("OPEN WALLET"),
-                  ],
-                );
-              }
-              if(state is LightningTipLoadingState){
-                return Center(child: CircularProgressIndicator());
-              }
-              return Container();
+                  SizedBox(height: height * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Powered By",
+                          style:
+                              TextStyle(fontSize: 10, color: kGreyTextColor)),
+                      SizedBox(width: 5),
+                      Text("NINJAPAY",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: kGreyTextColor,
+                            decoration: TextDecoration.underline,
+                          ))
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  BorderButton("COPY INVOICE", onTap: () {
+                    FlutterClipboard.copy(
+                            state.response?.data?.lightningInvoicePayReq ?? "")
+                        .then((value) {
+                      Fluttertoast.showToast(msg: "Copied");
+                    });
+                  }),
+                  SizedBox(height: height * 0.02),
+                  BorderButton("OPEN WALLET"),
+                ],
+              );
             }
-        ),
-      )
-
-    );
+            if (state is LightningTipErrorState) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: height * 0.1),
+                  Text(
+                    "Please pay the below lightning\ninvoice to complete tipping ",
+                    style: TextStyle(
+                        fontSize: 27,
+                        color: kBlueTextColor,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: height * 0.04),
+                  Text("Expires in $timerText",
+                      style: TextStyle(fontSize: 11, color: kGreyTextColor)),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    height: 220,
+                    width: 220,
+                    color: Colors.white,
+                    child: QrImage(
+                      data: "Something went wrong!",
+                      version: QrVersions.auto,
+                      size: 200,
+                      gapless: false,
+                      errorStateBuilder: (cxt, err) {
+                        return Container(
+                          child: Center(
+                            child: Text(
+                              "Uh oh! Something went wrong...",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Powered By",
+                          style:
+                              TextStyle(fontSize: 10, color: kGreyTextColor)),
+                      SizedBox(width: 5),
+                      Text("NINJAPAY",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: kGreyTextColor,
+                            decoration: TextDecoration.underline,
+                          ))
+                    ],
+                  ),
+                  SizedBox(height: height * 0.04),
+                  BorderButton("COPY INVOICE"),
+                  SizedBox(height: height * 0.02),
+                  BorderButton("OPEN WALLET"),
+                ],
+              );
+            }
+            if (state is LightningTipLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return Container();
+          }),
+        ));
   }
 }

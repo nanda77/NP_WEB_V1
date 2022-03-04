@@ -9,7 +9,8 @@ import '../main.dart';
 
 class ApiProvider {
   late Dio _dio;
-  static const String BASE_URL = "http://lightpay-env.eba-ru7nma8h.ap-southeast-1.elasticbeanstalk.com/api/v1";
+  static const String BASE_URL =
+      "http://lightpay-env.eba-ru7nma8h.ap-southeast-1.elasticbeanstalk.com/api/v1";
   AppUtils appUtils = AppUtils();
 
   ApiProvider() {
@@ -18,8 +19,10 @@ class ApiProvider {
       // headers: header,
       headers: {
         "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+        "Access-Control-Allow-Credentials":
+            true, // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Headers":
+            "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
         "Access-Control-Allow-Methods": "POST, OPTIONS"
       },
       receiveTimeout: 80000,
@@ -38,12 +41,10 @@ class ApiProvider {
   Future<UserNameModel?> getUser(String name) async {
     try {
       Response response = await _dio.get("/personalPage/username",
-        queryParameters: {"q": name},
-        options: Options(contentType: Headers.jsonContentType)
-      );
+          queryParameters: {"q": name},
+          options: Options(contentType: Headers.jsonContentType));
       return UserNameModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
-
       if (error.response != null)
         return UserNameModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -51,7 +52,12 @@ class ApiProvider {
     }
   }
 
-  Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue}) async {
+  Future<LightningTipDepositModel?> lightingTipDeposit(
+      {int? tip,
+      String? notes,
+      double? btcPrice,
+      int? fiatvalue,
+      String? userName}) async {
     try {
       Response response = await _dio.post("/personalPage/tipLightningRequest",
           data: {
@@ -61,13 +67,12 @@ class ApiProvider {
             "fiatValue": fiatvalue,
             "fiatCurrencyUnit": "usd",
             "btcPrice": btcPrice,
-            "username": "robin"
+            // "username": "robin"
+            "username": userName
           },
-          options: Options(contentType: Headers.jsonContentType)
-      );
+          options: Options(contentType: Headers.jsonContentType));
       return LightningTipDepositModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
-
       if (error.response != null)
         return LightningTipDepositModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");
@@ -80,9 +85,8 @@ class ApiProvider {
   Future<GetExchangeRateModel?> getExchangeRate() async {
     try {
       Response response = await _dio.get("/rates/exchangeRates",
-        queryParameters: {},
-        options: Options(contentType: Headers.jsonContentType)
-      );
+          queryParameters: {},
+          options: Options(contentType: Headers.jsonContentType));
       return GetExchangeRateModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
       if (error.response != null)
@@ -94,23 +98,19 @@ class ApiProvider {
 
   // -----------------------Transaction-----------------------
 
-  Future<TransactionStatusModel?> transactionStatus(String transactionId) async {
+  Future<TransactionStatusModel?> transactionStatus(
+      String transactionId) async {
     print(transactionId);
     try {
       Response response = await _dio.post("/transfer/transferstatus",
-          data: {
-            "transaction_id": transactionId
-          },
-          options: Options(contentType: Headers.jsonContentType)
-      );
+          data: {"transaction_id": transactionId},
+          options: Options(contentType: Headers.jsonContentType));
       return TransactionStatusModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
-
       if (error.response != null)
         return TransactionStatusModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");
       return null;
     }
   }
-
 }
