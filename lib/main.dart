@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
@@ -62,7 +63,8 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
           // home: MainScreen(),
-          home: TipsLeadPage(),
+          home: DashboardScreen(),
+          // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
         routes: {
           HomePage.route: (context) => HomePage(),
