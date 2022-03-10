@@ -5,8 +5,7 @@ Widget paymentStatusCard(
     Color bgColor, Color titleColor, String title, String amount,
     {String? smallAMount}) {
   return Container(
-    padding: const EdgeInsets.only(
-        top: 15, left: 20, bottom: 15, right: 150),
+    padding: const EdgeInsets.only(top: 15, left: 20, bottom: 15, right: 150),
     decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
           Radius.circular(5),
@@ -18,6 +17,7 @@ Widget paymentStatusCard(
       children: [
         Text(
           title,
+          maxLines: 2,
           style: tabBarTextStyle.copyWith(color: titleColor),
         ),
         const SizedBox(
@@ -25,6 +25,7 @@ Widget paymentStatusCard(
         ),
         Text(
           amount,
+          maxLines: 2,
           style: tabBarTextStyle.copyWith(fontSize: 20),
         ),
 /*

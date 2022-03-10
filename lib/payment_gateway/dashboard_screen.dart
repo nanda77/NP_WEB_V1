@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ninjapay/payment_gateway/payment_link/payment_links_screen.dart';
+import 'package:ninjapay/payment_gateway/paywalls/screen/paywalls_screen.dart';
 
 import '../constants.dart';
 import 'home/home_screen.dart';
@@ -22,6 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: <Widget>[
           NavigationRail(
             extended: true,
+
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() {
@@ -93,16 +95,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ? Expanded(child: HomeScreen())
               : _selectedIndex == 1
                   ? Expanded(child: PaymentLinksScreen())
-                  : Expanded(
-                      child: Center(
-                        child: Text('selectedIndex: $_selectedIndex'),
-                      ),
-                    )
-          // Expanded(
-          //   child: Center(
-          //     child: Text('selectedIndex: $_selectedIndex'),
-          //   ),
-          // )
+                  : _selectedIndex == 3
+                      ? Expanded(child: PaywallsScreen())
+                      : Expanded(
+                          child: Center(
+                            child: Text('selectedIndex: $_selectedIndex'),
+                          ),
+                        )
         ],
       ),
     );

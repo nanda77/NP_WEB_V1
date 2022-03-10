@@ -5,9 +5,10 @@ import 'package:ninjapay/constants.dart';
 Widget customTextField(String hint,
     {Icon? suffixIcon,
     TextInputFormatter? textInputFormatter,
-    int? maxLength}) {
+    int? maxLength,
+    double? width}) {
   return Container(
-    width: 400,
+    width: width ?? 300,
     decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(
           Radius.circular(5),

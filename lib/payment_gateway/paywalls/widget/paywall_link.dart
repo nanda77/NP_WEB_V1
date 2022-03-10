@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ninjapay/constants.dart';
 
-Widget yourLink() {
+Widget paywallLink() {
   return Container(
     width: double.infinity,
     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -15,37 +15,21 @@ Widget yourLink() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Your Payment Link',
+          'Your Paywall Links',
           style: boldTextStyle,
         ),
         const SizedBox(
           height: 20,
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                'https://bit.ly/39uje4k32mke',
-                style: boldTextStyle.copyWith(fontSize: 20),
-              ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Expanded(
-              child: IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'assets/Icons/ic_copy.png',
-                  )),
-            ),
-          ],
+        Text(
+          '1 active link',
+          style: boldTextStyle.copyWith(fontSize: 20),
         ),
         const SizedBox(
           height: 5,
         ),
         Text(
-          'This is your payment link mapped to your merchant account. Share this link to your customers to receive online payments using UPI app',
+          "Creates a paywall link for your content. You specify the amount, title and redirect URL and that's it.",
           style: tabBarTextStyle,
         ),
       ],

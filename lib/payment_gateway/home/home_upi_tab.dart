@@ -12,6 +12,9 @@ class HomeUpiTab extends StatefulWidget {
 class _HomeUpiTabState extends State<HomeUpiTab> {
   String filterValue = 'Filter by';
   String sortValue = 'Sort by';
+  late double _devWidth;
+  late double _devHeight;
+  double _containerWidth = 150;
 
   var items = [
     'Sort by',
@@ -26,59 +29,70 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
 
   @override
   Widget build(BuildContext context) {
+    _devWidth = MediaQuery.of(context).size.width;
+    _devHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Padding(
         padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
+              // scrollDirection: Axis.horizontal,
               children: [
-                paymentStatusCard(orangeLightColor, orangeColor, 'Pending',
-                    '$inrSign 7327832'),
+                Expanded(
+                  child: paymentStatusCard(orangeLightColor, orangeColor,
+                      'Pending', '$inrSign 7327832'),
+                ),
                 SizedBox(width: 15),
-                paymentStatusCard(greenLightColor, greenColor, 'Approved',
-                    '$inrSign 7327832'),
+                Expanded(
+                  child: paymentStatusCard(greenLightColor, greenColor,
+                      'Approved', '$inrSign 7327832'),
+                ),
                 SizedBox(width: 15),
-                paymentStatusCard(
-                    redLightColor, redColor, 'Declined', '$inrSign 7327832'),
-              ],
-            ),
-            SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                customTextField('Search transactions...',
-                    suffixIcon: Icon(
-                      Icons.search,
-                      size: 25,
-                      color: kGreyTextColor,
-                    )),
-                Row(
-                  children: [
-                    _filterDropDown(),
-                    SizedBox(width: 15),
-                    _sortDropDown(),
-                    SizedBox(width: 15),
-                    _addButton()
-                  ],
+                Expanded(
+                  child: paymentStatusCard(
+                      redLightColor, redColor, 'Declined', '$inrSign 7327832'),
                 ),
               ],
             ),
             SizedBox(height: 15),
-            Expanded(
-              child: Container(
-                color: kBgWorksColor,
-                child: Column(
-                  children: [
-                    _headers(),
-                    Divider(
-                      color: kGreyTextColor,
-                      height: 1,
-                    ),
-                    _transactionList(),
-                  ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  customTextField('Search transactions...',
+                      width: _containerWidth + _containerWidth,
+                      suffixIcon:
+                          Icon(Icons.search, size: 25, color: kGreyTextColor)),
+                  // Spacer(),
+                  SizedBox(width: _devWidth * 0.3),
+                  _filterDropDown(),
+                  SizedBox(width: 15),
+                  _sortDropDown(),
+                  SizedBox(width: 15),
+                  _addButton()
+                ],
+              ),
+            ),
+            SizedBox(height: 15),
+            SizedBox(
+              height: 420,
+              child: Expanded(
+                child: Container(
+                  color: kBgWorksColor,
+                  child: Column(
+                    children: [
+                      _headers(),
+                        Divider(
+                        color: kGreyTextColor,
+                        height: 1,
+                      ),
+                      _transactionList(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -90,8 +104,9 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                   height: 35,
                   width: 251,
                   color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       paginationButton('1'),
                       paginationButton('2'),
@@ -117,6 +132,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   Widget _filterDropDown() {
     return Container(
       height: 50,
+      width: _containerWidth,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -147,6 +163,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   Widget _sortDropDown() {
     return Container(
       height: 50,
+      width: _containerWidth,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -176,7 +193,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   Widget _addButton() {
     return Container(
       height: 50,
-      width: 150,
+      width: _containerWidth,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -195,7 +212,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   Widget _transactionList() {
     return Expanded(
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: 8,
         itemBuilder: (context, index) {
           return Column(
             children: [
@@ -203,60 +220,73 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      child: Text('${index + 1}', style: tabBarTextStyle),
-                      width: 20,
+
+                    Expanded(
+                      child: FittedBox(
+                          fit: BoxFit.scaleDown,child: Text('${index + 1}', style: tabBarTextStyle)),
+                      // width: 20,
                     ),
-                    SizedBox(
-                      child: Text('10 Mar, 9:13 am', style: tabBarTextStyle),
-                      width: 100,
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: FittedBox(
+                          fit: BoxFit.scaleDown,child: Text('10 Mar, 9:13 am', style: tabBarTextStyle)),
+                      // width: 100,
                     ),
-                    SizedBox(
-                      child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                      width: 150,
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: FittedBox(
+                          fit: BoxFit.scaleDown,child: Text('GD68H87JSG86', style: tabBarTextStyle)),
+                      // width: 150,
                     ),
-                    SizedBox(
-                      child: Text('$inrSign 434523', style: tabBarTextStyle),
-                      width: 150,
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: FittedBox(
+                          fit: BoxFit.scaleDown,child: Text('$inrSign 434523', style: tabBarTextStyle)),
+                      // width: 150,
                     ),
-                    SizedBox(
-                      child:
-                          Text('7437878434788@icici', style: tabBarTextStyle),
-                      width: 150,
+                    SizedBox(width: 15),
+                    FittedBox(
+                        fit: BoxFit.scaleDown,child: Expanded(child: Text('7437878434788@icici', style: tabBarTextStyle))),
+                    SizedBox(width: 15),
+                    FittedBox(
+                        fit: BoxFit.fitWidth,child: Expanded(
+                          child: Text('Raw material')
+                        )),
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: FittedBox(
+                          fit: BoxFit.scaleDown,child: Text('GD68H87JSG86', style: tabBarTextStyle)),
+                      //width: 150,
                     ),
-                    SizedBox(
-                      child: Text('Raw material', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: index == 5
-                          ? Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                    'assets/Icons/ic_accept.png',
-                                    height: 28,
+                    SizedBox(width: 15),
+                    Expanded(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: index == 5
+                            ? Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Image.asset(
+                                      'assets/Icons/ic_accept.png',
+                                      height: 28,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                    'assets/Icons/ic_decline.png',
-                                    height: 28,
+                                  SizedBox(width: 5),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Image.asset(
+                                      'assets/Icons/ic_decline.png',
+                                      height: 28,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Text('Approved', style: tabBarTextStyle),
-                      width: 150,
+                                ],
+                              )
+                            : Text('Approved', style: tabBarTextStyle),
+                        // width: 150,
+                      ),
                     ),
                   ],
                 ),
@@ -276,39 +306,62 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            child: Text('#', style: NormalTextStyle),
-            width: 20,
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('#', style: NormalTextStyle)),
+            // width: 20,
           ),
-          SizedBox(
-            child: Text('Timestamp', style: NormalTextStyle),
-            width: 100,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Timestamp', style: NormalTextStyle)),
+            // width: 100,
           ),
-          SizedBox(
-            child: Text('UTR', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('UTR', style: NormalTextStyle)),
+            // width: 150,
           ),
-          SizedBox(
-            child: Text('Price', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Price', style: NormalTextStyle)),
+            // width: 150,
           ),
-          SizedBox(
-            child: Text('UPI', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('UPI', style: NormalTextStyle)),
+            // width: 150,
           ),
-          SizedBox(
-            child: Text('Purpose', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Purpose', style: NormalTextStyle)),
+            // width: 150,
           ),
-          SizedBox(
-            child: Text('Order ID', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Order ID', style: NormalTextStyle)),
+            // width: 150,
           ),
-          SizedBox(
-            child: Text('Status', style: NormalTextStyle),
-            width: 150,
+          SizedBox(width: 15),
+          Expanded(
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text('Status', style: NormalTextStyle)),
+            // width: 150,
           )
         ],
       ),

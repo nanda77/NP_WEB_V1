@@ -11,6 +11,9 @@ class HomeBtcTab extends StatefulWidget {
 }
 
 class _HomeBtcTabState extends State<HomeBtcTab> {
+  late double _devWidth;
+  late double _devHeight;
+  double _containerWidth = 150;
   String filterValue = 'Filter by';
   String sortValue = 'Sort by';
 
@@ -27,54 +30,64 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
 
   @override
   Widget build(BuildContext context) {
+    _devWidth = MediaQuery.of(context).size.width;
+    _devHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Padding(
         padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                paymentStatusCard(orangeLightColor, orangeColor, 'BTC Balance',
-                    '7327832 SAT'),
-                SizedBox(width: 15),
-                paymentStatusCard(greenLightColor, greenColor, 'USDT Balance',
-                    '7327832 USDT'),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  paymentStatusCard(orangeLightColor, orangeColor, 'BTC Balance',
+                      '7327832 SAT'),
+                  SizedBox(width: 15),
+                  paymentStatusCard(greenLightColor, greenColor, 'USDT Balance',
+                      '7327832 USDT'),
+                ],
+              ),
             ),
             SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                customTextField('Search transactions...',
-                    suffixIcon: Icon(
-                      Icons.search,
-                      size: 25,
-                      color: kGreyTextColor,
-                    )),
-                Row(
-                  children: [
-                    _filterDropDown(),
-                    SizedBox(width: 15),
-                    _sortDropDown(),
-                  ],
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  customTextField('Search transactions...',
+                      width: _containerWidth + _containerWidth,
+                      suffixIcon: Icon(
+                        Icons.search,
+                        size: 25,
+                        color: kGreyTextColor
+                      )),
+                  SizedBox(width: _devWidth*0.41),
+                  // Spacer(),
+                  _filterDropDown(),
+                  SizedBox(width: 15),
+                  _sortDropDown(),
+                ],
+              ),
             ),
             SizedBox(height: 15),
-            Expanded(
-              child: Container(
-                color: kBgWorksColor,
-                child: Column(
-                  children: [
-                    _headers(),
-                    Divider(
-                      color: kGreyTextColor,
-                      height: 1,
-                    ),
-                    _transactionList(),
-                  ],
+            SizedBox(
+              height: 420,
+              child: Expanded(
+                child: Container(
+                  color: kBgWorksColor,
+                  child: Column(
+                    children: [
+                      _headers(),
+                      Divider(
+                        color: kGreyTextColor,
+                        height: 1,
+                      ),
+                      _transactionList(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -86,8 +99,8 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
                   height: 35,
                   width: 251,
                   color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
                     children: [
                       paginationButton('1'),
                       paginationButton('2'),
@@ -112,6 +125,7 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
   Widget _filterDropDown() {
     return Container(
       height: 50,
+      width: _containerWidth,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -142,6 +156,7 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
   Widget _sortDropDown() {
     return Container(
       height: 50,
+      width: _containerWidth,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -171,42 +186,45 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
   Widget _headers() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            child: Text('#', style: NormalTextStyle),
-            width: 20,
-          ),
-          SizedBox(
-            child: Text('Timestamp', style: NormalTextStyle),
-            width: 100,
-          ),
-          SizedBox(
-            child: Text('UTR', style: NormalTextStyle),
-            width: 150,
-          ),
-          SizedBox(
-            child: Text('Price', style: NormalTextStyle),
-            width: 150,
-          ),
-          SizedBox(
-            child: Text('UPI', style: NormalTextStyle),
-            width: 150,
-          ),
-          SizedBox(
-            child: Text('Purpose', style: NormalTextStyle),
-            width: 150,
-          ),
-          SizedBox(
-            child: Text('Order ID', style: NormalTextStyle),
-            width: 150,
-          ),
-          SizedBox(
-            child: Text('Status', style: NormalTextStyle),
-            width: 150,
-          )
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              child: Text('#', style: NormalTextStyle),
+              width: 20,
+            ),
+            SizedBox(
+              child: Text('Timestamp', style: NormalTextStyle),
+              width: 100,
+            ),
+            SizedBox(
+              child: Text('UTR', style: NormalTextStyle),
+              width: 150,
+            ),
+            SizedBox(
+              child: Text('Price', style: NormalTextStyle),
+              width: 150,
+            ),
+            SizedBox(
+              child: Text('UPI', style: NormalTextStyle),
+              width: 150,
+            ),
+            SizedBox(
+              child: Text('Purpose', style: NormalTextStyle),
+              width: 150,
+            ),
+            SizedBox(
+              child: Text('Order ID', style: NormalTextStyle),
+              width: 150,
+            ),
+            SizedBox(
+              child: Text('Status', style: NormalTextStyle),
+              width: 150,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -221,63 +239,66 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      child: Text('${index + 1}', style: tabBarTextStyle),
-                      width: 20,
-                    ),
-                    SizedBox(
-                      child: Text('10 Mar, 9:13 am', style: tabBarTextStyle),
-                      width: 100,
-                    ),
-                    SizedBox(
-                      child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: Text('$inrSign 434523', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child:
-                          Text('7437878434788@icici', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: Text('Raw material', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                    SizedBox(
-                      child: index == 5
-                          ? Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                    'assets/Icons/ic_accept.png',
-                                    height: 28,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        child: Text('${index + 1}', style: tabBarTextStyle),
+                        width: 20,
+                      ),
+                      SizedBox(
+                        child: Text('10 Mar, 9:13 am', style: tabBarTextStyle),
+                        width: 100,
+                      ),
+                      SizedBox(
+                        child: Text('GD68H87JSG86', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                      SizedBox(
+                        child: Text('$inrSign 434523', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                      SizedBox(
+                        child:
+                            Text('7437878434788@icici', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                      SizedBox(
+                        child: Text('Raw material', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                      SizedBox(
+                        child: Text('GD68H87JSG86', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                      SizedBox(
+                        child: index == 5
+                            ? Row(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Image.asset(
+                                      'assets/Icons/ic_accept.png',
+                                      height: 28,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Image.asset(
-                                    'assets/Icons/ic_decline.png',
-                                    height: 28,
+                                  SizedBox(width: 5),
+                                  GestureDetector(
+                                    onTap: () {},
+                                    child: Image.asset(
+                                      'assets/Icons/ic_decline.png',
+                                      height: 28,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Text('Approved', style: tabBarTextStyle),
-                      width: 150,
-                    ),
-                  ],
+                                ],
+                              )
+                            : Text('Approved', style: tabBarTextStyle),
+                        width: 150,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Divider(

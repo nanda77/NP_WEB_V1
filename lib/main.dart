@@ -63,8 +63,8 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
           // home: MainScreen(),
-          home: DashboardScreen(),
-          // home: TipsLeadPage(),
+          // home: DashboardScreen(),
+          home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
         routes: {
           HomePage.route: (context) => HomePage(),

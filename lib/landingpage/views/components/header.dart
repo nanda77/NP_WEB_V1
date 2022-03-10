@@ -4,6 +4,7 @@ import 'package:ninjapay/landingpage/views/components/url_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
@@ -76,7 +77,12 @@ class _HeaderState extends State<Header> {
                           height: 12,
                         ),
                         TextButton(
-                          onPressed: StoreUrls().playStoreURL,
+                          // onPressed: StoreUrls().playStoreURL,
+                          onPressed: () {
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => DashboardScreen()),
+                            );
+                          },
                           child: Text(
                             'BUSINESS',
                             style: GoogleFonts.montserrat(
