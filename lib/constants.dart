@@ -23,5 +23,37 @@ const kGrayColor = Color(0xFF8793B2);
 const kTitleTextColor = Color(0xFF30384D);
 const kTextColor = Color(0xFF282F3F);
 const kTextSubColor = Color(0xFF899BAB); //0xFF4D5875 //0xFF6E7C89 //0xFF899BAB
+const orangeLightColor = Color(0XFFF7F1E8);
+const greenLightColor = Color(0XFFE4F0EA);
+const redLightColor = Color(0XFFF2ECF1);
+const orangeColor = Color(0XFFF17D15);
+const greenColor = Color(0XFF3F9A3C);
+const redColor = Color(0XFFCF7381);
 
 const kDefaultPadding = 20.0;
+
+
+const TextStyle sidebarTextStyle = TextStyle(
+  // fontFamily: 'MontserratReg',
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  color: kTextSubColor,
+);
+const TextStyle tabBarTextStyle = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+  color: darkBackgroundColor,
+);
+
+const TextStyle NormalTextStyle = TextStyle(
+  fontSize: 14,
+  color: kTextSubColor,
+);
+
+const TextStyle boldTextStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.bold,
+  color: darkBackgroundColor,
+);
+/*ic_decline.png   ic_accept.png  */
+String inrSign = '₹';

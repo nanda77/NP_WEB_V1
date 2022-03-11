@@ -56,6 +56,7 @@ dependencies:
   url_strategy: ^0.2.0
   device_preview: ^0.7.0
   square_percent_indicater: ^0.1.0
+  responsive_framework: ^0.1.7
 
 
 dev_dependencies:
