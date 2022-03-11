@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
 
 import '../../constants.dart';
 
@@ -12,7 +15,7 @@ class HomeBtcTab extends StatefulWidget {
 
 class _HomeBtcTabState extends State<HomeBtcTab> {
   late double _devWidth;
-  late double _devHeight;
+  late double _tableItemWidth;
   double _containerWidth = 150;
   String filterValue = 'Filter by';
   String sortValue = 'Sort by';
@@ -31,7 +34,8 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
   @override
   Widget build(BuildContext context) {
     _devWidth = MediaQuery.of(context).size.width;
-    _devHeight = MediaQuery.of(context).size.height;
+    _tableItemWidth = (_devWidth - 290) / 8;
+
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Padding(
@@ -43,8 +47,8 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  paymentStatusCard(orangeLightColor, orangeColor, 'BTC Balance',
-                      '7327832 SAT'),
+                  paymentStatusCard(orangeLightColor, orangeColor,
+                      'BTC Balance', '7327832 SAT'),
                   SizedBox(width: 15),
                   paymentStatusCard(greenLightColor, greenColor, 'USDT Balance',
                       '7327832 USDT'),
@@ -59,12 +63,9 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
                 children: [
                   customTextField('Search transactions...',
                       width: _containerWidth + _containerWidth,
-                      suffixIcon: Icon(
-                        Icons.search,
-                        size: 25,
-                        color: kGreyTextColor
-                      )),
-                  SizedBox(width: _devWidth*0.41),
+                      suffixIcon:
+                          Icon(Icons.search, size: 25, color: kGreyTextColor)),
+                  SizedBox(width: _devWidth * 0.41),
                   // Spacer(),
                   _filterDropDown(),
                   SizedBox(width: 15),
@@ -188,42 +189,20 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              child: Text('#', style: NormalTextStyle),
-              width: 20,
-            ),
-            SizedBox(
-              child: Text('Timestamp', style: NormalTextStyle),
-              width: 100,
-            ),
-            SizedBox(
-              child: Text('UTR', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Price', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('UPI', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Purpose', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Order ID', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Status', style: NormalTextStyle),
-              width: 150,
-            )
-          ],
+        child: SizedBox(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              tableHeaderText('#', _tableItemWidth),
+              tableHeaderText('Timestamp', _tableItemWidth),
+              tableHeaderText('From/To', _tableItemWidth),
+              tableHeaderText('Amount', _tableItemWidth),
+              tableHeaderText('AMount(btc)', _tableItemWidth),
+              tableHeaderText('Note', _tableItemWidth),
+              tableHeaderText('Fee', _tableItemWidth),
+              tableHeaderText('Status', _tableItemWidth),
+            ],
+          ),
         ),
       ),
     );
@@ -244,59 +223,21 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        child: Text('${index + 1}', style: tabBarTextStyle),
-                        width: 20,
+                      Container(
+                        padding: tablePadding,
+                        alignment: Alignment.centerLeft,
+                        child: SvgPicture.asset(
+                          'assets/Icons/ic_pending.svg',
+                        ),
+                        width: _tableItemWidth,
                       ),
-                      SizedBox(
-                        child: Text('10 Mar, 9:13 am', style: tabBarTextStyle),
-                        width: 100,
-                      ),
-                      SizedBox(
-                        child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Text('$inrSign 434523', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child:
-                            Text('7437878434788@icici', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Text('Raw material', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: index == 5
-                            ? Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Image.asset(
-                                      'assets/Icons/ic_accept.png',
-                                      height: 28,
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Image.asset(
-                                      'assets/Icons/ic_decline.png',
-                                      height: 28,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Text('Approved', style: tabBarTextStyle),
-                        width: 150,
-                      ),
+                      tableItemText('10 Mar, 9:13 am', _tableItemWidth),
+                      tableItemText('@pankaj', _tableItemWidth),
+                      tableItemText('$inrSign 434523', _tableItemWidth),
+                      tableItemText('+376727 SAT', _tableItemWidth),
+                      tableItemText('Raw material', _tableItemWidth),
+                      tableItemText('0%', _tableItemWidth),
+                      tableItemText('Pending', _tableItemWidth),
                     ],
                   ),
                 ),

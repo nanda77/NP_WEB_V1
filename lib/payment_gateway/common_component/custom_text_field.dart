@@ -6,7 +6,7 @@ Widget customTextField(String hint,
     {Icon? suffixIcon,
     TextInputFormatter? textInputFormatter,
     int? maxLength,
-    double? width}) {
+    double? width,TextEditingController? controller}) {
   return Container(
     width: width ?? 300,
     decoration: BoxDecoration(
@@ -19,6 +19,7 @@ Widget customTextField(String hint,
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,
+      controller: controller,
       inputFormatters: [
         textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
       ],

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ninjapay/payment_gateway/payment_link/screen/payment_links_btc_tab.dart';
-import 'package:ninjapay/payment_gateway/payment_link/screen/payment_links_upi_tab.dart';
-
-import '../../constants.dart';
+import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/payment_gateway/module/payment_link/screen/payment_links_btc_tab.dart';
+import 'package:ninjapay/payment_gateway/module/payment_link/screen/payment_links_upi_tab.dart';
 
 class PaymentLinksScreen extends StatefulWidget {
   @override

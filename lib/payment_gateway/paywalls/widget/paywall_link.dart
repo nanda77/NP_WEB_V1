@@ -23,7 +23,7 @@ Widget paywallLink() {
         ),
         Text(
           '1 active link',
-          style: boldTextStyle.copyWith(fontSize: 20),
+          style: tabBarTextStyle.copyWith(fontSize: 22),
         ),
         const SizedBox(
           height: 5,

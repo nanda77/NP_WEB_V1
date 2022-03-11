@@ -51,9 +51,13 @@ const TextStyle NormalTextStyle = TextStyle(
 );
 
 const TextStyle boldTextStyle = TextStyle(
-  fontSize: 14,
+  fontSize: 12,
   fontWeight: FontWeight.bold,
   color: darkBackgroundColor,
 );
+
+const TextStyle blueTextStyle = TextStyle(fontSize: 12, color: kBlueColor);
 /*ic_decline.png   ic_accept.png  */
 String inrSign = '₹';
+const tablePadding = EdgeInsets.fromLTRB(10, 15, 0, 15);
+

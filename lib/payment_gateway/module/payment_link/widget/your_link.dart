@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/constants.dart';
 
 Widget yourLink() {
@@ -26,7 +27,7 @@ Widget yourLink() {
             Expanded(
               child: Text(
                 'https://bit.ly/39uje4k32mke',
-                style: boldTextStyle.copyWith(fontSize: 20),
+                style: tabBarTextStyle.copyWith(fontSize: 22),
               ),
             ),
             const SizedBox(
@@ -35,8 +36,8 @@ Widget yourLink() {
             Expanded(
               child: IconButton(
                   onPressed: () {},
-                  icon: Image.asset(
-                    'assets/Icons/ic_copy.png',
+                  icon: SvgPicture.asset(
+                    'assets/Icons/ic_copy.svg',
                   )),
             ),
           ],

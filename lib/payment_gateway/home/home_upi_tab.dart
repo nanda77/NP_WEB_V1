@@ -3,6 +3,8 @@ import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
 
 class HomeUpiTab extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   String filterValue = 'Filter by';
   String sortValue = 'Sort by';
   late double _devWidth;
-  late double _devHeight;
+  late double _tableItemWidth;
   double _containerWidth = 150;
 
   var items = [
@@ -30,16 +32,15 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   @override
   Widget build(BuildContext context) {
     _devWidth = MediaQuery.of(context).size.width;
-    _devHeight = MediaQuery.of(context).size.height;
+    _tableItemWidth = (_devWidth - 290) / 8;
+
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Padding(
         padding: EdgeInsets.all(15),
         child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              // scrollDirection: Axis.horizontal,
               children: [
                 Expanded(
                   child: paymentStatusCard(orangeLightColor, orangeColor,
@@ -86,7 +87,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                   child: Column(
                     children: [
                       _headers(),
-                        Divider(
+                      Divider(
                         color: kGreyTextColor,
                         height: 1,
                       ),
@@ -212,81 +213,46 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   Widget _transactionList() {
     return Expanded(
       child: ListView.builder(
-        itemCount: 8,
+        itemCount: 10,
         itemBuilder: (context, index) {
           return Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,child: Text('${index + 1}', style: tabBarTextStyle)),
-                      // width: 20,
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,child: Text('10 Mar, 9:13 am', style: tabBarTextStyle)),
-                      // width: 100,
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,child: Text('GD68H87JSG86', style: tabBarTextStyle)),
-                      // width: 150,
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,child: Text('$inrSign 434523', style: tabBarTextStyle)),
-                      // width: 150,
-                    ),
-                    SizedBox(width: 15),
-                    FittedBox(
-                        fit: BoxFit.scaleDown,child: Expanded(child: Text('7437878434788@icici', style: tabBarTextStyle))),
-                    SizedBox(width: 15),
-                    FittedBox(
-                        fit: BoxFit.fitWidth,child: Expanded(
-                          child: Text('Raw material')
-                        )),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: FittedBox(
-                          fit: BoxFit.scaleDown,child: Text('GD68H87JSG86', style: tabBarTextStyle)),
-                      //width: 150,
-                    ),
-                    SizedBox(width: 15),
-                    Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: index == 5
-                            ? Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Image.asset(
-                                      'assets/Icons/ic_accept.png',
-                                      height: 28,
-                                    ),
+                    tableItemText('${index + 1}', _tableItemWidth),
+                    tableItemText('10 Mar, 9:13 am', _tableItemWidth),
+                    tableItemText('GD68H87JSG86', _tableItemWidth),
+                    tableItemText('$inrSign 434523', _tableItemWidth),
+                    tableItemText('7437878434788@icici', _tableItemWidth),
+                    tableItemText('Raw material', _tableItemWidth),
+                    tableItemText('GD68H87JSG86', _tableItemWidth),
+                    Container(
+                      padding: tablePadding,
+                      child: index == 5
+                          ? Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Image.asset(
+                                    'assets/Icons/ic_accept.png',
+                                    height: 24,
                                   ),
-                                  SizedBox(width: 5),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Image.asset(
-                                      'assets/Icons/ic_decline.png',
-                                      height: 28,
-                                    ),
+                                ),
+                                SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Image.asset(
+                                    'assets/Icons/ic_decline.png',
+                                    height: 24,
                                   ),
-                                ],
-                              )
-                            : Text('Approved', style: tabBarTextStyle),
-                        // width: 150,
-                      ),
+                                ),
+                              ],
+                            )
+                          : tableItemText('Approved', _devWidth),
+                      width: (_devWidth - 290) / 8,
                     ),
                   ],
                 ),
@@ -303,66 +269,19 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
   }
 
   Widget _headers() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('#', style: NormalTextStyle)),
-            // width: 20,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Timestamp', style: NormalTextStyle)),
-            // width: 100,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('UTR', style: NormalTextStyle)),
-            // width: 150,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Price', style: NormalTextStyle)),
-            // width: 150,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('UPI', style: NormalTextStyle)),
-            // width: 150,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Purpose', style: NormalTextStyle)),
-            // width: 150,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Order ID', style: NormalTextStyle)),
-            // width: 150,
-          ),
-          SizedBox(width: 15),
-          Expanded(
-            child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text('Status', style: NormalTextStyle)),
-            // width: 150,
-          )
+          tableHeaderText('#', _tableItemWidth),
+          tableHeaderText('Timestamp', _tableItemWidth),
+          tableHeaderText('UTR', _tableItemWidth),
+          tableHeaderText('Price', _tableItemWidth),
+          tableHeaderText('UPI', _tableItemWidth),
+          tableHeaderText('Purpose', _tableItemWidth),
+          tableHeaderText('Order ID', _tableItemWidth),
+          tableHeaderText('Status', _tableItemWidth),
         ],
       ),
     );

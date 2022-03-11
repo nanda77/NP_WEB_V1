@@ -1,21 +1,18 @@
 import 'dart:async';
+
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
+import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/responsive.dart';
-import 'package:flutter/material.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/timer_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/transaction_status_bloc.dart';
-import 'package:ninjapay/tipsmodule/screens/enter_tip_page.dart';
-import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
-import 'package:ninjapay/tipsmodule/screens/qr_page.dart';
-import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
-import 'package:ninjapay/tipsmodule/screens/upi_qr_page.dart';
 import 'package:url_strategy/url_strategy.dart';
+
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
@@ -37,6 +34,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(create: (BuildContext context) => CreatePaymentBloc()),
+          BlocProvider(create: (BuildContext context) => GetLinkPaymentBloc()),
           BlocProvider<GetUserBloc>(
             create: (context) => GetUserBloc(),
           ),
@@ -63,8 +62,8 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
           // home: MainScreen(),
-          // home: DashboardScreen(),
-          home: TipsLeadPage(),
+          home: DashboardScreen(),
+          // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
         routes: {
           HomePage.route: (context) => HomePage(),
@@ -76,6 +75,7 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatelessWidget {
   static const String route = '/home';
+
   @override
   Widget build(BuildContext context) {
     return Responsive(

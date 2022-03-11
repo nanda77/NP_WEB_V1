@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
+import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
 import 'package:ninjapay/payment_gateway/paywalls/widget/create_paywall_link.dart';
 import 'package:ninjapay/payment_gateway/paywalls/widget/paywall_link.dart';
 
@@ -10,8 +13,14 @@ class PaywallsBtcTab extends StatefulWidget {
 }
 
 class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
+  late double _devWidth;
+  late double _tableItemWidth;
+
   @override
   Widget build(BuildContext context) {
+    _devWidth = MediaQuery.of(context).size.width;
+    _tableItemWidth = (_devWidth - 290) / 7;
+
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Padding(
@@ -73,43 +82,19 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
   }
 
   Widget _headers() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              child: Text('#', style: NormalTextStyle),
-              width: 20,
-            ),
-            SizedBox(
-              child: Text('Timestamp', style: NormalTextStyle),
-              width: 100,
-            ),
-            SizedBox(
-              child: Text('Link ID', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Amount', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Purpose', style: NormalTextStyle),
-              width: 150,
-            ),
-            SizedBox(
-              child: Text('Link', style: NormalTextStyle),
-              width: 200,
-            ),
-            SizedBox(
-              child: Text('Share', style: NormalTextStyle),
-              width: 100,
-            ),
-          ],
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          tableHeaderText('#', _tableItemWidth),
+          tableHeaderText('Timestamp', _tableItemWidth),
+          tableHeaderText('Redirect URL', _tableItemWidth),
+          tableHeaderText('Price/View', _tableItemWidth),
+          tableHeaderText('Title', _tableItemWidth),
+          tableHeaderText('Paywall Link', _tableItemWidth),
+          tableHeaderText('', _tableItemWidth),
+        ],
       ),
     );
   }
@@ -121,63 +106,47 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        child: Text('${index + 1}', style: tabBarTextStyle),
-                        width: 20,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    tableItemText('${index + 1}', _tableItemWidth),
+                    tableItemText('10 Mar, 9:13 am', _tableItemWidth),
+                    tableItemText('wwww.youytube.com', _tableItemWidth),
+                    tableItemText('100 SAT', _tableItemWidth),
+                    tableItemText('Raw material', _tableItemWidth),
+                    Container(
+                      padding: tablePadding,
+                      child: Row(
+                        children: [
+                          Text(
+                            'https://bit.ly',
+                            style: tabBarTextStyle,
+                          ),
+                          const SizedBox(
+                            width: 0,
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: SvgPicture.asset(
+                                'assets/Icons/ic_copy.svg',
+                              )),
+                        ],
                       ),
-                      SizedBox(
-                        child: Text('10 Mar, 9:13 am', style: tabBarTextStyle),
-                        width: 100,
-                      ),
-                      SizedBox(
-                        child: Text('GD68H87JSG86', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Text('$inrSign 434523', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Text('Raw material', style: tabBarTextStyle),
-                        width: 150,
-                      ),
-                      SizedBox(
-                        child: Row(
-                          children: [
-                            Text(
-                              'https://bit.ly/39uje4k32mke',
-                              style: tabBarTextStyle,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Image.asset(
-                                  'assets/Icons/ic_copy.png',
-                                )),
-                          ],
-                        ),
-                        width: 200,
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset(
-                              'assets/Icons/ic_whats_app.png',
-                            )),
-                      )
-                    ],
-                  ),
+                      width: _tableItemWidth,
+                    ),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: tablePadding,
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            'assets/Icons/ic_delete.svg',
+                          )),
+                      width: _tableItemWidth,
+                    )
+                  ],
                 ),
               ),
               Divider(
@@ -190,4 +159,5 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
       ),
     );
   }
+
 }
