@@ -8,12 +8,17 @@ import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
+import 'package:ninjapay/payment_gateway/common_component/transaction_table_item.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
-import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_events.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_states.dart';
+import 'package:ninjapay/payment_gateway/module/payment_link/bloc/payment_link_list/get_link_payment_events.dart';
+import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/widget/your_link.dart';
+
+import '../bloc/payment_link_list/get_link_payment_bloc.dart';
+import '../bloc/payment_link_list/get_link_payment_states.dart';
 
 class PaymentLinksUpiTab extends StatefulWidget {
   @override
@@ -28,9 +33,16 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
   late double _tableItemWidth;
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<GetLinkPaymentBloc>(context)
+        .add(GetLinkPaymentRefreshEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     _devWidth = MediaQuery.of(context).size.width;
-    _tableItemWidth = (_devWidth - 290) / 7;
+    _tableItemWidth = (_devWidth - 320) / 6;
 
     return Scaffold(
       backgroundColor: kBgLightColor,
@@ -179,7 +191,7 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          tableHeaderText('#', _tableItemWidth),
+          tableHeaderText('#', 40),
           tableHeaderText('Timestamp', _tableItemWidth),
           tableHeaderText('Link ID', _tableItemWidth),
           tableHeaderText('Amount', _tableItemWidth),
@@ -192,64 +204,80 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
   }
 
   Widget _transactionList() {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocBuilder<GetLinkPaymentBloc, GetLinkPaymentStates>(
+        builder: (context, state) {
+      if (state is GetLinkPaymentLoadingState) {
+        return SizedBox();
+      } else if (state is GetLinkPaymentSuccessState) {
+        List<LinkPaymentData>? dataList = state.data.data;
+        if(dataList != null && dataList.isNotEmpty) {
+          return Expanded(
+            child: ListView.builder(
+              itemCount: dataList.length,
+              itemBuilder: (context, index) {
+                return Column(
                   children: [
-                    tableItemText('${index + 1}', _tableItemWidth),
-                    tableItemText('10 Mar, 9:13 am', _tableItemWidth),
-                    tableItemText('abc@', _tableItemWidth),
-                    tableItemText('$inrSign 434523', _tableItemWidth),
-                    tableItemText('Raw material', _tableItemWidth),
-                    Container(
-                      padding: tablePadding,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'https://bit.ly',
-                            style: tabBarTextStyle,
+                          transactionTableItem('${index + 1}', 40),
+                          transactionTableItem(dataList[index].createdAt!, _tableItemWidth),
+                          transactionTableItem(dataList[index].linkId.toString(), _tableItemWidth,maxLines: 3),
+                          transactionTableItem(inrSign + dataList[index].amount.toString(), _tableItemWidth),
+                          transactionTableItem(dataList[index].purpose.toString(), _tableItemWidth,maxLines: 3),
+                          Container(
+                            padding: tablePadding,
+                            child: Row(
+                              children: [
+                                Text(
+                                  dataList[index].customPaylink.toString(),
+                                  style: tabBarTextStyle,
+                                ),
+                                const SizedBox(
+                                  width: 0,
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: SvgPicture.asset(
+                                      'assets/Icons/ic_copy.svg',
+                                    )),
+                              ],
+                            ),
+                            width: _tableItemWidth,
                           ),
-                          const SizedBox(
-                            width: 0,
-                          ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: SvgPicture.asset(
-                                'assets/Icons/ic_copy.svg',
-                              )),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: tablePadding,
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(
+                                  'assets/Icons/ic_whats_app.svg',
+                                )),
+                            width: _tableItemWidth,
+                          )
                         ],
                       ),
-                      width: _tableItemWidth,
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: tablePadding,
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(
-                            'assets/Icons/ic_whats_app.svg',
-                          )),
-                      width: _tableItemWidth,
-                    )
+                    Divider(
+                      color: kGreyTextColor,
+                      height: 1,
+                    ),
                   ],
-                ),
-              ),
-              Divider(
-                color: kGreyTextColor,
-                height: 1,
-              ),
-            ],
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
+        }else{
+          return Text('No data found');
+        }
+      } else if (state is GetLinkPaymentErrorState) {
+        return SizedBox();
+      }else {
+        return SizedBox();
+      }
+    });
   }
 
   Widget _createButton() {
@@ -275,7 +303,8 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
             Fluttertoast.showToast(msg: "Please enter purpose.");
           } else if (purpose.length > 30) {
             Fluttertoast.showToast(
-                msg: "Purpose length must be less than or equal to 30 characters long.");
+                msg:
+                    "Purpose length must be less than or equal to 30 characters long.");
           } else if (isConnected != true) {
             Fluttertoast.showToast(msg: AlertMessages.INTERNET_ERROR);
           } else {

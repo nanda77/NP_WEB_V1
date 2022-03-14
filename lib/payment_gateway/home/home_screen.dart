@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../constants.dart';
+import 'bloc/upi/home_upi_bloc.dart';
+import 'bloc/upi/home_upi_events.dart';
 import 'home_btc_tab.dart';
 import 'home_upi_tab.dart';
 
@@ -16,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    BlocProvider.of<HomeUpiBloc>(context)
+        .add(GetHomeUpiDataEvent());
     super.initState();
   }
 

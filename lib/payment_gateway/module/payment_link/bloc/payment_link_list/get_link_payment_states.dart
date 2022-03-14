@@ -1,13 +1,13 @@
+import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
+
 class GetLinkPaymentStates {}
 
 class GetLinkPaymentInitialState extends GetLinkPaymentStates {}
 
-class GetLinkPaymentLoadingState extends GetLinkPaymentStates {
-  GetLinkPaymentLoadingState();
-}
+class GetLinkPaymentLoadingState extends GetLinkPaymentStates {}
 
 class GetLinkPaymentSuccessState extends GetLinkPaymentStates {
-  String data;
+  GetLinkPaymentsModel data;
 
   GetLinkPaymentSuccessState(this.data);
 }

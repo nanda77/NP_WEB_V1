@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
 import 'package:ninjapay/responsive.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(create: (BuildContext context) => HomeUpiBloc()),
           BlocProvider(create: (BuildContext context) => CreatePaymentBloc()),
           BlocProvider(create: (BuildContext context) => GetLinkPaymentBloc()),
           BlocProvider<GetUserBloc>(
