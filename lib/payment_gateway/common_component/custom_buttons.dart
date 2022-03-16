@@ -23,9 +23,9 @@ Widget blackBorderButton(String text,{Function()? onTap}) {
   );
 }
 
-Widget blueRoundButton(String text, {double? width}) {
-  return GestureDetector(
-    onTap: () {},
+Widget blueRoundButton(String text, {double? width, GestureTapCallback? onTap}) {
+  return InkWell(
+    onTap: onTap,
     child: Container(
       width: width ?? 300,
       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),

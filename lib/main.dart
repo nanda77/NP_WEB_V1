@@ -3,10 +3,13 @@ import 'dart:async';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/authentication/login_signup.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
@@ -54,6 +57,12 @@ class MyApp extends StatelessWidget {
           BlocProvider<CounterBloc>(
             create: (context) => CounterBloc(0),
           ),
+          BlocProvider<HomeBtcBloc>(
+            create: (context) => HomeBtcBloc(),
+          ),
+          BlocProvider<CompletePaymentBloc>(
+            create: (context) => CompletePaymentBloc(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -64,8 +73,8 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
-          // home: MainScreen(),
-          home: DashboardScreen(),
+          home: LoginSignUpScreen(),
+          // home: DashboardScreen(),
           // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
         routes: {

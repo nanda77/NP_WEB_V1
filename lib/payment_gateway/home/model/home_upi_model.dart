@@ -1,172 +1,112 @@
 class HomeUpiModel {
-  HomeUpiModel({
-    this.status,
-    this.data,
-    this.message,
-  });
-
-  HomeUpiModel.fromJson(dynamic json) {
-    status = json['status'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    message = json['message'];
-  }
-
   bool? status;
   Data? data;
   String? message;
 
+  HomeUpiModel({this.status, this.data, this.message});
+
+  HomeUpiModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    message = json['message'];
+  }
+
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    if (data != null) {
-      map['data'] = data?.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
     }
-    map['message'] = message;
-    return map;
+    data['message'] = this.message;
+    return data;
   }
 }
 
 class Data {
-  Data({
-    this.merchantDetails,
-    this.balanceStatus,
-    this.transactionRecords,
-  });
+  MerchantDetails? merchantDetails;
+  BalanceStatus? balanceStatus;
+  List<String>? transactionRecords;
 
-  Data.fromJson(dynamic json) {
+  Data({this.merchantDetails, this.balanceStatus, this.transactionRecords});
+
+  Data.fromJson(Map<String, dynamic> json) {
     merchantDetails = json['merchant_details'] != null
-        ? Merchant_details.fromJson(json['merchantDetails'])
+        ? new MerchantDetails.fromJson(json['merchant_details'])
         : null;
     balanceStatus = json['balance_status'] != null
-        ? Balance_status.fromJson(json['balanceStatus'])
+        ? new BalanceStatus.fromJson(json['balance_status'])
         : null;
-    if (json['transaction_records'] != null) {
-      transactionRecords = [];
-      json['transaction_records'].forEach((v) {
-        transactionRecords?.add(Transaction_records.fromJson(v));
-      });
-    }
+    transactionRecords = json['transaction_records'].cast<String>();
   }
 
-  Merchant_details? merchantDetails;
-  Balance_status? balanceStatus;
-  List<Transaction_records>? transactionRecords;
-
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (merchantDetails != null) {
-      map['merchant_details'] = merchantDetails?.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.merchantDetails != null) {
+      data['merchant_details'] = this.merchantDetails!.toJson();
     }
-    if (balanceStatus != null) {
-      map['balance_status'] = balanceStatus?.toJson();
+    if (this.balanceStatus != null) {
+      data['balance_status'] = this.balanceStatus!.toJson();
     }
-    if (transactionRecords != null) {
-      map['transaction_records'] =
-          transactionRecords?.map((v) => v.toJson()).toList();
-    }
-    return map;
+    data['transaction_records'] = this.transactionRecords;
+    return data;
   }
 }
 
+class MerchantDetails {
+  String? fullName;
+  String? image;
+  String? username;
+  String? upi;
+  bool? isVerified;
+  bool? upiEnabled;
 
-class Transaction_records {
-  Transaction_records({
-    this.linkId,
-    this.amount,
-    this.purpose,
-    this.customPaylink,
-    this.createdAt,
-    this.updatedAt,
-  });
+  MerchantDetails(
+      {this.fullName,
+        this.image,
+        this.username,
+        this.upi,
+        this.isVerified,
+        this.upiEnabled});
 
-  Transaction_records.fromJson(dynamic json) {
-    linkId = json['link_id'];
-    amount = json['amount'];
-    purpose = json['purpose'];
-    customPaylink = json['custom_paylink'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+  MerchantDetails.fromJson(Map<String, dynamic> json) {
+    fullName = json['full_name'];
+    image = json['image'];
+    username = json['username'];
+    upi = json['upi'];
+    isVerified = json['is_verified'];
+    upiEnabled = json['upi_enabled'];
   }
 
-  String? linkId;
-  int? amount;
-  String? purpose;
-  String? customPaylink;
-  String? createdAt;
-  String? updatedAt;
-
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['link_id'] = linkId;
-    map['amount'] = amount;
-    map['purpose'] = purpose;
-    map['custom_paylink'] = customPaylink;
-    map['created_at'] = createdAt;
-    map['updated_at'] = updatedAt;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['full_name'] = this.fullName;
+    data['image'] = this.image;
+    data['username'] = this.username;
+    data['upi'] = this.upi;
+    data['is_verified'] = this.isVerified;
+    data['upi_enabled'] = this.upiEnabled;
+    return data;
   }
 }
 
-/// pending : 0
-/// approved : 0
-/// declined : 0
+class BalanceStatus {
+  int? pending;
+  int? approved;
+  int? declined;
 
-class Balance_status {
-  Balance_status({
-    this.pending,
-    this.approved,
-    this.declined,
-  });
+  BalanceStatus({this.pending, this.approved, this.declined});
 
-  Balance_status.fromJson(dynamic json) {
+  BalanceStatus.fromJson(Map<String, dynamic> json) {
     pending = json['pending'];
     approved = json['approved'];
     declined = json['declined'];
   }
 
-  int? pending;
-  int? approved;
-  int? declined;
-
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['pending'] = pending;
-    map['approved'] = approved;
-    map['declined'] = declined;
-    return map;
-  }
-}
-
-class Merchant_details {
-  Merchant_details({
-    this.fullName,
-    this.image,
-    this.username,
-    this.isVerified,
-    this.upiEnabled,
-  });
-
-  Merchant_details.fromJson(dynamic json) {
-    fullName = json['full_name'];
-    image = json['image'];
-    username = json['username'];
-    isVerified = json['is_verified'];
-    upiEnabled = json['upi_enabled'];
-  }
-
-  String? fullName;
-  String? image;
-  String? username;
-  bool? isVerified;
-  bool? upiEnabled;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['full_name'] = fullName;
-    map['image'] = image;
-    map['username'] = username;
-    map['is_verified'] = isVerified;
-    map['upi_enabled'] = upiEnabled;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['pending'] = this.pending;
+    data['approved'] = this.approved;
+    data['declined'] = this.declined;
+    return data;
   }
 }

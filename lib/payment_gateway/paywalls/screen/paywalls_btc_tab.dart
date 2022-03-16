@@ -1,5 +1,7 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
@@ -28,7 +30,7 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
         child: ListView(
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            paywallLink(),
+            paywallLink(context),
             const SizedBox(
               height: 10,
             ),
@@ -128,7 +130,11 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
                             width: 0,
                           ),
                           IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                FlutterClipboard.copy("https://bit.ly").then((value) {
+                                  Fluttertoast.showToast(msg: "Copied");
+                                });
+                              },
                               icon: SvgPicture.asset(
                                 'assets/Icons/ic_copy.svg',
                               )),

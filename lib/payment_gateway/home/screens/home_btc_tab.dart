@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
 class HomeBtcTab extends StatefulWidget {
   @override
@@ -38,87 +40,99 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
 
     return Scaffold(
       backgroundColor: kBgLightColor,
-      body: Padding(
-        padding: EdgeInsets.all(15),
-        child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  paymentStatusCard(orangeLightColor, orangeColor,
-                      'BTC Balance', '7327832 SAT'),
-                  SizedBox(width: 15),
-                  paymentStatusCard(greenLightColor, greenColor, 'USDT Balance',
-                      '7327832 USDT'),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  customTextField('Search transactions...',
-                      width: _containerWidth + _containerWidth,
-                      suffixIcon:
-                          Icon(Icons.search, size: 25, color: kGreyTextColor)),
-                  SizedBox(width: _devWidth * 0.41),
-                  // Spacer(),
-                  _filterDropDown(),
-                  SizedBox(width: 15),
-                  _sortDropDown(),
-                ],
-              ),
-            ),
-            SizedBox(height: 15),
-            SizedBox(
-              height: 420,
-              child: Expanded(
-                child: Container(
-                  color: kBgWorksColor,
-                  child: Column(
-                    children: [
-                      _headers(),
-                      Divider(
-                        color: kGreyTextColor,
-                        height: 1,
+      body: BlocBuilder<HomeBtcBloc, HomeBtcState>(
+          builder: (context, state) {
+            if (state is HomeBtcLoadingState) {
+              return Text('loading');
+            } else if (state is HomeBtcSuccessState) {
+              return Padding(
+                padding: EdgeInsets.all(15),
+                child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          paymentStatusCard(orangeLightColor, orangeColor,
+                              'BTC Balance', '${state.response?.amount??0} SAT'),
+                          SizedBox(width: 15),
+                          /*paymentStatusCard(greenLightColor, greenColor, 'USDT Balance',
+                              '7327832 USDT'),*/
+                        ],
                       ),
-                      _transactionList(),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 15),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          customTextField('Search transactions...',
+                              width: _containerWidth + _containerWidth,
+                              suffixIcon:
+                              Icon(Icons.search, size: 25, color: kGreyTextColor)),
+                          SizedBox(width: _devWidth * 0.41),
+                          // Spacer(),
+                          _filterDropDown(),
+                          SizedBox(width: 15),
+                          _sortDropDown(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      height: 420,
+                      child: Expanded(
+                        child: Container(
+                          color: kBgWorksColor,
+                          child: Column(
+                            children: [
+                              _headers(),
+                              Divider(
+                                color: kGreyTextColor,
+                                height: 1,
+                              ),
+                              _transactionList(state.response?.last3Trasaction??[]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Container(
+                          height: 35,
+                          width: 251,
+                          color: Colors.white,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              paginationButton('1'),
+                              paginationButton('2'),
+                              paginationButton('3'),
+                              paginationButton('4'),
+                              paginationButton('5'),
+                              paginationButton('6'),
+                              paginationButton('7'),
+                              paginationButton('8'),
+                              paginationButton('>'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  height: 35,
-                  width: 251,
-                  color: Colors.white,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      paginationButton('1'),
-                      paginationButton('2'),
-                      paginationButton('3'),
-                      paginationButton('4'),
-                      paginationButton('5'),
-                      paginationButton('6'),
-                      paginationButton('7'),
-                      paginationButton('8'),
-                      paginationButton('>'),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
+              );
+            } else if (state is HomeBtcErrorState) {
+              return Text(state.errorMessage);
+            } else {
+              return Text('else');
+            }
+          }
       ),
     );
   }
@@ -208,16 +222,15 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
     );
   }
 
-  Widget _transactionList() {
+  Widget _transactionList(List<dynamic> list) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 10,
+        itemCount: list.length,
         itemBuilder: (context, index) {
           return Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(

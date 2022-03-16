@@ -29,6 +29,7 @@ const redLightColor = Color(0XFFF2ECF1);
 const orangeColor = Color(0XFFF17D15);
 const greenColor = Color(0XFF3F9A3C);
 const redColor = Color(0XFFCF7381);
+const kGreyText = Color(0XFF708598);
 
 const kDefaultPadding = 20.0;
 

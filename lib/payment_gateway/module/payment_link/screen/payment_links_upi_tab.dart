@@ -1,3 +1,4 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +10,7 @@ import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/common_component/transaction_table_item.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_events.dart';
@@ -35,8 +37,7 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetLinkPaymentBloc>(context)
-        .add(GetLinkPaymentRefreshEvent());
+    BlocProvider.of<GetLinkPaymentBloc>(context).add(GetLinkPaymentRefreshEvent());
   }
 
   @override
@@ -48,19 +49,19 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
       backgroundColor: kBgLightColor,
       body: Padding(
         padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            yourLink(),
-            const SizedBox(
-              height: 10,
-            ),
-            _createLink(),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              yourLink(),
+              const SizedBox(
+                height: 10,
+              ),
+              _createLink(),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
                 color: kBgWorksColor,
                 child: Column(
                   children: [
@@ -73,33 +74,34 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                   ],
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  height: 35,
-                  width: 251,
-                  color: Colors.white,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      paginationButton('1'),
-                      paginationButton('2'),
-                      paginationButton('3'),
-                      paginationButton('4'),
-                      paginationButton('5'),
-                      paginationButton('6'),
-                      paginationButton('7'),
-                      paginationButton('8'),
-                      paginationButton('>'),
-                    ],
+
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    height: 35,
+                    width: 251,
+                    color: Colors.white,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        paginationButton('1'),
+                        paginationButton('2'),
+                        paginationButton('3'),
+                        paginationButton('4'),
+                        paginationButton('5'),
+                        paginationButton('6'),
+                        paginationButton('7'),
+                        paginationButton('8'),
+                        paginationButton('>'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -211,63 +213,69 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
       } else if (state is GetLinkPaymentSuccessState) {
         List<LinkPaymentData>? dataList = state.data.data;
         if(dataList != null && dataList.isNotEmpty) {
-          return Expanded(
-            child: ListView.builder(
-              itemCount: dataList.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          transactionTableItem('${index + 1}', 40),
-                          transactionTableItem(dataList[index].createdAt!, _tableItemWidth),
-                          transactionTableItem(dataList[index].linkId.toString(), _tableItemWidth,maxLines: 3),
-                          transactionTableItem(inrSign + dataList[index].amount.toString(), _tableItemWidth),
-                          transactionTableItem(dataList[index].purpose.toString(), _tableItemWidth,maxLines: 3),
-                          Container(
-                            padding: tablePadding,
-                            child: Row(
-                              children: [
-                                Text(
-                                  dataList[index].customPaylink.toString(),
-                                  style: tabBarTextStyle,
-                                ),
-                                const SizedBox(
-                                  width: 0,
-                                ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: SvgPicture.asset(
-                                      'assets/Icons/ic_copy.svg',
-                                    )),
-                              ],
-                            ),
-                            width: _tableItemWidth,
+          return ListView.builder(
+            itemCount: dataList.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        transactionTableItem('${index + 1}', 40),
+                        transactionTableItem(dataList[index].createdAt!, _tableItemWidth),
+                        transactionTableItem(dataList[index].linkId.toString(), _tableItemWidth,maxLines: 3),
+                        transactionTableItem(inrSign + dataList[index].amount.toString(), _tableItemWidth),
+                        transactionTableItem(dataList[index].purpose.toString(), _tableItemWidth,maxLines: 3),
+                        Container(
+                          padding: tablePadding,
+                          child: Row(
+                            children: [
+                              Text(
+                                dataList[index].customPaylink.toString(),
+                                style: tabBarTextStyle,
+                              ),
+                              const SizedBox(
+                                width: 0,
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    FlutterClipboard.copy(dataList[index].customPaylink??"").then((value) {
+                                      Fluttertoast.showToast(msg: "Copied");
+                                    });
+                                  },
+                                  icon: SvgPicture.asset(
+                                    'assets/Icons/ic_copy.svg',
+                                  )),
+                            ],
                           ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            padding: tablePadding,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  'assets/Icons/ic_whats_app.svg',
-                                )),
-                            width: _tableItemWidth,
-                          )
-                        ],
-                      ),
+                          width: _tableItemWidth,
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: tablePadding,
+                          child: IconButton(
+                              onPressed: () {
+
+                              },
+                              icon: SvgPicture.asset(
+                                'assets/Icons/ic_whats_app.svg',
+                              )),
+                          width: _tableItemWidth,
+                        )
+                      ],
                     ),
-                    Divider(
-                      color: kGreyTextColor,
-                      height: 1,
-                    ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                  Divider(
+                    color: kGreyTextColor,
+                    height: 1,
+                  ),
+                ],
+              );
+            },
           );
         }else{
           return Text('No data found');
@@ -285,6 +293,7 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
       listener: (context, state) async {
         if (state is CreatePaymentLoadingState) {
         } else if (state is CreatePaymentSuccessState) {
+          BlocProvider.of<GetLinkPaymentBloc>(context).add(GetLinkPaymentRefreshEvent());
           _amountController.text = '';
           _purposeController.text = '';
           Fluttertoast.showToast(msg: state.data);
@@ -292,27 +301,43 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
           Fluttertoast.showToast(msg: state.message);
         }
       },
-      child: ConnectivityBuilder(
-        builder: (context, isConnected, status) =>
-            blackBorderButton('CREATE', onTap: () {
-          var amount = _amountController.text.toString().trim();
-          var purpose = _purposeController.text.toString().trim();
-          if (amount.isEmpty) {
-            Fluttertoast.showToast(msg: "Please enter amount.");
-          } else if (purpose.isEmpty) {
-            Fluttertoast.showToast(msg: "Please enter purpose.");
-          } else if (purpose.length > 30) {
-            Fluttertoast.showToast(
-                msg:
-                    "Purpose length must be less than or equal to 30 characters long.");
-          } else if (isConnected != true) {
-            Fluttertoast.showToast(msg: AlertMessages.INTERNET_ERROR);
-          } else {
-            BlocProvider.of<CreatePaymentBloc>(context)
-                .add(CreatePaymentRefreshEvent(amount, purpose));
+      child: BlocBuilder<HomeUpiBloc, HomeUpiStates>(
+          builder: (context, upiState){
+            if (upiState is HomeUpiLoadingState) {
+              return blackBorderButton("CREATE", onTap: (){});
+            } else if (upiState is HomeUpiSuccessState) {
+              return ConnectivityBuilder(
+                builder: (context, isConnected, status) =>
+                    blackBorderButton('CREATE', onTap: () {
+                      var amount = _amountController.text.toString().trim();
+                      var purpose = _purposeController.text.toString().trim();
+                      if (amount.isEmpty) {
+                        Fluttertoast.showToast(msg: "Please enter amount.");
+                      } else if (purpose.isEmpty) {
+                        Fluttertoast.showToast(msg: "Please enter purpose.");
+                      } else if (purpose.length > 30) {
+                        Fluttertoast.showToast(
+                            msg:
+                            "Purpose length must be less than or equal to 30 characters long.");
+                      } else if (isConnected != true) {
+                        Fluttertoast.showToast(msg: AlertMessages.INTERNET_ERROR);
+                      } else {
+                        if(upiState.data.data?.merchantDetails?.upi == null || upiState.data.data?.merchantDetails?.upi?.trim() == ""){
+                          Fluttertoast.showToast(msg: 'Please add upi id..');
+                        }
+                        else{
+                          BlocProvider.of<CreatePaymentBloc>(context).add(CreatePaymentRefreshEvent(amount, purpose));
+                        }
+                      }
+                    }),
+              );
+            } else if (upiState is HomeUpiErrorState) {
+              return blackBorderButton("CREATE", onTap: (){});
+            } else {
+              return Text('else');
+            }
           }
-        }),
-      ),
+      )
     );
   }
 }

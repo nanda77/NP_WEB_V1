@@ -1,15 +1,31 @@
 import 'dart:convert' as convert;
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
 import 'package:ninjapay/payment_gateway/home/model/home_upi_model.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
 
-import 'home_upi_events.dart';
-import 'home_upi_states.dart';
+class HomeUpiEvents {}
+
+class GetHomeUpiDataEvent extends HomeUpiEvents {}
+
+class HomeUpiStates {}
+
+class HomeUpiInitialState extends HomeUpiStates {}
+
+class HomeUpiLoadingState extends HomeUpiStates {}
+
+class HomeUpiSuccessState extends HomeUpiStates {
+  HomeUpiModel data;
+
+  HomeUpiSuccessState(this.data);
+}
+
+class HomeUpiErrorState extends HomeUpiStates {
+  String data;
+  HomeUpiErrorState(this.data);
+}
 
 class HomeUpiBloc
     extends Bloc<HomeUpiEvents, HomeUpiStates> {

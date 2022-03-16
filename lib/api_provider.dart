@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:ninjapay/app_utils.dart';
+import 'package:ninjapay/landingpage/views/components/header.dart';
+import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
+import 'package:ninjapay/payment_gateway/home/model/profile_dashboard_model.dart';
+import 'package:ninjapay/payment_gateway/pay/model/complete_payment_model.dart';
 import 'package:ninjapay/tipsmodule/models/get_exchange_rate_model.dart';
 import 'package:ninjapay/tipsmodule/models/lightning_tip_deposit_model.dart';
 import 'package:ninjapay/tipsmodule/models/transaction_status_model.dart';
@@ -17,10 +23,11 @@ class ApiProvider {
       baseUrl: BASE_URL,
       // headers: header,
       headers: {
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+  /*      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
         "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
         "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-        "Access-Control-Allow-Methods": "POST, OPTIONS"
+        "Access-Control-Allow-Methods": "POST, OPTIONS",*/
+        "Authorization": "Bearer $authToken"
       },
       receiveTimeout: 80000,
       connectTimeout: 80000,
@@ -108,6 +115,52 @@ class ApiProvider {
 
       if (error.response != null)
         return TransactionStatusModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  // -----------------------Profile-----------------------
+
+  Future<ProfileDashboardModel?> getProfileDashboard() async {
+    try {
+      Response response = await _dio.get("/profile/dashboard",
+          queryParameters: {},
+          options: Options(
+            contentType: Headers.jsonContentType,
+          )
+      );
+      print("--------------------"+ "${response.data.toString()}");
+      return ProfileDashboardModel.fromJson(response.data);
+    } on DioError catch (error, stacktrace) {
+      if (error.response != null)
+        return ProfileDashboardModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  // -----------------------Merchant-----------------------
+
+  Future<CompletePaymentModel?> completePayment({String? orderId, String? userName, String? utr, String? amount, String? upi, String? purpose, String? emailOrPhone}) async {
+    try {
+      Response response = await _dio.post("/merchant/payment",
+          data: {
+            "orderId": orderId,
+            "username": userName,
+            "utr": utr,
+            "amount": int.parse(amount??"0"),
+            "upi": upi,
+            "purpose": purpose,
+            "emailPhone": emailOrPhone
+          },
+          options: Options(contentType: Headers.jsonContentType)
+      );
+      return CompletePaymentModel.fromJson(response.data);
+    } on DioError catch (error, stacktrace) {
+
+      if (error.response != null)
+        return CompletePaymentModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");
       return null;
     }

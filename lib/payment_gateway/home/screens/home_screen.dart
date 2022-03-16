@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:ninjapay/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/widget/common_profile.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/screen/payment_links_btc_tab.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/screen/payment_links_upi_tab.dart';
+import 'package:xid/xid.dart';
+import '../../../constants.dart';
+import '../bloc/upi/home_upi_bloc.dart';
+import 'home_btc_tab.dart';
+import 'home_upi_tab.dart';
 
-class PaymentLinksScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  State<PaymentLinksScreen> createState() => _PaymentLinksScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _PaymentLinksScreenState extends State<PaymentLinksScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  var xid = Xid();
 
   @override
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
+    BlocProvider.of<HomeUpiBloc>(context).add(GetHomeUpiDataEvent());
+    BlocProvider.of<HomeBtcBloc>(context).add(HomeBtcRefreshEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(xid);
     return Scaffold(
       backgroundColor: kBgLightColor,
       body: Column(
@@ -31,8 +38,8 @@ class _PaymentLinksScreenState extends State<PaymentLinksScreen>
             child: TabBarView(
               controller: _tabController,
               children: [
-                PaymentLinksUpiTab(),
-                PaymentLinksBtcTab()
+                HomeUpiTab(),
+                HomeBtcTab()
               ],
             ),
           ),
@@ -71,20 +78,23 @@ class _PaymentLinksScreenState extends State<PaymentLinksScreen>
                 ),
                 tabs: [
                   Tab(
-                      child: Container(
-                    width: 40,
-                    child: Align(
+                    child: Container(
+                      width: 40,
+                      child: Align(
                         alignment: Alignment.center,
                         child: Text("UPI", style: tabBarTextStyle)),
-                  )),
+                    )
+                  ),
                   Tab(
-                      child: Container(
-                    width: 40,
-                    child: Align(
+                    child: Container(
+                      width: 40,
+                      child: Align(
                         alignment: Alignment.center,
                         child: Text("BTC", style: tabBarTextStyle)),
-                  ))
-                ]),
+                    )
+                  )
+                ]
+            ),
           ),
 
           CommonProfileName()

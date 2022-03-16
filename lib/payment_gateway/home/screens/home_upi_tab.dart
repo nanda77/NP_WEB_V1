@@ -3,13 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
-import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_states.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
-
-import 'bloc/upi/home_upi_bloc.dart';
-import 'bloc/upi/home_upi_events.dart';
+import '../bloc/upi/home_upi_bloc.dart';
 
 class HomeUpiTab extends StatefulWidget {
   @override
@@ -54,17 +51,17 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       children: [
                         Expanded(
                           child: paymentStatusCard(orangeLightColor, orangeColor,
-                              'Pending', '$inrSign 7327832'),
+                              'Pending', '$inrSign ${state.data.data?.balanceStatus?.pending ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(greenLightColor, greenColor,
-                              'Approved', '$inrSign 7327832'),
+                              'Approved', '$inrSign ${state.data.data?.balanceStatus?.approved ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(
-                              redLightColor, redColor, 'Declined', '$inrSign 7327832'),
+                              redLightColor, redColor, 'Declined', '$inrSign ${state.data.data?.balanceStatus?.declined ?? 0}'),
                         ),
                       ],
                     ),
@@ -101,7 +98,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                                 color: kGreyTextColor,
                                 height: 1,
                               ),
-                              _transactionList(),
+                              _transactionList(state.data.data?.transactionRecords??[]),
                             ],
                           ),
                         ),
@@ -139,7 +136,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
               );
             } else if (state is HomeUpiErrorState) {
               return Text(state.data);
-            }else {
+            } else {
               return Text('else');
             }
         }
@@ -227,10 +224,10 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
     );
   }
 
-  Widget _transactionList() {
+  Widget _transactionList(List<String> list) {
         return Expanded(
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: list.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
