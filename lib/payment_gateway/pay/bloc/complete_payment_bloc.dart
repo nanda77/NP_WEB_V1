@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/api_provider.dart';
-import 'package:ninjapay/payment_gateway/pay/model/complete_payment_model.dart';
+import 'package:ninjapay/payment_gateway/pay/model/common_model.dart';
 
 class CompletePaymentEvent {}
 
@@ -16,7 +16,7 @@ class CompletePaymentInitialState extends CompletePaymentState {}
 class CompletePaymentLoadingState extends CompletePaymentState {}
 
 class CompletePaymentSuccessState extends CompletePaymentState {
-  CompletePaymentModel? response;
+  CommonModel? response;
   CompletePaymentSuccessState(this.response);
 }
 

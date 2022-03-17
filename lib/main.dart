@@ -3,7 +3,11 @@ import 'dart:async';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
+import 'package:ninjapay/payment_gateway/authentication/bloc/user_exist_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/login_signup.dart';
+import 'package:ninjapay/payment_gateway/authentication/otp_screen.dart';
+import 'package:ninjapay/payment_gateway/authentication/screens/signup_tag_screen.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
@@ -63,6 +67,12 @@ class MyApp extends StatelessWidget {
           BlocProvider<CompletePaymentBloc>(
             create: (context) => CompletePaymentBloc(),
           ),
+          BlocProvider<UserExistBloc>(
+            create: (context) => UserExistBloc(),
+          ),
+          BlocProvider<RegisterBloc>(
+            create: (context) => RegisterBloc(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -73,7 +83,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
-          home: LoginSignUpScreen(),
+          home: SignUpTagScreen(),
           // home: DashboardScreen(),
           // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,

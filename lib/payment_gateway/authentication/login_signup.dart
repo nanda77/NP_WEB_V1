@@ -47,7 +47,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
 
             Container(
               width: width*0.5,
-              // height: height*0.5,
+              height: height*0.7,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(
@@ -99,6 +99,8 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                Image.asset("assets/images/google_logo.png", height: 25, width: 25),
+                                SizedBox(width: 10),
                                 Text("Use Google", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900),)
                               ],
                             ),

@@ -1,11 +1,11 @@
-class CompletePaymentModel {
+class CommonModel {
   bool? status;
   dynamic data;
   String? message;
 
-  CompletePaymentModel({this.status, this.data, this.message});
+  CommonModel({this.status, this.data, this.message});
 
-  CompletePaymentModel.fromJson(Map<String, dynamic> json) {
+  CommonModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = json['data'];
     message = json['message'];
