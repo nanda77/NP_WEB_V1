@@ -12,7 +12,12 @@ import 'package:xid/xid.dart';
 
 class CompletePayment extends StatefulWidget {
   String? purpose, amount, emailOrPhone, userId, userName;
-  CompletePayment({this.amount, this.emailOrPhone, this.purpose, this.userId, this.userName});
+  CompletePayment(
+      {this.amount,
+      this.emailOrPhone,
+      this.purpose,
+      this.userId,
+      this.userName});
 
   @override
   _CompletePaymentState createState() => _CompletePaymentState();
@@ -29,7 +34,8 @@ class _CompletePaymentState extends State<CompletePayment> {
   Timer? countDownTimer;
   Timer? apiTimer;
 
-  String get timerText => '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+  String get timerText =>
+      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
 
   startTimeout() {
     var duration = interval;
@@ -50,7 +56,8 @@ class _CompletePaymentState extends State<CompletePayment> {
   void initState() {
     super.initState();
     startTimeout();
-    upiId = "upi://pay?pa=${widget.userId?.trim()}&pn=${widget.userName?.trim()}&am=${widget.amount?.trim()??""}&tn=${widget.purpose?.trim()??""}";
+    upiId =
+        "upi://pay?pa=${widget.userId?.trim()}&pn=${widget.userName?.trim()}&am=${widget.amount?.trim() ?? ""}&tn=${widget.purpose?.trim() ?? ""}";
   }
 
   @override
@@ -83,105 +90,124 @@ class _CompletePaymentState extends State<CompletePayment> {
           ),
           //img_profile.svg
 
-          Text('Complete Your Payment', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),),
+          Text(
+            'Complete Your Payment',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),
+          ),
 
-          Text('#$xid / Amount - ₹${widget.amount}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),),
+          Text(
+            '#$xid / Amount - ₹${widget.amount}',
+            style: TextStyle(
+                fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),
+          ),
 
-          Text('@${widget.userName}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),),
+          Text(
+            '@${widget.userName}',
+            style: TextStyle(
+                fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),
+          ),
 
-          SizedBox(height: height*0.05),
+          SizedBox(height: height * 0.05),
 
-          Text("Expires in $timerText", style: TextStyle(fontSize: 11, color: kBlueColor)),
+          Text("Expires in $timerText",
+              style: TextStyle(fontSize: 11, color: kBlueColor)),
 
           Container(
             padding: EdgeInsets.all(30),
             margin: EdgeInsets.only(top: 10, bottom: 20),
             height: 300,
             width: 550,
-            decoration: BoxDecoration(
-              color: Colors.white
-            ),
+            decoration: BoxDecoration(color: Colors.white),
             child: Row(
               children: [
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 10),
-                      Text("Open PhonePe / GPay /..", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),),
-                      SizedBox(height: 20),
-                      Text("Scan the Qr code", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),),
-                      SizedBox(height: 20),
-                      Text("Complete the payment", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w200),),
-                      SizedBox(height: 20),
-                      Text("Enter 12 digit UTR ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),),
-                    ],
-                  )
-                ),
-
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      "Open PhonePe / GPay /..",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Scan the Qr code",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Complete the payment",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w200),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Enter 12 digit UTR ",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                )),
                 Expanded(
-                  child: Column(
-                    children: [
-                      QrImage(
-                        data: upiId??"something went wrong!",
-                        version: QrVersions.auto,
-                        size: 180,
-                        gapless: false,
-                        backgroundColor: Colors.white,
-                        errorStateBuilder: (cxt, err) {
-                          return Container(
-                            child: Center(
-                              child: Text(
-                                "Uh oh! Something went wrong...",
-                                textAlign: TextAlign.center,
-                              ),
+                    child: Column(
+                  children: [
+                    QrImage(
+                      data: upiId ?? "something went wrong!",
+                      version: QrVersions.auto,
+                      size: 180,
+                      gapless: false,
+                      backgroundColor: Colors.white,
+                      errorStateBuilder: (cxt, err) {
+                        return Container(
+                          child: Center(
+                            child: Text(
+                              "Uh oh! Something went wrong...",
+                              textAlign: TextAlign.center,
                             ),
-                          );
-                        },
-                      )
-                    ],
-                  )
-                )
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ))
               ],
             ),
           ),
 
           BlocListener<CompletePaymentBloc, CompletePaymentState>(
-            listener: (context, state){
-              if(state is CompletePaymentLoadingState){
-
-              }
-              else if(state is CompletePaymentSuccessState){
+            listener: (context, state) {
+              if (state is CompletePaymentLoadingState) {
+              } else if (state is CompletePaymentSuccessState) {
                 /*if(state.response?.data?.status == "success"){
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SuccessPage()),
                   );
                 }*/
-              }
-              else if(state is CompletePaymentErrorState){
-              }
+              } else if (state is CompletePaymentErrorState) {}
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                customTextField('Enter 12 digit UTR', width: 300, controller: utrController),
+                customTextField('Enter 12 digit UTR',
+                    width: 300, controller: utrController),
                 SizedBox(width: 20),
-                blueRoundButton('SUBMIT', width: 200, onTap: (){
+                blueRoundButton('SUBMIT', width: 200, onTap: () {
                   print(xid);
-                  BlocProvider.of<CompletePaymentBloc>(context).add(CompletePaymentRefreshEvent(
-                    utr: utrController.text,
-                    upi: widget.userId,
-                    purpose: widget.purpose,
-                    orderId: xid.toString(),
-                    emailOrPhone: widget.emailOrPhone,
-                    amount: widget.amount,
-                    userName: widget.userName
-                  ));
+                  BlocProvider.of<CompletePaymentBloc>(context).add(
+                      CompletePaymentRefreshEvent(
+                          utr: utrController.text,
+                          upi: widget.userId,
+                          purpose: widget.purpose,
+                          orderId: xid.toString(),
+                          emailOrPhone: widget.emailOrPhone,
+                          amount: widget.amount,
+                          userName: widget.userName));
                 })
               ],
             ),
           ),
-
         ],
       ),
     );
