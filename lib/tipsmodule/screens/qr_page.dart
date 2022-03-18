@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
@@ -242,16 +243,7 @@ class _QRPageState extends State<QRPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Powered By",
-                          style:
-                              TextStyle(fontSize: 10, color: kGreyTextColor)),
-                      SizedBox(width: 5),
-                      Text("NINJAPAY",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: kGreyTextColor,
-                            decoration: TextDecoration.underline,
-                          ))
+                      SvgPicture.asset("assets/Icons/plogo.svg"),
                     ],
                   ),
                   SizedBox(height: height * 0.04),

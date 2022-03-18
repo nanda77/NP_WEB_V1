@@ -243,9 +243,15 @@ class _CustomTipPageState extends State<CustomTipPage> {
                         },
                         child: SimpleButton("NEXT", onTap: () {
                           if (btcValue == null) {
-                            Fluttertoast.showToast(msg: "Select btc value!");
+                            Fluttertoast.showToast(
+                                msg: "Select btc value!",
+                                webBgColor:
+                                    "linear-gradient(to right, #000000, #000000)");
                           } else if (fiatValue == 0) {
-                            Fluttertoast.showToast(msg: "Enter right amount!");
+                            Fluttertoast.showToast(
+                                msg: "Enter right amount!",
+                                webBgColor:
+                                    "linear-gradient(to right, #000000, #000000)");
                           } else {
                             String notes = noteController.text.trim().isEmpty
                                 ? "Tip"
@@ -255,7 +261,8 @@ class _CustomTipPageState extends State<CustomTipPage> {
                                     notes: notes,
                                     tip: btcValue ?? 0.0,
                                     btcPrice: data?['USD'] ?? 0.0,
-                                    fiatvalue: fiatValue));
+                                    fiatvalue: fiatValue,
+                                    userName: state.response?.username ?? ""));
                           }
                         }),
                       )

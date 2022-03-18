@@ -6,14 +6,15 @@ import 'package:ninjapay/tipsmodule/models/lightning_tip_deposit_model.dart';
 class LightningTipEvent {}
 
 class LightningTipRefreshEvent extends LightningTipEvent {
-  String notes;
+  String notes, userName;
   double tip, btcPrice;
   int fiatvalue;
   LightningTipRefreshEvent(
       {required this.notes,
       required this.tip,
       required this.btcPrice,
-      required this.fiatvalue});
+      required this.fiatvalue,
+      required this.userName});
 }
 
 class LightningTipState {}
@@ -48,7 +49,8 @@ class LightningTipBloc extends Bloc<LightningTipEvent, LightningTipState> {
             tip: tip,
             notes: event.notes,
             btcPrice: event.btcPrice,
-            fiatvalue: event.fiatvalue);
+            fiatvalue: event.fiatvalue,
+            userName: event.userName);
         print(response?.toJson().toString());
         if (response?.status != null && response?.status == true) {
           yield LightningTipSuccessState(response);

@@ -395,9 +395,15 @@ class _EnterTipPageState extends State<EnterTipPage> {
                     child: InkWell(
                       onTap: () {
                         if (data == null) {
-                          Fluttertoast.showToast(msg: "Select btc value!");
+                          Fluttertoast.showToast(
+                              msg: "Select btc value!",
+                              webBgColor:
+                                  "linear-gradient(to right, #000000, #000000)");
                         } else if (fiatValue == 0) {
-                          Fluttertoast.showToast(msg: "Enter right amount!");
+                          Fluttertoast.showToast(
+                              msg: "Enter right amount!",
+                              webBgColor:
+                                  "linear-gradient(to right, #000000, #000000)");
                         } else {
                           String notes = noteController.text.trim().isEmpty
                               ? "Tip"
@@ -407,7 +413,8 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                   notes: notes,
                                   tip: btcValue ?? 0.0,
                                   btcPrice: data?['USD'] ?? 0.0,
-                                  fiatvalue: fiatValue));
+                                  fiatvalue: fiatValue,
+                                  userName: state.response?.username ?? ""));
                         }
                       },
                       child: SimpleButton("NEXT"),
@@ -475,16 +482,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Powered By",
-                          style:
-                              TextStyle(fontSize: 10, color: kGreyTextColor)),
-                      SizedBox(width: 5),
-                      Text("NINJAPAY",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: kGreyTextColor,
-                            decoration: TextDecoration.underline,
-                          ))
+                      SvgPicture.asset("assets/Icons/plogo.svg"),
                     ],
                   ),
                   SizedBox(height: 10),
