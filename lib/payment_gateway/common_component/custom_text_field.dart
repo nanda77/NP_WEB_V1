@@ -6,29 +6,76 @@ Widget customTextField(String hint,
     {Icon? suffixIcon,
     TextInputFormatter? textInputFormatter,
     int? maxLength,
-    double? width}) {
+    double? width,TextEditingController? controller, String? Function(String?)? validator}) {
   return Container(
     width: width ?? 300,
-    decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(
-          Radius.circular(5),
-        ),
-        color: kBgCardColor,
-        border: Border.all(width: 1.5, color: kGreyTextColor)),
     child: TextFormField(
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,
+      controller: controller,
+      validator: validator,
       inputFormatters: [
         textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
       ],
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
           counterText: '',
-          fillColor: Colors.white,
+          fillColor: kBgCardColor,
           filled: true,
           contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+              width: 1.5,
+              color: kGreyTextColor
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+            // borderSide: const BorderSide(color: Colors.grey),
+          ),
+          hintText: hint,
+          suffixIcon: suffixIcon ?? SizedBox(),
+          hintStyle: boldTextStyle.copyWith(color: kTextSubColor)),
+    ),
+  );
+}
+
+Widget simpleTextField(String hint, {
+    Icon? suffixIcon,
+    TextInputFormatter? textInputFormatter,
+    int? maxLength,
+    double? width,
+    TextEditingController? controller,
+    String? Function(String?)? validator,
+    Widget? prefix,
+    Widget? prefixIcon
+  }) {
+  return Container(
+    width: width ?? 300,
+    child: TextFormField(
+      style: boldTextStyle,
+      textAlignVertical: TextAlignVertical.center,
+      maxLength: maxLength ?? 50,
+      controller: controller,
+      validator: validator,
+      inputFormatters: [
+        textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
+      ],
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+          prefix: prefix,
+          prefixIcon: prefixIcon,
+          counterText: '',
+          fillColor: kBgWorksColor,
+          filled: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(
+                width: 1,
+                color: kGreyTextColor
+            ),
+            borderRadius: BorderRadius.circular(2.0),
+            // borderSide: const BorderSide(color: Colors.grey),
+          ),
           hintText: hint,
           suffixIcon: suffixIcon ?? SizedBox(),
           hintStyle: boldTextStyle.copyWith(color: kTextSubColor)),

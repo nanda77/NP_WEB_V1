@@ -29,6 +29,7 @@ const redLightColor = Color(0XFFF2ECF1);
 const orangeColor = Color(0XFFF17D15);
 const greenColor = Color(0XFF3F9A3C);
 const redColor = Color(0XFFCF7381);
+const kGreyText = Color(0XFF708598);
 
 const kDefaultPadding = 20.0;
 
@@ -51,9 +52,13 @@ const TextStyle NormalTextStyle = TextStyle(
 );
 
 const TextStyle boldTextStyle = TextStyle(
-  fontSize: 14,
+  fontSize: 12,
   fontWeight: FontWeight.bold,
   color: darkBackgroundColor,
 );
+
+const TextStyle blueTextStyle = TextStyle(fontSize: 12, color: kBlueColor);
 /*ic_decline.png   ic_accept.png  */
 String inrSign = '₹';
+const tablePadding = EdgeInsets.fromLTRB(10, 15, 0, 15);
+

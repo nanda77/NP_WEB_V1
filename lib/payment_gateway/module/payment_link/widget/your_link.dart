@@ -1,4 +1,7 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 
 Widget yourLink() {
@@ -22,23 +25,24 @@ Widget yourLink() {
           height: 20,
         ),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Text(
-                'https://bit.ly/39uje4k32mke',
-                style: boldTextStyle.copyWith(fontSize: 20),
-              ),
+            Text(
+              'https://bit.ly/39uje4k32mke',
+              style: tabBarTextStyle.copyWith(fontSize: 22),
             ),
             const SizedBox(
               width: 20,
             ),
-            Expanded(
-              child: IconButton(
-                  onPressed: () {},
-                  icon: Image.asset(
-                    'assets/Icons/ic_copy.png',
-                  )),
-            ),
+            IconButton(
+                onPressed: () {
+                  FlutterClipboard.copy("https://bit.ly/39uje4k32mke").then((value) {
+                    Fluttertoast.showToast(msg: "Copied");
+                  });
+                },
+                icon: SvgPicture.asset(
+                  'assets/Icons/ic_copy.svg',
+                )),
           ],
         ),
         const SizedBox(

@@ -29,7 +29,7 @@ class _PaywallsScreenState extends State<PaywallsScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [PaywallsUpiTab(), PaywallsBtcTab()],
+              children: [PaywallsBtcTab(), PaywallsBtcTab()],
             ),
           ),
         ],

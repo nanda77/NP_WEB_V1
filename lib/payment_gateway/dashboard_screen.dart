@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ninjapay/payment_gateway/payment_link/payment_links_screen.dart';
+import 'package:ninjapay/payment_gateway/pay/screens/pay_screen.dart';
 import 'package:ninjapay/payment_gateway/paywalls/screen/paywalls_screen.dart';
 
 import '../constants.dart';
-import 'home/home_screen.dart';
+import 'home/screens/home_screen.dart';
+import 'module/payment_link/screen/payment_links_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -95,6 +96,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ? Expanded(child: HomeScreen())
               : _selectedIndex == 1
                   ? Expanded(child: PaymentLinksScreen())
+              : _selectedIndex == 2
+                  ? Expanded(child: PayScreen())
                   : _selectedIndex == 3
                       ? Expanded(child: PaywallsScreen())
                       : Expanded(
