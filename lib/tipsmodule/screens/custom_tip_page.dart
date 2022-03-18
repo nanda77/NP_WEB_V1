@@ -255,8 +255,7 @@ class _CustomTipPageState extends State<CustomTipPage> {
                                     notes: notes,
                                     tip: btcValue ?? 0.0,
                                     btcPrice: data?['USD'] ?? 0.0,
-                                    fiatvalue: fiatValue,
-                                    userName: state.response?.username ?? ""));
+                                    fiatvalue: fiatValue));
                           }
                         }),
                       )

@@ -70,35 +70,28 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                     ),
                     child: Center(
                         child: Text(
-                      '${(state.response?.username ?? "").substring(0, 2).toLowerCase()}',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 27,
-                          fontWeight: FontWeight.w400,
-                          color: cementTextColor),
+                      '@${(state.response?.username ?? "").substring(0, 2).toUpperCase()}',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     )),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: height * 0.02),
                 Text("@${state.response?.username ?? " "}",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        color: cementTextColor,
-                        fontWeight: FontWeight.w800)),
-                SizedBox(height: 4),
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: kGreyTextColor,
+                        fontWeight: FontWeight.bold)),
+                SizedBox(height: height * 0.02),
                 Text(state.response?.fullName ?? "",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 12,
-                        color: cementTextColor,
-                        fontWeight: FontWeight.w400)),
+                    style: TextStyle(fontSize: 10, color: kGreyTextColor)),
                 SizedBox(height: height * 0.02),
                 SizedBox(height: height * 0.05),
                 Responsive(
                     mobile: Container(
-                      width: width * 0.5,
+                      width: width * 0.45,
                       child: Wrap(
-                        alignment: WrapAlignment.center,
                         runSpacing: height * 0.03,
-                        spacing: width * 0.04,
+                        spacing: width * 0.01,
                         children: [
                           ...list.map((e) {
                             if (e.id == 6) {
@@ -116,7 +109,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                                 },
                                 child: customIcon("Custom",
                                     color: index != null && index == e.id
-                                        ? darkCementColor
+                                        ? Colors.grey.shade800
                                         : Colors.transparent),
                               );
                             }
@@ -129,7 +122,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                               },
                               child: icon("₹${e.value}",
                                   color: index != null && index == e.id
-                                      ? darkCementColor
+                                      ? Colors.grey.shade800
                                       : Colors.transparent),
                             );
                           }).toList(),
@@ -137,11 +130,10 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                       ),
                     ),
                     tablet: Container(
-                      width: width * 0.3,
+                      width: width * 0.25,
                       child: Wrap(
-                        alignment: WrapAlignment.center,
                         runSpacing: height * 0.03,
-                        spacing: width * 0.06,
+                        spacing: width * 0.05,
                         children: [
                           ...list.map((e) {
                             if (e.id == 6) {
@@ -159,7 +151,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                                 },
                                 child: customIcon("Custom",
                                     color: index != null && index == e.id
-                                        ? darkCementColor
+                                        ? Colors.grey.shade800
                                         : Colors.transparent),
                               );
                             }
@@ -172,7 +164,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                               },
                               child: icon("₹${e.value}",
                                   color: index != null && index == e.id
-                                      ? darkCementColor
+                                      ? Colors.grey.shade800
                                       : Colors.transparent),
                             );
                           }).toList(),
@@ -180,11 +172,10 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                       ),
                     ),
                     desktop: Container(
-                      width: width * 0.3,
+                      width: width * 0.25,
                       child: Wrap(
-                        alignment: WrapAlignment.center,
                         runSpacing: height * 0.03,
-                        spacing: width * 0.06,
+                        spacing: width * 0.05,
                         children: [
                           ...list.map((e) {
                             if (e.id == 6) {
@@ -202,7 +193,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                                 },
                                 child: customIcon("Custom",
                                     color: index != null && index == e.id
-                                        ? darkCementColor
+                                        ? Colors.grey.shade800
                                         : Colors.transparent),
                               );
                             }
@@ -215,7 +206,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                               },
                               child: icon("₹${e.value}",
                                   color: index != null && index == e.id
-                                      ? darkCementColor
+                                      ? Colors.grey.shade800
                                       : Colors.transparent),
                             );
                           }).toList(),
@@ -238,7 +229,7 @@ class _EnterUpiTipPageState extends State<EnterUpiTipPage> {
                     //     ))
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: height * 0.04),
                 Responsive(
                     mobile: Container(
                       height: 45,

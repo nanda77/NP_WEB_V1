@@ -18,7 +18,7 @@ class ButtonWithIcon extends StatelessWidget {
       child: Responsive(
           mobile: Container(
             width: width * 0.5,
-            height: 54,
+            height: 45,
             padding: EdgeInsets.symmetric(horizontal: 30),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(35),
@@ -117,10 +117,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        color: kBgWorksColor,
-                        fontWeight: FontWeight.w900))),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: kBgWorksColor))),
           ),
           tablet: Container(
             height: 45,
@@ -129,10 +129,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        color: kBgWorksColor,
-                        fontWeight: FontWeight.w900))),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: kBgWorksColor))),
           ),
           desktop: Container(
             height: 45,
@@ -141,10 +141,10 @@ class SimpleButton extends StatelessWidget {
                 color: kBlueColor, borderRadius: BorderRadius.circular(35)),
             child: Center(
                 child: Text(text,
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        color: kBgWorksColor,
-                        fontWeight: FontWeight.w900))),
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: kBgWorksColor))),
           )),
     );
   }

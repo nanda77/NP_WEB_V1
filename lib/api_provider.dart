@@ -67,7 +67,6 @@ class ApiProvider {
             "fiatValue": fiatvalue,
             "fiatCurrencyUnit": "usd",
             "btcPrice": btcPrice,
-            // "username": "robin"
             "username": userName
           },
           options: Options(contentType: Headers.jsonContentType));

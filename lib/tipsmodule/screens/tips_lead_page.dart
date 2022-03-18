@@ -285,14 +285,14 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
         CachedNetworkImage(
           imageUrl: widget.response?.image ?? '',
           imageBuilder: (context, imageProvider) => Container(
-            height: 87,
-            width: 87,
+            height: 80,
+            width: 80,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: darkBackgroundColor,
               border: Border.all(
-                color: cementTextColor,
-                width: 1.5,
+                color: kGreyTextColor,
+                width: 2,
               ),
               image: DecorationImage(
                 image: imageProvider,
@@ -303,38 +303,32 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
           ),
           placeholder: (context, url) => CircularProgressIndicator(),
           errorWidget: (context, url, error) => Container(
-            height: 87,
-            width: 87,
+            height: 80,
+            width: 80,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: darkBackgroundColor,
               border: Border.all(
-                color: cementTextColor,
-                width: 1.5,
+                color: kGreyTextColor,
+                width: 2,
               ),
             ),
             child: Center(
                 child: Text(
-              '${(widget.response?.username ?? "").substring(0, 2).toLowerCase()}',
-              style: GoogleFonts.montserrat(
-                  fontSize: 27,
-                  fontWeight: FontWeight.w400,
-                  color: cementTextColor),
+              '${(widget.response?.username ?? "").substring(0, 2).toUpperCase()}',
+              style: TextStyle(fontSize: 20, color: Colors.white),
             )),
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: height * 0.02),
         Text(widget.response?.username ?? "",
-            style: GoogleFonts.montserrat(
-                fontSize: 16,
-                color: cementTextColor,
-                fontWeight: FontWeight.w800)),
-        SizedBox(height: 4),
+            style: TextStyle(
+                fontSize: 14,
+                color: kGreyTextColor,
+                fontWeight: FontWeight.bold)),
+        SizedBox(height: height * 0.02),
         Text(widget.response?.fullName ?? "",
-            style: GoogleFonts.montserrat(
-                fontSize: 12,
-                color: cementTextColor,
-                fontWeight: FontWeight.w400)),
+            style: TextStyle(fontSize: 10, color: kGreyTextColor)),
         SizedBox(height: height * 0.12),
         ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
@@ -342,9 +336,7 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
             MaterialPageRoute(builder: (context) => const EnterTipPage()),
           );
         }),
-        widget.response?.upiEnabled == true
-            ? SizedBox(height: height * 0.04)
-            : SizedBox(height: height * 0.01),
+        SizedBox(height: height * 0.04),
         widget.response?.upiEnabled == true
             ? ButtonWithIcon("Tips using UPI", "assets/Icons/upi_ic.png",
                 onTap: () {
@@ -356,21 +348,20 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
               })
             : Container(),
         widget.response?.upiEnabled == true
-            ? SizedBox(height: height * 0.01)
+            ? SizedBox(height: height * 0.02)
             : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset("assets/Icons/plogo.svg"),
-            // Text("Powered By",
-            //     style: TextStyle(fontSize: 10, color: kGreyTextColor)),
-            // SizedBox(width: 5),
-            // Text("NINJAPAY",
-            //     style: TextStyle(
-            //       fontSize: 12,
-            //       color: kGreyTextColor,
-            //       decoration: TextDecoration.underline,
-            //     ))
+            Text("Powered By",
+                style: TextStyle(fontSize: 10, color: kGreyTextColor)),
+            SizedBox(width: 5),
+            Text("NINJAPAY",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: kGreyTextColor,
+                  decoration: TextDecoration.underline,
+                ))
           ],
         ),
       ],
