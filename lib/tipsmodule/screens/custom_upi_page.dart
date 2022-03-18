@@ -162,7 +162,7 @@ class _CustomUpiTipState extends State<CustomUpiTip> {
                   SizedBox(height: 10),
                   Container(
                     height: 45,
-                    width: width * 0.3,
+                    width: width * 0.5,
                     child: CustomTextField(
                       noteController,
                       hintText: "Add notes",

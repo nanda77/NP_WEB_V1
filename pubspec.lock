@@ -1132,9 +1132,6 @@ packages:
       name: xdg_directories
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-    version: "0.2.0+1"
-=======
     version: "0.2.0"
   xid:
     dependency: "direct main"
@@ -1143,7 +1140,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7"
->>>>>>> 7f12bbe8cab2adf6fb9227277ef4a5e96949577d
   xml:
     dependency: transitive
     description:

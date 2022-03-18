@@ -20,6 +20,7 @@ import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/timer_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/transaction_status_bloc.dart';
+import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'landingpage/views/landing_page.dart';
@@ -83,9 +84,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               visualDensity: VisualDensity.adaptivePlatformDensity,
               scaffoldBackgroundColor: const Color(0xff000000)),
-          home: SignUpTagScreen(),
+          // home: SignUpTagScreen(),
           // home: DashboardScreen(),
-          // home: TipsLeadPage(),
+          home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
         routes: {
           HomePage.route: (context) => HomePage(),
