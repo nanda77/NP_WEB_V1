@@ -23,126 +23,106 @@ class LightningTipDepositModel {
 }
 
 class Data {
-  int? id;
-  String? userId;
   int? amount;
-  dynamic orderId;
-  String? currency;
-  String? description;
-  dynamic successUrl;
-  int? sourceFiatValue;
-  int? fiatValue;
-  bool? autoSettle;
-  dynamic notifEmail;
-  String? metadata;
-  String? uri;
-  int? ttl;
-  String? lightningInvoicePayReq;
+  String? transactionType;
   String? transactionId;
-  String? lightningInvoiceExpiresAt;
-  String? status;
-  String? createdAt;
-  String? transactionsCreatedAt;
-  String? transactionsSettledAt;
-  dynamic transactionsTx;
-  dynamic transactionsStatus;
-  dynamic transactionsAmount;
+  String? note;
   String? paymentMethod;
-  String? updatedAt;
   int? fee;
+  String? createdAt;
+  int? netFiatValue;
+  int? fiatValue;
+  String? status;
+  String? updatedAt;
+  String? lightningAddress;
+  String? lightningInvoiceExpiresAt;
+  double? btcPrice;
+  String? fiatCurrencyUnit;
   String? tipStatus;
+  String? checkingId;
+  String? paymentHash;
+  int? gstRate;
+  int? tdsRate;
+  int? companyFee;
+  int? gstAmount;
+  int? tdsAmount;
 
   Data(
-      {this.id,
-        this.userId,
-        this.amount,
-        this.orderId,
-        this.currency,
-        this.description,
-        this.successUrl,
-        this.sourceFiatValue,
-        this.fiatValue,
-        this.autoSettle,
-        this.notifEmail,
-        this.metadata,
-        this.uri,
-        this.ttl,
-        this.lightningInvoicePayReq,
+      {this.amount,
+        this.transactionType,
         this.transactionId,
-        this.lightningInvoiceExpiresAt,
-        this.status,
-        this.createdAt,
-        this.transactionsCreatedAt,
-        this.transactionsSettledAt,
-        this.transactionsTx,
-        this.transactionsStatus,
-        this.transactionsAmount,
+        this.note,
         this.paymentMethod,
-        this.updatedAt,
         this.fee,
-        this.tipStatus});
+        this.createdAt,
+        this.netFiatValue,
+        this.fiatValue,
+        this.status,
+        this.updatedAt,
+        this.lightningAddress,
+        this.lightningInvoiceExpiresAt,
+        this.btcPrice,
+        this.fiatCurrencyUnit,
+        this.tipStatus,
+        this.checkingId,
+        this.paymentHash,
+        this.gstRate,
+        this.tdsRate,
+        this.companyFee,
+        this.gstAmount,
+        this.tdsAmount});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    userId = json['user_id'];
     amount = json['amount'];
-    orderId = json['order_id'];
-    currency = json['currency'];
-    description = json['description'];
-    successUrl = json['success_url'];
-    sourceFiatValue = json['source_fiat_value'];
-    fiatValue = json['fiat_value'];
-    autoSettle = json['auto_settle'];
-    notifEmail = json['notif_email'];
-    metadata = json['metadata'];
-    uri = json['uri'];
-    ttl = json['ttl'];
-    lightningInvoicePayReq = json['lightning_invoice_pay_req'];
+    transactionType = json['transaction_type'];
     transactionId = json['transaction_id'];
-    lightningInvoiceExpiresAt = json['lightning_invoice_expires_at'];
-    status = json['status'];
-    createdAt = json['created_at'];
-    transactionsCreatedAt = json['transactions_created_at'];
-    transactionsSettledAt = json['transactions_settled_at'];
-    transactionsTx = json['transactions_tx'];
-    transactionsStatus = json['transactions_status'];
-    transactionsAmount = json['transactions_amount'];
+    note = json['note'];
     paymentMethod = json['payment_method'];
-    updatedAt = json['updated_at'];
     fee = json['fee'];
+    createdAt = json['created_at'];
+    netFiatValue = json['net_fiat_value'];
+    fiatValue = json['fiat_value'];
+    status = json['status'];
+    updatedAt = json['updated_at'];
+    lightningAddress = json['lightning_address'];
+    lightningInvoiceExpiresAt = json['lightning_invoice_expires_at'];
+    btcPrice = json['btc_price'];
+    fiatCurrencyUnit = json['fiat_currency_unit'];
     tipStatus = json['tip_status'];
+    checkingId = json['checking_id'];
+    paymentHash = json['payment_hash'];
+    gstRate = json['gst_rate'];
+    tdsRate = json['tds_rate'];
+    companyFee = json['company_fee'];
+    gstAmount = json['gst_amount'];
+    tdsAmount = json['tds_amount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
     data['amount'] = this.amount;
-    data['order_id'] = this.orderId;
-    data['currency'] = this.currency;
-    data['description'] = this.description;
-    data['success_url'] = this.successUrl;
-    data['source_fiat_value'] = this.sourceFiatValue;
-    data['fiat_value'] = this.fiatValue;
-    data['auto_settle'] = this.autoSettle;
-    data['notif_email'] = this.notifEmail;
-    data['metadata'] = this.metadata;
-    data['uri'] = this.uri;
-    data['ttl'] = this.ttl;
-    data['lightning_invoice_pay_req'] = this.lightningInvoicePayReq;
+    data['transaction_type'] = this.transactionType;
     data['transaction_id'] = this.transactionId;
-    data['lightning_invoice_expires_at'] = this.lightningInvoiceExpiresAt;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['transactions_created_at'] = this.transactionsCreatedAt;
-    data['transactions_settled_at'] = this.transactionsSettledAt;
-    data['transactions_tx'] = this.transactionsTx;
-    data['transactions_status'] = this.transactionsStatus;
-    data['transactions_amount'] = this.transactionsAmount;
+    data['note'] = this.note;
     data['payment_method'] = this.paymentMethod;
-    data['updated_at'] = this.updatedAt;
     data['fee'] = this.fee;
+    data['created_at'] = this.createdAt;
+    data['net_fiat_value'] = this.netFiatValue;
+    data['fiat_value'] = this.fiatValue;
+    data['status'] = this.status;
+    data['updated_at'] = this.updatedAt;
+    data['lightning_address'] = this.lightningAddress;
+    data['lightning_invoice_expires_at'] = this.lightningInvoiceExpiresAt;
+    data['btc_price'] = this.btcPrice;
+    data['fiat_currency_unit'] = this.fiatCurrencyUnit;
     data['tip_status'] = this.tipStatus;
+    data['checking_id'] = this.checkingId;
+    data['payment_hash'] = this.paymentHash;
+    data['gst_rate'] = this.gstRate;
+    data['tds_rate'] = this.tdsRate;
+    data['company_fee'] = this.companyFee;
+    data['gst_amount'] = this.gstAmount;
+    data['tds_amount'] = this.tdsAmount;
     return data;
   }
 }

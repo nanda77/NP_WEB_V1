@@ -230,13 +230,16 @@ class _CustomTipPageState extends State<CustomTipPage> {
                           } else if (state is LightningTipSuccessState) {
                             print(state.response?.data?.toJson() ?? "");
                             Navigator.pop(context);
-                            Navigator.push(
+                           /* Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => QRPage(
                                       state.response?.data?.transactionId ??
                                           "")),
-                            );
+                            );*/
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => QRPage(
+                                state.response?.data?.transactionId ??
+                                    "")));
                           } else if (state is LightningTipErrorState) {
                             Navigator.pop(context);
                           }

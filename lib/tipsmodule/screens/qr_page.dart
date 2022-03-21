@@ -44,10 +44,11 @@ class _QRPageState extends State<QRPage> {
           timer.cancel();
           apiTimer?.cancel();
           upiId = null;
-          Navigator.push(
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ExpirePage()));
+          /*Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => ExpirePage()),
-          );
+          );*/
           //redirect to payment cancelled screen
         }
       });
@@ -84,17 +85,18 @@ class _QRPageState extends State<QRPage> {
             } else if (state is TransactionStatusSuccessState) {
               if (state.response?.data?.status == "success") {
                 apiTimer?.cancel();
-                Navigator.push(
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => SuccessPage()));
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SuccessPage()),
-                );
+                );*/
               }
             } else if (state is TransactionStatusErrorState) {}
           },
           child: BlocBuilder<LightningTipBloc, LightningTipState>(
               builder: (context, state) {
             if (state is LightningTipSuccessState) {
-              upiId = state.response?.data?.lightningInvoicePayReq;
+              upiId = state.response?.data?.lightningAddress;
               print(state.response?.data?.toJson() ?? "");
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +193,7 @@ class _QRPageState extends State<QRPage> {
                   SizedBox(height: height * 0.04),
                   BorderButton("COPY INVOICE", onTap: () {
                     FlutterClipboard.copy(
-                            state.response?.data?.lightningInvoicePayReq ?? "")
+                            state.response?.data?.lightningAddress ?? "")
                         .then((value) {
                       Fluttertoast.showToast(msg: "Copied");
                     });

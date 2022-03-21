@@ -48,6 +48,7 @@ class ApiProvider {
       Response response = await _dio.get("/personalPage/username",
           queryParameters: {"q": name},
           options: Options(contentType: Headers.jsonContentType));
+      print(response.data.toString());
       return UserNameModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
       if (error.response != null)
@@ -63,6 +64,15 @@ class ApiProvider {
       double? btcPrice,
       int? fiatvalue,
       String? userName}) async {
+    print({
+      "type": "ln",
+      "amount": tip,
+      "note": notes,
+      "fiatValue": fiatvalue,
+      "fiatCurrencyUnit": "usd",
+      "btcPrice": btcPrice,
+      "username": userName
+    });
     try {
       Response response = await _dio.post("/personalPage/tipLightningRequest",
           data: {

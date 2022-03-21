@@ -88,10 +88,10 @@ class MyApp extends StatelessWidget {
           // home: DashboardScreen(),
           home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
-        routes: {
-          HomePage.route: (context) => HomePage(),
-          TipsLeadPage.route: (context) => TipsLeadPage(),
-        },*/
+            routes: {
+              HomePage.route: (context) => HomePage(),
+              TipsLeadPage.route: (context) => TipsLeadPage(),
+          },*/
         ));
   }
 }

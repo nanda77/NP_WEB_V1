@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -165,13 +166,16 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+    print("vivel: ${widget.response?.image ?? ''}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(height: height * 0.1),
         CachedNetworkImage(
+          // imageUrl: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
           imageUrl: widget.response?.image ?? '',
+          height: 87,
+          width: 87,
           imageBuilder: (context, imageProvider) => Container(
             height: 87,
             width: 87,

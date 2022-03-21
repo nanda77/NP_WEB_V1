@@ -175,7 +175,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 ),
                               ),
                               tablet: Container(
-                                width: width * 0.3,
+                                width: width * 0.4,
                                 child: Wrap(
                                   alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
@@ -226,7 +226,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 ),
                               ),
                               desktop: Container(
-                                width: width * 0.3,
+                                width: width * 0.4,
                                 child: Wrap(
                                   alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
@@ -381,44 +381,41 @@ class _EnterTipPageState extends State<EnterTipPage> {
                       } else if (state is LightningTipSuccessState) {
                         print(state.response?.data?.toJson() ?? "");
                         Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => QRPage(state.response?.data?.transactionId ?? "")));
+                      /*  Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => QRPage(
-                                  state.response?.data?.transactionId ?? "")),
-                        );
+                              builder: (context) => QRPage(state.response?.data?.transactionId ?? "")),
+                        );*/
                       } else if (state is LightningTipErrorState) {
                         Fluttertoast.showToast(msg: state.errorMessage);
                         Navigator.pop(context);
                       }
                     },
-                    child: InkWell(
-                      onTap: () {
-                        if (data == null) {
-                          Fluttertoast.showToast(
-                              msg: "Select btc value!",
-                              webBgColor:
-                                  "linear-gradient(to right, #000000, #000000)");
-                        } else if (fiatValue == 0) {
-                          Fluttertoast.showToast(
-                              msg: "Enter right amount!",
-                              webBgColor:
-                                  "linear-gradient(to right, #000000, #000000)");
-                        } else {
-                          String notes = noteController.text.trim().isEmpty
-                              ? "Tip"
-                              : "Tip: ${noteController.text}";
-                          BlocProvider.of<LightningTipBloc>(context).add(
-                              LightningTipRefreshEvent(
-                                  notes: notes,
-                                  tip: btcValue ?? 0.0,
-                                  btcPrice: data?['USD'] ?? 0.0,
-                                  fiatvalue: fiatValue,
-                                  userName: state.response?.username ?? ""));
-                        }
-                      },
-                      child: SimpleButton("NEXT"),
-                    ),
+                    child: SimpleButton("NEXT", onTap: (){
+                      if (data == null) {
+                        Fluttertoast.showToast(
+                            msg: "Select btc value!",
+                            webBgColor:
+                            "linear-gradient(to right, #000000, #000000)");
+                      } else if (fiatValue == 0) {
+                        Fluttertoast.showToast(
+                            msg: "Enter right amount!",
+                            webBgColor:
+                            "linear-gradient(to right, #000000, #000000)");
+                      } else {
+                        String notes = noteController.text.trim().isEmpty
+                            ? "Tip"
+                            : "Tip: ${noteController.text}";
+                        BlocProvider.of<LightningTipBloc>(context).add(
+                            LightningTipRefreshEvent(
+                                notes: notes,
+                                tip: btcValue ?? 0.0,
+                                btcPrice: data?['USD'] ?? 0.0,
+                                fiatvalue: fiatValue,
+                                userName: state.response?.username ?? ""));
+                      }
+                    }),
                   ),
                 ],
               ),
