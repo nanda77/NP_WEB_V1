@@ -226,7 +226,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 ),
                               ),
                               desktop: Container(
-                                width: width * 0.4,
+                                width: width * 0.3,
                                 child: Wrap(
                                   alignment: WrapAlignment.center,
                                   runSpacing: height * 0.03,
@@ -381,8 +381,13 @@ class _EnterTipPageState extends State<EnterTipPage> {
                       } else if (state is LightningTipSuccessState) {
                         print(state.response?.data?.toJson() ?? "");
                         Navigator.pop(context);
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => QRPage(state.response?.data?.transactionId ?? "")));
-                      /*  Navigator.push(
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => QRPage(
+                                    state.response?.data?.transactionId ??
+                                        "")));
+                        /*  Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => QRPage(state.response?.data?.transactionId ?? "")),
@@ -392,17 +397,17 @@ class _EnterTipPageState extends State<EnterTipPage> {
                         Navigator.pop(context);
                       }
                     },
-                    child: SimpleButton("NEXT", onTap: (){
+                    child: SimpleButton("NEXT", onTap: () {
                       if (data == null) {
                         Fluttertoast.showToast(
                             msg: "Select btc value!",
                             webBgColor:
-                            "linear-gradient(to right, #000000, #000000)");
+                                "linear-gradient(to right, #000000, #000000)");
                       } else if (fiatValue == 0) {
                         Fluttertoast.showToast(
                             msg: "Enter right amount!",
                             webBgColor:
-                            "linear-gradient(to right, #000000, #000000)");
+                                "linear-gradient(to right, #000000, #000000)");
                       } else {
                         String notes = noteController.text.trim().isEmpty
                             ? "Tip"
