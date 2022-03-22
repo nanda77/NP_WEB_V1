@@ -10,6 +10,8 @@ import 'package:ninjapay/tipsmodule/screens/upi_qr_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 
+import '../../responsive.dart';
+
 class CustomUpiTip extends StatefulWidget {
   const CustomUpiTip({Key? key}) : super(key: key);
 
@@ -160,14 +162,45 @@ class _CustomUpiTipState extends State<CustomUpiTip> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    height: 45,
-                    width: width * 0.5,
-                    child: CustomTextField(
-                      noteController,
-                      hintText: "Add notes",
-                    ),
-                  ),
+                  Responsive(
+                      mobile: Container(
+                        height: 45,
+                        width: width * 0.5,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
+                      ),
+                      tablet: Container(
+                        height: 45,
+                        width: width * 0.3,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
+                      ),
+                      desktop: Container(
+                        height: 45,
+                        width: width * 0.3,
+                        child: CustomTextField(
+                          noteController,
+                          hintText: "Add notes",
+                          maxLength: 100,
+                          maxLines: 1,
+                        ),
+                      )),
+                  // Container(
+                  //   height: 45,
+                  //   width: width * 0.5,
+                  //   child: CustomTextField(
+                  //     noteController,
+                  //     hintText: "Add notes",
+                  //   ),
+                  // ),
                   SizedBox(height: height * 0.02),
                   SimpleButton("NEXT", onTap: () {
                     Navigator.push(
