@@ -25,7 +25,7 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
-import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
+import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit//
 
 StreamController<int> streamController = StreamController<int>();
 
