@@ -21,14 +21,6 @@ class ApiProvider {
   ApiProvider() {
     BaseOptions options = BaseOptions(
       baseUrl: BASE_URL,
-      // headers: header,
-      headers: {
-  /*      "Access-Control-Allow-Origin": "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
-        "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",*/
-        "Authorization": "Bearer $authToken"
-      },
       receiveTimeout: 80000,
       connectTimeout: 80000,
       followRedirects: true,
@@ -59,6 +51,7 @@ class ApiProvider {
   }
 
   Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue}) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.post("/personalPage/tipLightningRequest",
           data: {
@@ -70,7 +63,12 @@ class ApiProvider {
             "btcPrice": btcPrice,
             "username": "robin"
           },
-          options: Options(contentType: Headers.jsonContentType)
+          options: Options(
+            contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
+          )
       );
       return LightningTipDepositModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
@@ -85,10 +83,16 @@ class ApiProvider {
   // -----------------------Exchange Rate-----------------------
 
   Future<GetExchangeRateModel?> getExchangeRate() async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.get("/rates/exchangeRates",
         queryParameters: {},
-        options: Options(contentType: Headers.jsonContentType)
+        options: Options(
+          contentType: Headers.jsonContentType,
+          headers: {
+            "Authorization": "Bearer $token"
+          }
+        )
       );
       return GetExchangeRateModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
@@ -102,13 +106,19 @@ class ApiProvider {
   // -----------------------Transaction-----------------------
 
   Future<TransactionStatusModel?> transactionStatus(String transactionId) async {
+    String token = await appUtils.getFCMToken();
     print(transactionId);
     try {
       Response response = await _dio.post("/transfer/transferstatus",
           data: {
             "transaction_id": transactionId
           },
-          options: Options(contentType: Headers.jsonContentType)
+          options: Options(
+            contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
+          )
       );
       return TransactionStatusModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
@@ -123,12 +133,16 @@ class ApiProvider {
   // -----------------------Profile-----------------------
 
   Future<ProfileDashboardModel?> getProfileDashboard() async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.get("/profile/dashboard",
-          queryParameters: {},
-          options: Options(
-            contentType: Headers.jsonContentType,
-          )
+        queryParameters: {},
+        options: Options(
+          contentType: Headers.jsonContentType,
+          headers: {
+            "Authorization": "Bearer $token"
+          }
+        )
       );
       print("--------------------"+ "${response.data.toString()}");
       return ProfileDashboardModel.fromJson(response.data);
@@ -143,6 +157,7 @@ class ApiProvider {
   // -----------------------Merchant-----------------------
 
   Future<CommonModel?> completePayment({String? orderId, String? userName, String? utr, String? amount, String? upi, String? purpose, String? emailOrPhone}) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.post("/merchant/payment",
           data: {
@@ -154,7 +169,12 @@ class ApiProvider {
             "purpose": purpose,
             "emailPhone": emailOrPhone
           },
-          options: Options(contentType: Headers.jsonContentType)
+          options: Options(
+            contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
+          )
       );
       return CommonModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
@@ -169,6 +189,7 @@ class ApiProvider {
   // -----------------------User-----------------------
 
   Future<CommonModel?> register({String? uid, String? country, String? email, String? userName, String? fcm}) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.post("/user/registration",
           data: {
@@ -178,7 +199,12 @@ class ApiProvider {
             "username": userName,
             "fcm": fcm
           },
-          options: Options(contentType: Headers.jsonContentType)
+          options: Options(
+            contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
+          )
       );
       return CommonModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
@@ -191,6 +217,7 @@ class ApiProvider {
   }
 
   Future<CommonModel?> userExist(String fcm) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.get("/user/userExist",
           queryParameters: {
@@ -198,6 +225,9 @@ class ApiProvider {
           },
           options: Options(
             contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
           )
       );
       print("--------------------"+ "${response.data.toString()}");
@@ -211,6 +241,7 @@ class ApiProvider {
   }
 
   Future<CommonModel?> userNameCheck(String username) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.get("/user/usernameCheck",
           queryParameters: {
@@ -218,6 +249,9 @@ class ApiProvider {
           },
           options: Options(
             contentType: Headers.jsonContentType,
+            headers: {
+              "Authorization": "Bearer $token"
+            }
           )
       );
       print("--------------------"+ "${response.data.toString()}");

@@ -2,7 +2,6 @@ import 'dart:convert' as convert;
 import 'package:bloc/src/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:ninjapay/api_provider.dart';
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
@@ -67,12 +66,9 @@ class AuthRepository{
   Future<void> userExistsAPIGoogle(GoogleUserExistEvent event, Emitter<GoogleAuthState> emit) async {
     emit(GoogleUserExistLoadingState());
     try {
-      await FirebaseMessaging.instance.getToken().then((value) {
-        print("fcm Token: $value");
-      });
       String? token = await appUtils.getFCMToken();
       print("refresh token: $token}");
-      await apiProvider.userExist(token).then((value) async {
+      await apiProvider.userExist("").then((value) async {
         if(value?.status != null && value?.status == true){
           firebaseAuthModel = FirebaseAuthModel(
               status: true,
@@ -139,7 +135,7 @@ class AuthRepository{
             appUtils.setFirebaseUId(user.uid);
             appUtils.setUserNumber(user.phoneNumber??"");
             appUtils.setUserEmail(user.email??"");
-            appUtils.setFCMToken(user.refreshToken??"");
+            appUtils.setFCMToken(await user.getIdToken());
            emit(VerifyOtpSuccessState(firebaseAuthModel));
           }
           else{
