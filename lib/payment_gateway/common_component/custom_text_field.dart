@@ -47,16 +47,20 @@ Widget simpleTextField(String hint, {
     TextEditingController? controller,
     String? Function(String?)? validator,
     Widget? prefix,
-    Widget? prefixIcon
+    Widget? prefixIcon,
+    bool? enabled,
+    void Function()? onTap
   }) {
   return Container(
     width: width ?? 300,
     child: TextFormField(
+      onTap: onTap,
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,
       controller: controller,
       validator: validator,
+      enabled: enabled,
       inputFormatters: [
         textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
       ],

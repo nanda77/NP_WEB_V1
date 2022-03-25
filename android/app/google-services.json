@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "558327185849",
+    "project_id": "ninjapay-192c0",
+    "storage_bucket": "ninjapay-192c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558327185849:android:b69ff2bf35dc0cce1f7668",
+        "android_client_info": {
+          "package_name": "com.example.lightnin_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558327185849-3erj44r51vmtif5bv6ecqf519htqbmd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lightnin_flutter",
+            "certificate_hash": "46741f5672ca0bd603d0c9e3e211c47489767fb9"
+          }
+        },
+        {
+          "client_id": "558327185849-6va82fqmsjkfgrramdhojcddbotpqdca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lightnin_flutter",
+            "certificate_hash": "7556a233697f6432cad53fa5a035b6bdee0f0ac7"
+          }
+        },
+        {
+          "client_id": "558327185849-lsarjgjg705bts03k12kaocg6j0kgemn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAb9JAu-yP6ywfdb5y7059knadkrKH-ZYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558327185849-lsarjgjg705bts03k12kaocg6j0kgemn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -172,7 +172,7 @@ class BorderButton extends StatelessWidget {
             child: Text(text,
                 style: TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                     color: kBlueColor))),
       ),
     );

@@ -22,6 +22,39 @@ class AppUtils {
     prefs.setString('fcmToken', '');
   }
 
+  void setPhoneCode(String phoneCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('phone_code', phoneCode);
+  }
+
+  Future<String> getPhoneCode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String phoneCode = prefs.getString('phone_code') ?? "";
+    return phoneCode;
+  }
+
+  void setCountry(String countryName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('country_name', countryName);
+  }
+
+  Future<String> getCountry() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String countryName = prefs.getString('country_name') ?? "";
+    return countryName;
+  }
+
+  void setCountryCode(String countryCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('country_code', countryCode);
+  }
+
+  Future<String> getCountryCode() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String countryCode = prefs.getString('country_code') ?? "";
+    return countryCode;
+  }
+
   void setUserName(String userName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_name', userName);
@@ -44,15 +77,26 @@ class AppUtils {
     return userName;
   }
 
-  void setUserEmail(String userName) async {
+  void setUserEmail(String userEmail) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('user_email', userName);
+    prefs.setString('user_email', userEmail);
   }
 
   Future<String> getUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userName = prefs.getString('user_email') ?? "";
-    return userName;
+    String userEmail = prefs.getString('user_email') ?? "";
+    return userEmail;
+  }
+
+  void setFirebaseUId(String firebaseUid) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('firebase_uid', firebaseUid);
+  }
+
+  Future<String> getFirebaseUId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String firebaseUid = prefs.getString('firebase_uid') ?? "";
+    return firebaseUid;
   }
 
   void setFCMToken(String token) async {
