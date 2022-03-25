@@ -51,7 +51,7 @@ class LandingSection2 extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
-                            './assets/icons/t2.svg',
+                            'assets/icons/t2.svg',
                             width: screenSize.width / 2.8,
                           ),
                           Container(
