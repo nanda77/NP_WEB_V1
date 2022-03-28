@@ -25,6 +25,8 @@ import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/timer_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/transaction_status_bloc.dart';
+import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
@@ -42,7 +44,7 @@ Future main() async {
       appId: "1:558327185849:web:9865cd9e4fc3246f1f7668"
     ),
   );
-  // setPathUrlStrategy();
+  setPathUrlStrategy();
   // DevicePreview(
   //   enabled: !kReleaseMode,
   //   builder: (context) => MyApp(), // Wrap your app
@@ -119,9 +121,9 @@ class MyApp extends StatelessWidget {
                 if (user != null) {
                   return const DashboardScreen();
                 }
-                return const SelectCountryScreen();//Connection Inactive, show error dialog
+                return const TipsLeadPage();//Connection Inactive, show error dialog
               } else {
-                return const SelectCountryScreen();//Connection Inactive, show error dialog
+                return const TipsLeadPage();//Connection Inactive, show error dialog
               }
             },
           ),

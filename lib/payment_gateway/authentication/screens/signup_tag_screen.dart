@@ -102,7 +102,12 @@ class _SignUpTagScreenState extends State<SignUpTagScreen> {
                         Fluttertoast.showToast(msg: "Please Enter Name!");
                       }
                       else{
-                        BlocProvider.of<UserNameCheckBloc>(context).add(UserNameCheckRefreshEvent(nameController.text));
+                        if(nameController.text.trim().length < 5 || nameController.text.trim().length > 18){
+                          Fluttertoast.showToast(msg: "username length should be > 5 and < 18!");
+                        }
+                        else{
+                          BlocProvider.of<UserNameCheckBloc>(context).add(UserNameCheckRefreshEvent(nameController.text));
+                        }
                       }
                     }),
                   )
