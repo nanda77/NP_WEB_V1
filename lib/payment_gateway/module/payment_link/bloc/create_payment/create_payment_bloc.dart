@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
 
@@ -16,8 +17,9 @@ class CreatePaymentBloc extends Bloc<CreatePaymentEvents, CreatePaymentStates> {
     });
   }
 
-  createPaymentAPI(CreatePaymentRefreshEvent event,
-      Emitter<CreatePaymentStates> emit) async {
+  createPaymentAPI(CreatePaymentRefreshEvent event, Emitter<CreatePaymentStates> emit) async {
+    AppUtils appUtils = AppUtils();
+    authToken = await appUtils.getFCMToken();
     emit(CreatePaymentLoadingState());
     try {
       var headers = {HttpHeaders.authorizationHeader: "Bearer $authToken"};

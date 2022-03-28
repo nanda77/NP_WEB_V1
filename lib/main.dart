@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,9 @@ import 'package:ninjapay/payment_gateway/authentication/bloc/send_otp_bloc.dart'
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_exist_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_name_check_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/screens/login_signup.dart';
+import 'package:ninjapay/payment_gateway/authentication/screens/select_country_screen.dart';
 import 'package:ninjapay/payment_gateway/authentication/services/auth_repo.dart';
+import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
@@ -105,9 +108,23 @@ class MyApp extends StatelessWidget {
           builder: DevicePreview.appBuilder,
           title: 'Welcome Ninja',
           theme: ThemeData(
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              scaffoldBackgroundColor: const Color(0xff000000)),
-          home: LoginSignUpScreen(),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            scaffoldBackgroundColor: const Color(0xff000000)
+          ),
+          home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                User? user = snapshot.data;
+                if (user != null) {
+                  return const DashboardScreen();
+                }
+                return const SelectCountryScreen();//Connection Inactive, show error dialog
+              } else {
+                return const SelectCountryScreen();//Connection Inactive, show error dialog
+              }
+            },
+          ),
           // home: DashboardScreen(),
           // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,

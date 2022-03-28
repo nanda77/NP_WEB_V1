@@ -166,7 +166,6 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       child: Text(value),
                     ))
             .toList(),
-
         // add extra sugar..
         icon: Icon(Icons.arrow_drop_down),
         iconSize: 42,
@@ -300,4 +299,5 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
       ),
     );
   }
+
 }

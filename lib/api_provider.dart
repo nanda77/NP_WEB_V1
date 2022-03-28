@@ -35,14 +35,19 @@ class ApiProvider {
   // -----------------------Personal Page-----------------------
 
   Future<UserNameModel?> getUser(String name) async {
+    String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.get("/personalPage/username",
         queryParameters: {"q": name},
-        options: Options(contentType: Headers.jsonContentType)
+        options: Options(
+          contentType: Headers.jsonContentType,
+          headers: {
+            "Authorization": "Bearer $token"
+          }
+        )
       );
       return UserNameModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
-
       if (error.response != null)
         return UserNameModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");

@@ -26,14 +26,14 @@ class ProfileDashboardData {
   int? amount;
   String? lastUpdated;
   String? btc;
-  int? usdt;
+  double? usdt;
   String? email;
   String? country;
   String? phoneNumber;
   String? username;
   String? image;
   bool? isVerified;
-  Null? verificationType;
+  dynamic verificationType;
   String? myAddress;
   String? createdAt;
   String? updatedAt;

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
 import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
@@ -18,8 +19,9 @@ class GetLinkPaymentBloc
     });
   }
 
-  getLinkPaymentAPI(GetLinkPaymentRefreshEvent event,
-      Emitter<GetLinkPaymentStates> emit) async {
+  getLinkPaymentAPI(GetLinkPaymentRefreshEvent event, Emitter<GetLinkPaymentStates> emit) async {
+    AppUtils appUtils = AppUtils();
+    authToken = await appUtils.getFCMToken();
     emit(GetLinkPaymentLoadingState());
     try {
       var headers = {HttpHeaders.authorizationHeader: "Bearer $authToken"};

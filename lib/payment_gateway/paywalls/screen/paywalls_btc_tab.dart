@@ -130,14 +130,15 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
                             width: 0,
                           ),
                           IconButton(
-                              onPressed: () {
-                                FlutterClipboard.copy("https://bit.ly").then((value) {
-                                  Fluttertoast.showToast(msg: "Copied");
-                                });
-                              },
-                              icon: SvgPicture.asset(
-                                'assets/Icons/ic_copy.svg',
-                              )),
+                            onPressed: () {
+                              FlutterClipboard.copy("https://bit.ly").then((value) {
+                                Fluttertoast.showToast(msg: "Copied");
+                              });
+                            },
+                            icon: SvgPicture.asset(
+                              'assets/Icons/ic_copy.svg',
+                            )
+                          ),
                         ],
                       ),
                       width: _tableItemWidth,

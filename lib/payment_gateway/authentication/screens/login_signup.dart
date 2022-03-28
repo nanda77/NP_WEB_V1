@@ -1,9 +1,9 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_email_bloc.dart';
@@ -27,16 +27,28 @@ class LoginSignUpScreen extends StatefulWidget {
 class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  String? country, phoneCode;
+  AppUtils appUtils = AppUtils();
 
   @override
   void initState() {
     super.initState();
-    // getToken();
+    getCountry();
   }
 
-  getToken() async {
-    String? fcmToken = await FirebaseMessaging.instance.getToken();
-    print("fcm Token: $fcmToken");
+  getCountry() async {
+    await appUtils.getCountry().then((value) {
+      setState(() {
+        print(value);
+        country = value;
+      });
+    });
+    await appUtils.getPhoneCode().then((value) {
+      setState(() {
+        print(value);
+        phoneCode = "+$value";
+      });
+    });
   }
 
   @override
@@ -100,7 +112,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                             width: double.infinity,
                             prefixIcon: Padding(
                               padding: const EdgeInsets.only(top: 12, left: 5, right: 5, bottom: 12),
-                              child: Text("(+91)", style: TextStyle(color: Colors.black, fontSize: 14),),
+                              child: Text("$phoneCode", style: TextStyle(color: Colors.black, fontSize: 14),),
                             ),
                           ),
 
@@ -196,7 +208,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                   }
                                   if (state is SendOtpSuccessState) {
                                     Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(builder: (context) => OtpScreen("+91${phoneController.text.trim()}", /*state.response?.verificationId??*/"")), (Route<dynamic> route) => false);
+                                        MaterialPageRoute(builder: (context) => OtpScreen("$phoneCode${phoneController.text.trim()}", /*state.response?.verificationId??*/"")), (Route<dynamic> route) => false);
                                   }
                                   if(state is SendOtpErrorState){
                                     Navigator.pop(context);
@@ -226,7 +238,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                               "NEXT",
                               onTap: (){
                                 if(phoneController.text.trim().isNotEmpty){
-                                  BlocProvider.of<OtpBloc>(context).add(SendOtpRefreshEvent("+91"+phoneController.text.trim()));
+                                  BlocProvider.of<OtpBloc>(context).add(SendOtpRefreshEvent("$phoneCode"+phoneController.text.trim()));
                                 }
                                 else if(emailController.text.trim().isNotEmpty){
                                   BlocProvider.of<EmailBloc>(context).add(SendEmailRefreshEvent(emailController.text.trim()));
