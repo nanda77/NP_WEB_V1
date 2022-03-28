@@ -1,7 +1,6 @@
 import 'dart:convert' as convert;
 import 'package:bloc/src/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ninjapay/api_provider.dart';
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';

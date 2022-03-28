@@ -127,7 +127,7 @@ class MyApp extends StatelessWidget {
               }
             },
           ),
-          // home: DashboardScreen(),
+          // home: SelectCountryScreen(),
           // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
           routes: {

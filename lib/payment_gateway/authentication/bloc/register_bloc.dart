@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/api_provider.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/pay/model/common_model.dart';
 import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
 
@@ -36,7 +37,26 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if(event is RegisterRefreshEvent) {
         yield RegisterLoadingState();
         // TODO send data in register function
-        var response = await provider.register();
+        AppUtils appUtils = AppUtils();
+        String? country, email, phoneNumber, userName, fcm, uid;
+        userName = event.name;
+        await appUtils.getFirebaseUId().then((value) {
+          uid = value;
+        });
+        await appUtils.getUserEmail().then((value) {
+          email = value;
+        });
+        await appUtils.getUserNumber().then((value) {
+          phoneNumber = value;
+        });
+        await appUtils.getFCMToken().then((value) {
+          fcm = value;
+        });
+        await appUtils.getCountry().then((value) {
+          country = value;
+        });
+
+        var response = await provider.register(userName: userName, uid: uid, country: country, email: email, fcm: fcm, phone: phoneNumber);
         if(response?.status != null && response?.status == true){
           yield RegisterSuccessState(response);
         }

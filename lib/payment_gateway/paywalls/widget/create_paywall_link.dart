@@ -88,7 +88,12 @@ Widget createPaywallLink() {
         const SizedBox(
           height: 20,
         ),
-        blackBorderButton('CREATE'),
+        blackBorderButton(
+          'CREATE',
+          onTap: (){
+            print("viek");
+          }
+        ),
         const SizedBox(
           height: 40,
         ),

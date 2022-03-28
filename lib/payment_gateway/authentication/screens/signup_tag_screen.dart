@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_name_check_bloc.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_loader.dart';
@@ -74,29 +75,48 @@ class _SignUpTagScreenState extends State<SignUpTagScreen> {
 
                   SizedBox(height: height*0.2),
 
-                  BlocListener<UserNameCheckBloc, UserNameCheckState>(
-                    listener: (context, state) {
-                      if(state is UserNameCheckLoadingState){
-                        loaderDialog(context);
-                      }
-                      if(state is UserNameCheckSuccessState){
-                        Navigator.pop(context);
-                        if(state.response?.message?.toLowerCase()  == "username available"){
-                          AppUtils().setUserName(nameController.text.trim());
-                          print("Available");
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => const DashboardScreen()), (Route<dynamic> route) => false);
+                  MultiBlocListener(
+                    listeners: [
+                      BlocListener<UserNameCheckBloc, UserNameCheckState>(
+                        listener: (context, state){
+                          if(state is UserNameCheckLoadingState){
+                            loaderDialog(context);
+                          }
+                          if(state is UserNameCheckSuccessState){
+                            if(state.response?.message?.toLowerCase()  == "username available"){
+                              AppUtils().setUserName(nameController.text.trim());
+                              BlocProvider.of<RegisterBloc>(context).add(RegisterRefreshEvent(nameController.text));
+                              print("Available");
+                            }
+                            else{
+                              Navigator.pop(context);
+                              print("Not Available");
+                              Fluttertoast.showToast(msg: state.response?.message??"");
+                            }
+                          }
+                          if(state is UserNameCheckErrorState){
+                            Navigator.pop(context);
+                            Fluttertoast.showToast(msg: state.errorMessage);
+                          }
                         }
-                        else{
-                          print("Not Available");
-                          Fluttertoast.showToast(msg: state.response?.message??"");
-                        }
-                      }
-                      if(state is UserNameCheckErrorState){
-                        Navigator.pop(context);
-                        Fluttertoast.showToast(msg: state.errorMessage);
-                      }
-                    },
+                      ),
+
+                      BlocListener<RegisterBloc, RegisterState>(
+                          listener: (context, state){
+                            if(state is RegisterLoadingState){
+                            }
+                            if(state is RegisterSuccessState){
+                              Navigator.pop(context);
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context) => const DashboardScreen()), (Route<dynamic> route) => false);
+                            }
+                            if(state is RegisterErrorState){
+                              Navigator.pop(context);
+                              Fluttertoast.showToast(msg: state.errorMessage);
+                            }
+                          }
+                      )
+                    ],
                     child: blueRoundButton("DONE", width: width*0.15, onTap: (){
                       if(nameController.text.trim().isEmpty){
                         Fluttertoast.showToast(msg: "Please Enter Name!");
@@ -109,7 +129,7 @@ class _SignUpTagScreenState extends State<SignUpTagScreen> {
                           BlocProvider.of<UserNameCheckBloc>(context).add(UserNameCheckRefreshEvent(nameController.text));
                         }
                       }
-                    }),
+                    })
                   )
 
                 ],

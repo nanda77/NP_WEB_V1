@@ -1,9 +1,14 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/landingpage/views/components/url_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ninjapay/payment_gateway/authentication/screens/login_signup.dart';
+import 'package:ninjapay/payment_gateway/authentication/screens/select_country_screen.dart';
+import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
@@ -81,7 +86,26 @@ class _MediumHeaderState extends State<MediumHeader> {
                           height: 12,
                         ),
                         TextButton(
-                          onPressed: StoreUrls().playStoreURL,
+                          onPressed: () async {
+                            AppUtils apputil = AppUtils();
+                            String id = "";
+                            await apputil.getFirebaseUId().then((value) {
+                              id = value;
+                            });
+                             User? user = await FirebaseAuth.instance.currentUser;
+                             print("user: $id");
+                             if(id.isNotEmpty){
+                               Navigator.push(context,
+                                 MaterialPageRoute(builder: (context) => DashboardScreen()),
+                               );
+                             }
+                             else{
+                               Navigator.push(context,
+                                 MaterialPageRoute(builder: (context) => SelectCountryScreen()),
+                               );
+                             }
+                            // StoreUrls().playStoreURL
+                          } ,
                           child: Text(
                             'BUSINESS',
                             style: GoogleFonts.montserrat(

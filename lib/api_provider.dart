@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/landingpage/views/components/header.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
@@ -10,6 +12,7 @@ import 'package:ninjapay/tipsmodule/models/get_exchange_rate_model.dart';
 import 'package:ninjapay/tipsmodule/models/lightning_tip_deposit_model.dart';
 import 'package:ninjapay/tipsmodule/models/transaction_status_model.dart';
 import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
+import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 
 import '../main.dart';
 
@@ -29,6 +32,34 @@ class ApiProvider {
       },
     );
     _dio = Dio(options);
+    _dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        return handler.next(options);//modify your request
+      },
+      onResponse: (response, handler) {
+        if (response != null) {//on success it is getting called here
+          return handler.next(response);
+        } else {
+          return null;
+        }
+      },
+      onError: (DioError e, handler) async {
+        if (e.response != null) {
+          if (e.response?.statusCode == 401) {//catch the 401 here
+            _dio.interceptors.requestLock.lock();
+            _dio.interceptors.responseLock.lock();
+            FirebaseAuth.instance.signOut();
+            appUtils.setFirebaseUId("");
+            appUtils.setUserNumber("");
+            appUtils.setUserEmail("");
+            appUtils.setFCMToken("");
+            // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const TipsLeadPage()), (Route<dynamic> route) => false);
+          } else {
+            handler.next(e);
+          }
+        }
+      }
+    ));
     // _dio.interceptors.add(LoggingInterceptors());
   }
 
@@ -163,6 +194,15 @@ class ApiProvider {
 
   Future<CommonModel?> completePayment({String? orderId, String? userName, String? utr, String? amount, String? upi, String? purpose, String? emailOrPhone}) async {
     String token = await appUtils.getFCMToken();
+    print({
+      "orderId": orderId,
+      "username": userName,
+      "utr": utr,
+      "amount": int.parse(amount??"0"),
+      "upi": upi,
+      "purpose": purpose,
+      "emailPhone": emailOrPhone
+    });
     try {
       Response response = await _dio.post("/merchant/payment",
           data: {
@@ -193,7 +233,7 @@ class ApiProvider {
 
   // -----------------------User-----------------------
 
-  Future<CommonModel?> register({String? uid, String? country, String? email, String? userName, String? fcm}) async {
+  Future<CommonModel?> register({String? uid, String? country, String? email, String? phone, String? userName, String? fcm}) async {
     String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.post("/user/registration",
@@ -201,6 +241,7 @@ class ApiProvider {
             "uid": uid,
             "country": country,
             "email": email,
+            "phoneNumber": phone,
             "username": userName,
             "fcm": fcm
           },

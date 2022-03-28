@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
+import 'package:ninjapay/payment_gateway/common_component/custom_loader.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -149,9 +151,11 @@ class _CompletePaymentState extends State<CompletePayment> {
           BlocListener<CompletePaymentBloc, CompletePaymentState>(
             listener: (context, state){
               if(state is CompletePaymentLoadingState){
-
+                loaderDialog(context);
               }
               else if(state is CompletePaymentSuccessState){
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: state.response?.message??"");
                 /*if(state.response?.data?.status == "success"){
                   Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SuccessPage()),
@@ -159,6 +163,8 @@ class _CompletePaymentState extends State<CompletePayment> {
                 }*/
               }
               else if(state is CompletePaymentErrorState){
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: state.errorMessage);
               }
             },
             child: Row(

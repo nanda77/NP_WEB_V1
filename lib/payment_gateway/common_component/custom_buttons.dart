@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 Widget blackBorderButton(String text,{Function()? onTap}) {
-  return GestureDetector(
+  return InkWell(
     onTap: onTap,
     child: Container(
       // width: 400,
