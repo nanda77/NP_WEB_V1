@@ -27,7 +27,7 @@ class LandingSection2 extends StatelessWidget {
       child: Column(
         children: [
           SvgPicture.asset(
-            'assets/icons/t2.1.svg',
+            'assets/Icons/t2.1.svg',
             height: 16,
             // width: 118,
           ),
