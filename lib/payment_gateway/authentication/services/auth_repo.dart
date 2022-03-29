@@ -67,7 +67,7 @@ class AuthRepository{
     try {
       String? token = await appUtils.getFCMToken();
       print("refresh token: $token}");
-      await apiProvider.userExist("").then((value) async {
+      await apiProvider.userExist(token).then((value) async {
         if(value?.status != null && value?.status == true){
           firebaseAuthModel = FirebaseAuthModel(
               status: true,

@@ -24,7 +24,7 @@ class _QRPageState extends State<QRPage> {
   String status = "pending";
   final interval = const Duration(seconds: 1);
   String? upiId;
-  final int timerMaxSeconds = 30;
+  final int timerMaxSeconds = 600;
 
   int currentSeconds = 0;
   Timer? countDownTimer;
@@ -123,7 +123,7 @@ class _QRPageState extends State<QRPage> {
                         progressWidth: 5,
                         shadowColor: Colors.green,
                         progressColor: Colors.black,
-                        progress: currentSeconds / 30,
+                        progress: currentSeconds / 600,
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: QrImage(

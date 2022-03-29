@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_otp_bloc.dart';
@@ -83,6 +84,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           if (state is GoogleUserExistSuccessState) {
                             Navigator.pop(context);
                             if(state.response?.userExist!=null && state.response?.userExist==true){
+                              AppUtils().setUserLoggedIn();
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(builder: (context) => const DashboardScreen()), (Route<dynamic> route) => false);
                             }

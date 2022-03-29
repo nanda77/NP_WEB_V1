@@ -106,6 +106,7 @@ class _SignUpTagScreenState extends State<SignUpTagScreen> {
                             if(state is RegisterLoadingState){
                             }
                             if(state is RegisterSuccessState){
+                              AppUtils().setUserLoggedIn();
                               Navigator.pop(context);
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(builder: (context) => const DashboardScreen()), (Route<dynamic> route) => false);

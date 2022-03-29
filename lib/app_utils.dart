@@ -20,6 +20,11 @@ class AppUtils {
     prefs.setString('user_number', '');
     prefs.setString('user_email', '');
     prefs.setString('fcmToken', '');
+    prefs.setString('phone_code', '');
+    prefs.setString('country_name', '');
+    prefs.setString('country_code', '');
+    prefs.setString('firebase_uid', '');
+    prefs.setString('bearerToken', '');
   }
 
   void setPhoneCode(String phoneCode) async {

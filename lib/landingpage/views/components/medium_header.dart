@@ -88,22 +88,20 @@ class _MediumHeaderState extends State<MediumHeader> {
                         TextButton(
                           onPressed: () async {
                             AppUtils apputil = AppUtils();
-                            String id = "";
-                            await apputil.getFirebaseUId().then((value) {
-                              id = value;
+                            await apputil.getFirebaseUId().then((id) async {
+                              await apputil.getUserLoggedIn().then((isLoggedIn) {
+                                if(isLoggedIn && id.isNotEmpty){
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => DashboardScreen()),
+                                  );
+                                }
+                                else{
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => SelectCountryScreen()),
+                                  );
+                                }
+                              });
                             });
-                             User? user = await FirebaseAuth.instance.currentUser;
-                             print("user: $id");
-                             if(id.isNotEmpty){
-                               Navigator.push(context,
-                                 MaterialPageRoute(builder: (context) => DashboardScreen()),
-                               );
-                             }
-                             else{
-                               Navigator.push(context,
-                                 MaterialPageRoute(builder: (context) => SelectCountryScreen()),
-                               );
-                             }
                             // StoreUrls().playStoreURL
                           } ,
                           child: Text(

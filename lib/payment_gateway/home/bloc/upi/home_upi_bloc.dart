@@ -28,8 +28,7 @@ class HomeUpiErrorState extends HomeUpiStates {
   HomeUpiErrorState(this.data);
 }
 
-class HomeUpiBloc
-    extends Bloc<HomeUpiEvents, HomeUpiStates> {
+class HomeUpiBloc extends Bloc<HomeUpiEvents, HomeUpiStates> {
   HomeUpiBloc() : super(HomeUpiInitialState()) {
     on<GetHomeUpiDataEvent>((event, emit) async {
       await getHomeUpiDataAPI(event, emit);

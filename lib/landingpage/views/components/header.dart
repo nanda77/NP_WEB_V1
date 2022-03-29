@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/landingpage/views/components/url_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ninjapay/payment_gateway/authentication/screens/select_country_screen.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -78,10 +80,22 @@ class _HeaderState extends State<Header> {
                         ),
                         TextButton(
                           // onPressed: StoreUrls().playStoreURL,
-                          onPressed: () {
-                            Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => DashboardScreen()),
-                            );
+                          onPressed: () async {
+                            AppUtils apputil = AppUtils();
+                            await apputil.getFirebaseUId().then((id) async {
+                              await apputil.getUserLoggedIn().then((isLoggedIn) {
+                                if(isLoggedIn && id.isNotEmpty){
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => DashboardScreen()),
+                                  );
+                                }
+                                else{
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => SelectCountryScreen()),
+                                  );
+                                }
+                              });
+                            });
                           },
                           child: Text(
                             'BUSINESS',

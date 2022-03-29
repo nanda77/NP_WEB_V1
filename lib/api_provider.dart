@@ -49,10 +49,7 @@ class ApiProvider {
             _dio.interceptors.requestLock.lock();
             _dio.interceptors.responseLock.lock();
             FirebaseAuth.instance.signOut();
-            appUtils.setFirebaseUId("");
-            appUtils.setUserNumber("");
-            appUtils.setUserEmail("");
-            appUtils.setFCMToken("");
+            appUtils.logoutUser();
             // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const TipsLeadPage()), (Route<dynamic> route) => false);
           } else {
             handler.next(e);
@@ -86,7 +83,7 @@ class ApiProvider {
     }
   }
 
-  Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue}) async {
+  Future<LightningTipDepositModel?> lightingTipDeposit({int? tip, String? notes, double? btcPrice, int? fiatvalue, String? userName}) async {
     String token = await appUtils.getFCMToken();
     try {
       Response response = await _dio.post("/personalPage/tipLightningRequest",
@@ -97,7 +94,7 @@ class ApiProvider {
             "fiatValue": fiatvalue,
             "fiatCurrencyUnit": "usd",
             "btcPrice": btcPrice,
-            "username": "robin"
+            "username": userName
           },
           options: Options(
             contentType: Headers.jsonContentType,
@@ -235,6 +232,14 @@ class ApiProvider {
 
   Future<CommonModel?> register({String? uid, String? country, String? email, String? phone, String? userName, String? fcm}) async {
     String token = await appUtils.getFCMToken();
+    print({
+      "uid": uid,
+      "country": country,
+      "email": email,
+      "phoneNumber": phone,
+      "username": userName,
+      "fcm": fcm
+    });
     try {
       Response response = await _dio.post("/user/registration",
           data: {
@@ -252,6 +257,7 @@ class ApiProvider {
             }
           )
       );
+      print(response.data.toString());
       return CommonModel.fromJson(response.data);
     } on DioError catch (error, stacktrace) {
 

@@ -1,24 +1,22 @@
 import 'dart:async';
 import 'package:device_preview/device_preview.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/account/screens/account_main_screen.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_email_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_otp_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_exist_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_name_check_bloc.dart';
-import 'package:ninjapay/payment_gateway/authentication/screens/login_signup.dart';
-import 'package:ninjapay/payment_gateway/authentication/screens/select_country_screen.dart';
 import 'package:ninjapay/payment_gateway/authentication/services/auth_repo.dart';
 import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
@@ -113,22 +111,8 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             scaffoldBackgroundColor: const Color(0xff000000)
           ),
-          home: StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                User? user = snapshot.data;
-                if (user != null) {
-                  return const DashboardScreen();
-                }
-                return const TipsLeadPage();//Connection Inactive, show error dialog
-              } else {
-                return const TipsLeadPage();//Connection Inactive, show error dialog
-              }
-            },
-          ),
-          // home: SelectCountryScreen(),
-          // home: TipsLeadPage(),
+          // home: DashboardScreen(),
+          home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
           routes: {
             HomePage.route: (context) => HomePage(),

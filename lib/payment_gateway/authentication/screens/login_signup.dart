@@ -151,6 +151,7 @@ class _LoginSignUpScreenState extends State<LoginSignUpScreen> {
                                     try{
                                       Navigator.pop(context);
                                       if(state.response?.userExist!=null && state.response?.userExist==true){
+                                        appUtils.setUserLoggedIn();
                                         print("old user");
                                         Navigator.of(context).pushAndRemoveUntil(
                                             MaterialPageRoute(builder: (context) => const DashboardScreen()), (Route<dynamic> route) => false);

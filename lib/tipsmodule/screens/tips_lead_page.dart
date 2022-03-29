@@ -29,8 +29,7 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
     baseUrl = Uri.base.toString();
     print(baseUrl);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<GetUserBloc>(context)
-          .add(GetUserRefreshEvent(baseUrl!.split("/").last /*"robin"*/));
+      BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(baseUrl!.split("/").last));
     });
   }
 
@@ -44,9 +43,9 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
       body: BlocBuilder<GetUserBloc, GetUserState>(builder: (context, state) {
         if (state is GetUserSuccessState) {
           return Responsive(
-            desktop: DeskTopLeadPage(state.response),
-            mobile: MobileLeadPage(state.response),
-            tablet: DeskTopLeadPage(state.response),
+            desktop: DeskTopLeadPage(state.response, baseUrl!.split("/").last),
+            mobile: MobileLeadPage(state.response, baseUrl!.split("/").last),
+            tablet: DeskTopLeadPage(state.response, baseUrl!.split("/").last),
           );
           /*return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +154,8 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
 
 class DeskTopLeadPage extends StatefulWidget {
   UserData? response;
-  DeskTopLeadPage(this.response, {Key? key}) : super(key: key);
+  String userName;
+  DeskTopLeadPage(this.response, this.userName, {Key? key}) : super(key: key);
   @override
   _DeskTopLeadPageState createState() => _DeskTopLeadPageState();
 }
@@ -227,7 +227,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
         ButtonWithIcon("Tip using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EnterTipPage()),
+            MaterialPageRoute(builder: (context) => EnterTipPage(widget.userName)),
           );
         }),
         SizedBox(height: height * 0.04),
@@ -267,7 +267,8 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
 
 class MobileLeadPage extends StatefulWidget {
   UserData? response;
-  MobileLeadPage(this.response, {Key? key}) : super(key: key);
+  String userName;
+  MobileLeadPage(this.response, this.userName, {Key? key}) : super(key: key);
   @override
   _MobileLeadPageState createState() => _MobileLeadPageState();
 }
@@ -333,7 +334,7 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
         ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EnterTipPage()),
+            MaterialPageRoute(builder: (context) => EnterTipPage(widget.userName)),
           );
         }),
         SizedBox(height: height * 0.04),

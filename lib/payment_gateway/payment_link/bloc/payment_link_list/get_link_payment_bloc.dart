@@ -1,13 +1,11 @@
 import 'dart:convert' as convert;
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/common_component/alert_message.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
-
+import 'package:ninjapay/payment_gateway/payment_link/model/get_link_payments_model.dart';
 import 'get_link_payment_events.dart';
 import 'get_link_payment_states.dart';
 

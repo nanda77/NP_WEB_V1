@@ -18,7 +18,8 @@ import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 
 class EnterTipPage extends StatefulWidget {
-  const EnterTipPage({Key? key}) : super(key: key);
+  String? userName;
+  EnterTipPage(this.userName, {Key? key}) : super(key: key);
 
   @override
   _EnterTipPageState createState() => _EnterTipPageState();
@@ -141,7 +142,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(widget.userName??"")),
                                             );
                                           },
                                           child: customIcon(
@@ -192,7 +193,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(widget.userName??"")),
                                             );
                                           },
                                           child: customIcon(
@@ -243,7 +244,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(widget.userName??"")),
                                             );
                                           },
                                           child: customIcon(
@@ -404,10 +405,12 @@ class _EnterTipPageState extends State<EnterTipPage> {
                               : "Tip: ${noteController.text}";
                           BlocProvider.of<LightningTipBloc>(context).add(
                               LightningTipRefreshEvent(
-                                  notes: notes,
-                                  tip: btcValue ?? 0.0,
-                                  btcPrice: data?['USD'] ?? 0.0,
-                                  fiatvalue: fiatValue));
+                                notes: notes,
+                                tip: btcValue ?? 0.0,
+                                btcPrice: data?['USD'] ?? 0.0,
+                                fiatvalue: fiatValue,
+                                userName: widget.userName??""
+                              ));
                         }
                       },
                       child: SimpleButton("NEXT"),
@@ -459,7 +462,7 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CustomTipPage()),
+                                      builder: (context) => CustomTipPage(widget.userName??"")),
                                 );
                               },
                               child:

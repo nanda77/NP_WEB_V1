@@ -17,7 +17,8 @@ import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 import '../../responsive.dart';
 
 class CustomTipPage extends StatefulWidget {
-  CustomTipPage({Key? key}) : super(key: key);
+  String userName;
+  CustomTipPage(this.userName, {Key? key}) : super(key: key);
   @override
   State<CustomTipPage> createState() => _CustomTipPageState();
 }
@@ -252,10 +253,12 @@ class _CustomTipPageState extends State<CustomTipPage> {
                                 : "Tip: ${noteController.text}";
                             BlocProvider.of<LightningTipBloc>(context).add(
                                 LightningTipRefreshEvent(
-                                    notes: notes,
-                                    tip: btcValue ?? 0.0,
-                                    btcPrice: data?['USD'] ?? 0.0,
-                                    fiatvalue: fiatValue));
+                                  notes: notes,
+                                  tip: btcValue ?? 0.0,
+                                  btcPrice: data?['USD'] ?? 0.0,
+                                  fiatvalue: fiatValue,
+                                  userName: widget.userName
+                                ));
                           }
                         }),
                       )
