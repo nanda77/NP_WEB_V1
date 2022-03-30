@@ -3,7 +3,10 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/payment_gateway/account/screens/aadhar_kyc_screen.dart';
 import 'package:ninjapay/payment_gateway/account/screens/account_main_screen.dart';
+import 'package:ninjapay/payment_gateway/account/screens/upload_selfie_screen.dart';
+import 'package:ninjapay/payment_gateway/account/screens/verify_kyc_screen.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_email_bloc.dart';
@@ -111,8 +114,8 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             scaffoldBackgroundColor: const Color(0xff000000)
           ),
-          // home: DashboardScreen(),
           home: TipsLeadPage(),
+          // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
           routes: {
             HomePage.route: (context) => HomePage(),

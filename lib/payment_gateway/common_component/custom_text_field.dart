@@ -80,9 +80,18 @@ Widget simpleTextField(String hint, {
             borderRadius: BorderRadius.circular(2.0),
             // borderSide: const BorderSide(color: Colors.grey),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                width: 1,
+                color: kGreyTextColor
+            ),
+            borderRadius: BorderRadius.circular(2.0),
+            // borderSide: const BorderSide(color: Colors.grey),
+          ),
           hintText: hint,
           suffixIcon: suffixIcon ?? SizedBox(),
-          hintStyle: boldTextStyle.copyWith(color: kTextSubColor)),
+          hintStyle: boldTextStyle.copyWith(color: kTextSubColor)
+      ),
     ),
   );
 }
