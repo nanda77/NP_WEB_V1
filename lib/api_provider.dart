@@ -8,6 +8,7 @@ import 'package:ninjapay/landingpage/views/components/header.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
 import 'package:ninjapay/payment_gateway/home/model/profile_dashboard_model.dart';
 import 'package:ninjapay/payment_gateway/pay/model/common_model.dart';
+import 'package:ninjapay/payment_gateway/pay/model/single_link_id_detail_model.dart';
 import 'package:ninjapay/tipsmodule/models/get_exchange_rate_model.dart';
 import 'package:ninjapay/tipsmodule/models/lightning_tip_deposit_model.dart';
 import 'package:ninjapay/tipsmodule/models/transaction_status_model.dart';
@@ -223,6 +224,30 @@ class ApiProvider {
 
       if (error.response != null)
         return CommonModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  Future<SingleLinkIdDetailModel?> singleLinkIdDetails(String id) async {
+    String token = await appUtils.getFCMToken();
+    try {
+      Response response = await _dio.get("/merchant/singlepaymentLinkDetail",
+          queryParameters: {
+            "linkId": id
+          },
+          options: Options(
+              contentType: Headers.jsonContentType,
+              headers: {
+                "Authorization": "Bearer $token"
+              }
+          )
+      );
+      print("--------------------"+ "${response.data.toString()}");
+      return SingleLinkIdDetailModel.fromJson(response.data);
+    } on DioError catch (error, stacktrace) {
+      if (error.response != null)
+        return SingleLinkIdDetailModel.fromJson(error.response!.data);
       print("Exception occured: $error stackTrace: $stacktrace");
       return null;
     }

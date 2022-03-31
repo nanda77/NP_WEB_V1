@@ -25,7 +25,7 @@ class ProfileDashboardModel {
 class ProfileDashboardData {
   int? amount;
   String? lastUpdated;
-  String? btc;
+  double? btc;
   double? usdt;
   String? email;
   String? country;

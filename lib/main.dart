@@ -1,12 +1,9 @@
 import 'dart:async';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ninjapay/payment_gateway/account/screens/aadhar_kyc_screen.dart';
-import 'package:ninjapay/payment_gateway/account/screens/account_main_screen.dart';
-import 'package:ninjapay/payment_gateway/account/screens/upload_selfie_screen.dart';
-import 'package:ninjapay/payment_gateway/account/screens/verify_kyc_screen.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_email_bloc.dart';
@@ -14,19 +11,20 @@ import 'package:ninjapay/payment_gateway/authentication/bloc/send_otp_bloc.dart'
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_exist_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_name_check_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/services/auth_repo.dart';
-import 'package:ninjapay/payment_gateway/dashboard_screen.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/pay/bloc/single_link_id_details_bloc.dart';
 import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
+import 'package:ninjapay/plugins/navigator/navigator.dart';
 import 'package:ninjapay/responsive.dart';
+import 'package:ninjapay/router.dart';
 import 'package:ninjapay/tipsmodule/blocs/exchange_rate_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/get_user_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/lightning_tip_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/timer_bloc.dart';
 import 'package:ninjapay/tipsmodule/blocs/transaction_status_bloc.dart';
-import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
@@ -53,8 +51,28 @@ Future main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final AuthRepository authRepo = AuthRepository.instance;
+  final router = FluroRouter();
+  String? baseUrl, id;
+
+  @override
+  void initState() {
+    Routes.configureRoutes(router);
+    super.initState();
+    baseUrl = Uri.base.toString();
+    print(baseUrl);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      id = baseUrl!.split("?").last;
+      print(id);
+      // BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(baseUrl!.split("/").last));
+    });
+  }
 
   // This widget is the root of your application.
   @override
@@ -103,6 +121,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<EmailBloc>(
             create: (context) => EmailBloc(authRepo),
           ),
+          BlocProvider<SingleLinkIdDetailBloc>(
+            create: (context) => SingleLinkIdDetailBloc(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -114,7 +135,9 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             scaffoldBackgroundColor: const Color(0xff000000)
           ),
-          home: TipsLeadPage(),
+          initialRoute: NavUtils.initialUrl,
+          onGenerateRoute: router.generator,
+          // home: TipsLeadPage(),
           // home: TipsLeadPage(),
           /*initialRoute: HomePage.route,
           routes: {

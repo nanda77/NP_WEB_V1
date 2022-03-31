@@ -23,6 +23,10 @@ class CreatePaymentBloc extends Bloc<CreatePaymentEvents, CreatePaymentStates> {
     emit(CreatePaymentLoadingState());
     try {
       var headers = {HttpHeaders.authorizationHeader: "Bearer $authToken"};
+      print({
+        "amount": event.amount,
+        "purpose": event.purpose,
+      });
       Map<String, dynamic> postBody = {
         "amount": event.amount,
         "purpose": event.purpose,

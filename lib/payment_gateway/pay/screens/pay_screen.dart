@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
+import 'package:ninjapay/payment_gateway/pay/bloc/single_link_id_details_bloc.dart';
 import 'package:ninjapay/payment_gateway/pay/screens/complete_payment.dart';
 
 import '../../common_component/custom_buttons.dart';
@@ -17,10 +18,23 @@ class PayScreen extends StatefulWidget {
 }
 
 class _PayScreenState extends State<PayScreen> {
+  String? baseUrl;
   final _formKey = GlobalKey<FormState>();
   TextEditingController purposeController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   TextEditingController emailOrPhoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    baseUrl = Uri.base.toString();
+    print(baseUrl);
+    if(baseUrl!.split("?").last.isNotEmpty){
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        BlocProvider.of<SingleLinkIdDetailBloc>(context).add(SingleLinkIdDetailRefreshEvent(baseUrl!.split("?").last));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
