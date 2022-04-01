@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +22,9 @@ class PayScreen extends StatefulWidget {
 class _PayScreenState extends State<PayScreen> {
   String? baseUrl;
   final _formKey = GlobalKey<FormState>();
+  var list = ['a','b','c','d'];
+  final _random = new Random();
+  String? element;
   TextEditingController purposeController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   TextEditingController emailOrPhoneController = TextEditingController();
@@ -29,8 +34,10 @@ class _PayScreenState extends State<PayScreen> {
     super.initState();
     baseUrl = Uri.base.toString();
     print(baseUrl);
+    print("vivek : ${baseUrl!.split(" ? ").last}");
     if(baseUrl!.split("?").last.isNotEmpty){
       WidgetsBinding.instance!.addPostFrameCallback((_) {
+        BlocProvider.of<HomeUpiBloc>(context).add(GetHomeUpiDataEvent());
         BlocProvider.of<SingleLinkIdDetailBloc>(context).add(SingleLinkIdDetailRefreshEvent(baseUrl!.split("?").last));
       });
     }
@@ -111,42 +118,101 @@ class _PayScreenState extends State<PayScreen> {
                         const SizedBox(
                           height: 5,
                         ),
-                        customTextField(
-                            '',
-                            width: 400,
-                            controller: purposeController,
-                            validator: (text){
-                              if(text!.trim().isEmpty){
-                                return "";
+                        BlocBuilder<SingleLinkIdDetailBloc, SingleLinkIdDetailState>(
+                            builder: (context, linkState){
+                              if(linkState is SingleLinkIdDetailSuccessState){
+                                purposeController.text = linkState.response?.data?.purpose??"";
+                                amountController.text = linkState.response?.data?.amount.toString()??"";
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    customTextField(
+                                        '',
+                                        width: 400,
+                                        enable: false,
+                                        controller: purposeController,
+                                        validator: (text){
+                                          if(text!.trim().isEmpty){
+                                            return "";
+                                          }
+                                          else{
+                                            return null;
+                                          }
+                                        }
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      'Amount',
+                                      style: blueTextStyle,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    customTextField(
+                                        '',
+                                        width: 400,
+                                        enable: false,
+                                        controller: amountController,
+                                        validator: (text){
+                                          if(text!.trim().isEmpty){
+                                            return "";
+                                          }
+                                          else{
+                                            return null;
+                                          }
+                                        }
+                                    ),
+                                  ],
+                                );
                               }
                               else{
-                                return null;
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    customTextField(
+                                        '',
+                                        width: 400,
+                                        controller: purposeController,
+                                        validator: (text){
+                                          if(text!.trim().isEmpty){
+                                            return "";
+                                          }
+                                          else{
+                                            return null;
+                                          }
+                                        }
+                                    ),
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
+                                    Text(
+                                      'Amount',
+                                      style: blueTextStyle,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    customTextField(
+                                        '',
+                                        width: 400,
+                                        controller: amountController,
+                                        validator: (text){
+                                          if(text!.trim().isEmpty){
+                                            return "";
+                                          }
+                                          else{
+                                            return null;
+                                          }
+                                        }
+                                    ),
+                                  ],
+                                );
                               }
                             }
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        Text(
-                          'Amount',
-                          style: blueTextStyle,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        customTextField(
-                            '',
-                            width: 400,
-                            controller: amountController,
-                            validator: (text){
-                              if(text!.trim().isEmpty){
-                                return "";
-                              }
-                              else{
-                                return null;
-                              }
-                            }
-                        ),
+
                         const SizedBox(
                           height: 30,
                         ),

@@ -17,9 +17,12 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen> with AutomaticKeepAliveClientMixin {
   int _selectedIndex = 0;
   String? baseUrl;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {

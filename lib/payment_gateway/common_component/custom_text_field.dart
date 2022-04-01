@@ -6,10 +6,11 @@ Widget customTextField(String hint,
     {Icon? suffixIcon,
     TextInputFormatter? textInputFormatter,
     int? maxLength,
-    double? width,TextEditingController? controller, String? Function(String?)? validator}) {
+    double? width,TextEditingController? controller, String? Function(String?)? validator, bool? enable}) {
   return Container(
     width: width ?? 300,
     child: TextFormField(
+      enabled: enable,
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,

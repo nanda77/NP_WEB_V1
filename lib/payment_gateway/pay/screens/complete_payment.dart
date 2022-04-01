@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +26,10 @@ class _CompletePaymentState extends State<CompletePayment> {
   String? upiId;
   final int timerMaxSeconds = 30;
   var xid = Xid();
-
+  static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String? element, orderId;
   int currentSeconds = 0;
   Timer? countDownTimer;
   Timer? apiTimer;
@@ -51,6 +54,10 @@ class _CompletePaymentState extends State<CompletePayment> {
   @override
   void initState() {
     super.initState();
+    orderId = widget.userName?.substring(0, 2);
+    element = "$orderId${DateTime.now().millisecondsSinceEpoch.toString().substring(0, 7)}${getRandomString(4)}";
+    print("Random: $element");
+    print("${DateTime.now().millisecondsSinceEpoch} $orderId");
     startTimeout();
     upiId = "upi://pay?pa=${widget.userId?.trim()}&pn=${widget.userName?.trim()}&am=${widget.amount?.trim()??""}&tn=${widget.purpose?.trim()??""}";
   }
@@ -87,7 +94,7 @@ class _CompletePaymentState extends State<CompletePayment> {
 
           Text('Complete Your Payment', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),),
 
-          Text('#$xid / Amount - ₹${widget.amount}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),),
+          Text('#$element / Amount - ₹${widget.amount}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),),
 
           Text('@${widget.userName}', style: TextStyle(fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),),
 
