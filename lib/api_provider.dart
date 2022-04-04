@@ -46,7 +46,7 @@ class ApiProvider {
       },
       onError: (DioError e, handler) async {
         if (e.response != null) {
-          if (e.response?.statusCode == 401) {//catch the 401 here
+          if (e.response?.statusCode == 401 || e.response?.data.toString().trim() == "forbidden") {//catch the 401 here
             _dio.interceptors.requestLock.lock();
             _dio.interceptors.responseLock.lock();
             FirebaseAuth.instance.signOut();
