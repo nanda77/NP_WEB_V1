@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/constants.dart';
+import 'package:ninjapay/payment_gateway/paywalls/bloc/paywall_list_bloc.dart';
 import 'package:ninjapay/payment_gateway/paywalls/screen/paywalls_btc_tab.dart';
-import 'package:ninjapay/payment_gateway/paywalls/screen/paywalls_upi_tab.dart';
 
 class PaywallsScreen extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class _PaywallsScreenState extends State<PaywallsScreen>
   void initState() {
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      BlocProvider.of<PaywallListBloc>(context).add(PaywallListRefreshEvent());
+    });
   }
 
   @override

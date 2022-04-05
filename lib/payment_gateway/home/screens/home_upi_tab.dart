@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
+import 'package:ninjapay/payment_gateway/home/model/home_upi_model.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
@@ -51,17 +53,17 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       children: [
                         Expanded(
                           child: paymentStatusCard(orangeLightColor, orangeColor,
-                              'Pending', '$inrSign ${state.data.data?.balanceStatus?.pending ?? 0}'),
+                              'Pending', '$inrSign ${state.data?.data?.balanceStatus?.pending ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(greenLightColor, greenColor,
-                              'Approved', '$inrSign ${state.data.data?.balanceStatus?.approved ?? 0}'),
+                              'Approved', '$inrSign ${state.data?.data?.balanceStatus?.approved ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(
-                              redLightColor, redColor, 'Declined', '$inrSign ${state.data.data?.balanceStatus?.declined ?? 0}'),
+                              redLightColor, redColor, 'Declined', '$inrSign ${state.data?.data?.balanceStatus?.declined ?? 0}'),
                         ),
                       ],
                     ),
@@ -98,7 +100,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                                 color: kGreyTextColor,
                                 height: 1,
                               ),
-                              _transactionList(state.data.data?.transactionRecords??[]),
+                              _transactionList(state.data?.data?.transactionRecords??[]),
                             ],
                           ),
                         ),
@@ -223,7 +225,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
     );
   }
 
-  Widget _transactionList(List<String> list) {
+  Widget _transactionList(List<TransactionRecords> list) {
         return Expanded(
           child: ListView.builder(
             itemCount: list.length,
@@ -237,14 +239,14 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       children: [
                         tableItemText('${index + 1}', _tableItemWidth),
                         tableItemText('10 Mar, 9:13 am', _tableItemWidth),
-                        tableItemText('GD68H87JSG86', _tableItemWidth),
-                        tableItemText('$inrSign 434523', _tableItemWidth),
-                        tableItemText('7437878434788@icici', _tableItemWidth),
-                        tableItemText('Raw material', _tableItemWidth),
-                        tableItemText('GD68H87JSG86', _tableItemWidth),
+                        tableItemText(list[index].utr??"", _tableItemWidth),
+                        tableItemText('$inrSign ${list[index].price??""}', _tableItemWidth),
+                        tableItemText(list[index].upi??"", _tableItemWidth),
+                        tableItemText(list[index].purpose??"", _tableItemWidth),
+                        tableItemText(list[index].orderId??"", _tableItemWidth),
                         Container(
                           padding: tablePadding,
-                          child: index == 5
+                          child: list[index].status?.toLowerCase() == "Pending".toLowerCase()
                               ? Row(
                                   children: [
                                     GestureDetector(
@@ -264,7 +266,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                                     ),
                                   ],
                                 )
-                              : tableItemText('Approved', _devWidth),
+                              : tableItemText(list[index].status??"", _devWidth),
                           width: (_devWidth - 290) / 8,
                         ),
                       ],

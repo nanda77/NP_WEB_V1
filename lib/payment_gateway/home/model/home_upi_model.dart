@@ -25,7 +25,7 @@ class HomeUpiModel {
 class Data {
   MerchantDetails? merchantDetails;
   BalanceStatus? balanceStatus;
-  List<String>? transactionRecords;
+  List<TransactionRecords>? transactionRecords;
 
   Data({this.merchantDetails, this.balanceStatus, this.transactionRecords});
 
@@ -36,7 +36,12 @@ class Data {
     balanceStatus = json['balance_status'] != null
         ? new BalanceStatus.fromJson(json['balance_status'])
         : null;
-    transactionRecords = json['transaction_records'].cast<String>();
+    if (json['transaction_records'] != null) {
+      transactionRecords = <TransactionRecords>[];
+      json['transaction_records'].forEach((v) {
+        transactionRecords!.add(new TransactionRecords.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -47,7 +52,9 @@ class Data {
     if (this.balanceStatus != null) {
       data['balance_status'] = this.balanceStatus!.toJson();
     }
-    data['transaction_records'] = this.transactionRecords;
+    if (this.transactionRecords != null) {
+      data['transaction_records'] = this.transactionRecords!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -107,6 +114,59 @@ class BalanceStatus {
     data['pending'] = this.pending;
     data['approved'] = this.approved;
     data['declined'] = this.declined;
+    return data;
+  }
+}
+
+class TransactionRecords {
+  String? id;
+  String? createdAt;
+  String? updatedAt;
+  String? utr;
+  int? price;
+  String? upi;
+  String? purpose;
+  String? orderId;
+  String? status;
+  String? emailPhone;
+
+  TransactionRecords(
+      {this.id,
+        this.createdAt,
+        this.updatedAt,
+        this.utr,
+        this.price,
+        this.upi,
+        this.purpose,
+        this.orderId,
+        this.status,
+        this.emailPhone});
+
+  TransactionRecords.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    utr = json['utr'];
+    price = json['price'];
+    upi = json['upi'];
+    purpose = json['purpose'];
+    orderId = json['order_id'];
+    status = json['status'];
+    emailPhone = json['email_phone'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['utr'] = this.utr;
+    data['price'] = this.price;
+    data['upi'] = this.upi;
+    data['purpose'] = this.purpose;
+    data['order_id'] = this.orderId;
+    data['status'] = this.status;
+    data['email_phone'] = this.emailPhone;
     return data;
   }
 }

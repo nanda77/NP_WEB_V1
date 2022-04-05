@@ -115,6 +115,28 @@ class AppUtils {
     return fcmToken;
   }
 
+  void setAdminKey(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('adminKey', token);
+  }
+
+  Future<String> getAdminKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String fcmToken = prefs.getString('adminKey') ?? "";
+    return fcmToken;
+  }
+
+  void setInvoiceKey(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('invoiceKey', token);
+  }
+
+  Future<String> getInvoiceKey() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String fcmToken = prefs.getString('invoiceKey') ?? "";
+    return fcmToken;
+  }
+
   void setBearerToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('bearerToken', token);

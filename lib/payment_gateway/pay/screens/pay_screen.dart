@@ -228,7 +228,7 @@ class _PayScreenState extends State<PayScreen> {
                                         shape: BoxShape.circle,
                                         border: Border.all(width: 1, color: kBlueColor),
                                         image: DecorationImage(
-                                          image: NetworkImage(state.data.data?.merchantDetails?.image??""),
+                                          image: NetworkImage(state.data?.data?.merchantDetails?.image??""),
                                           fit: BoxFit.fill
                                         )
                                       ),
@@ -249,7 +249,7 @@ class _PayScreenState extends State<PayScreen> {
                                           height: 5,
                                         ),
 
-                                        Text("@${state.data.data?.merchantDetails?.username??""}",
+                                        Text("@${state.data?.data?.merchantDetails?.username??""}",
                                             style: TextStyle(
                                                 fontSize: 16, color: darkBackgroundColor))
 
@@ -337,7 +337,7 @@ class _PayScreenState extends State<PayScreen> {
                                 if(_formKey.currentState!.validate()){
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => CompletePayment(purpose: purposeController.text, amount: amountController.text, emailOrPhone: emailOrPhoneController.text, userId: state.data.data?.merchantDetails?.upi??"", userName: state.data.data?.merchantDetails?.username??"",)),
+                                    MaterialPageRoute(builder: (context) => CompletePayment(purpose: purposeController.text, amount: amountController.text, emailOrPhone: emailOrPhoneController.text, userId: state.data?.data?.merchantDetails?.upi??"", userName: state.data?.data?.merchantDetails?.username??"",)),
                                   );
                                 }
                               })

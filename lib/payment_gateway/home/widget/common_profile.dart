@@ -17,7 +17,7 @@ class CommonProfileName extends StatelessWidget {
         } else if (state is HomeUpiSuccessState) {
           return Row(
             children: [
-              Text("Welcome, @${state.data.data?.merchantDetails?.username??""}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+              Text("Welcome, @${state.data?.data?.merchantDetails?.username??""}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -25,7 +25,7 @@ class CommonProfileName extends StatelessWidget {
               ),
 
               CachedNetworkImage(
-                imageUrl: state.data.data?.merchantDetails?.image ?? '',
+                imageUrl: state.data?.data?.merchantDetails?.image ?? '',
                 imageBuilder: (context, imageProvider) => Container(
                   height: 50,
                   width: 50,
@@ -57,7 +57,7 @@ class CommonProfileName extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                  state.data.data?.merchantDetails?.fullName == null ? "" : '${(state.data.data?.merchantDetails?.fullName ?? "na").substring(0, 2).toLowerCase()}',
+                  state.data?.data?.merchantDetails?.fullName == null ? "" : '${(state.data?.data?.merchantDetails?.fullName ?? "na").substring(0, 2).toLowerCase()}',
                       style: GoogleFonts.montserrat(
                           fontSize: 27,
                           fontWeight: FontWeight.w400,

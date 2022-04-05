@@ -8,7 +8,7 @@ class Routes{
   static void configureRoutes(FluroRouter router){
     router.notFoundHandler = Handler(handlerFunc: (context, params){
       debugPrint("ROUTE WAS NOT FOUND!!");
-      return RouteNotFound();
+      return TipsLeadPage();
     });
     router.define(
       '/',

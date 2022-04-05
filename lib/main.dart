@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/google_auth_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/register_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/send_email_bloc.dart';
@@ -17,6 +18,9 @@ import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/single_link_id_details_bloc.dart';
 import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_bloc.dart';
 import 'package:ninjapay/payment_gateway/payment_link/bloc/payment_link_list/get_link_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/paywalls/bloc/create_paywall_bloc.dart';
+import 'package:ninjapay/payment_gateway/paywalls/bloc/delete_paywall_bloc.dart';
+import 'package:ninjapay/payment_gateway/paywalls/bloc/paywall_list_bloc.dart';
 import 'package:ninjapay/plugins/navigator/navigator.dart';
 import 'package:ninjapay/responsive.dart';
 import 'package:ninjapay/router.dart';
@@ -29,7 +33,6 @@ import 'package:url_strategy/url_strategy.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
 import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,17 +63,15 @@ class _MyAppState extends State<MyApp> {
   final AuthRepository authRepo = AuthRepository.instance;
   final router = FluroRouter();
   String? baseUrl, id;
+  AppUtils appUtils = AppUtils();
 
   @override
   void initState() {
     Routes.configureRoutes(router);
     super.initState();
-    baseUrl = Uri.base.toString();
-    print(baseUrl);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      id = baseUrl!.split("?").last;
-      print(id);
-      // BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(baseUrl!.split("/").last));
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      appUtils.setAdminKey("d4b99582dc2546c1a61c9b6c0dec2e47");
+      appUtils.setInvoiceKey("2ae9cd7c96b0402f85cbb9cbbcc919ed");
     });
   }
 
@@ -123,6 +124,15 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider<SingleLinkIdDetailBloc>(
             create: (context) => SingleLinkIdDetailBloc(),
+          ),
+          BlocProvider<PaywallListBloc>(
+            create: (context) => PaywallListBloc(),
+          ),
+          BlocProvider<DeletePaywallBloc>(
+            create: (context) => DeletePaywallBloc(),
+          ),
+          BlocProvider<CreatePaywallBloc>(
+            create: (context) => CreatePaywallBloc(),
           ),
         ],
         child: MaterialApp(

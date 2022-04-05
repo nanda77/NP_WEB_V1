@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/landingpage/views/components/header.dart';
 import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
+import 'package:ninjapay/payment_gateway/home/model/home_upi_model.dart';
 import 'package:ninjapay/payment_gateway/home/model/profile_dashboard_model.dart';
 import 'package:ninjapay/payment_gateway/pay/model/common_model.dart';
 import 'package:ninjapay/payment_gateway/pay/model/single_link_id_detail_model.dart';
+import 'package:ninjapay/payment_gateway/paywalls/models/paywall_list_model.dart';
 import 'package:ninjapay/tipsmodule/models/get_exchange_rate_model.dart';
 import 'package:ninjapay/tipsmodule/models/lightning_tip_deposit_model.dart';
 import 'package:ninjapay/tipsmodule/models/transaction_status_model.dart';
@@ -46,7 +48,7 @@ class ApiProvider {
       },
       onError: (DioError e, handler) async {
         if (e.response != null) {
-          if (e.response?.statusCode == 401 || e.response?.data.toString().trim() == "forbidden") {//catch the 401 here
+          if (e.response?.data.toString().trim() == "forbidden" || e.response?.statusCode == 401) {//catch the 401 here
             _dio.interceptors.requestLock.lock();
             _dio.interceptors.responseLock.lock();
             FirebaseAuth.instance.signOut();
@@ -253,6 +255,29 @@ class ApiProvider {
     }
   }
 
+  Future<HomeUpiModel?> upiDashboard() async {
+    String token = await appUtils.getFCMToken();
+    print("Bearer $token");
+    try {
+      Response response = await _dio.get("/merchant/upiDashboard",
+          queryParameters: {},
+          options: Options(
+              contentType: Headers.jsonContentType,
+              headers: {
+                "Authorization": "Bearer $token"
+              }
+          )
+      );
+      print("--------------------"+ "${response.data.toString()}");
+      return HomeUpiModel.fromJson(response.data);
+    } on DioError catch (error, stacktrace) {
+      if (error.response != null)
+        return HomeUpiModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
   // -----------------------User-----------------------
 
   Future<CommonModel?> register({String? uid, String? country, String? email, String? phone, String? userName, String? fcm}) async {
@@ -340,4 +365,95 @@ class ApiProvider {
       return null;
     }
   }
+
+  // -----------------------Paywall Section------------------------
+
+  Future<PaywallListModel?> paywallList() async {
+    String invoiceKey = await appUtils.getInvoiceKey();
+    try {
+      Response response = await _dio.get("https://www.lnbits.com/paywall/api/v1/paywalls",
+        queryParameters: {},
+        options: Options(
+          contentType: Headers.jsonContentType,
+          headers: {
+            "X-Api-Key": invoiceKey
+          }
+        )
+      );
+      print("--------------------"+ "${response.data.toString()}");
+      return PaywallListModel.fromJson({
+        "data": response.data
+      });
+    } on DioError catch (error, stacktrace) {
+      if (error.response != null)
+        return PaywallListModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  Future<CommonModel?> createPaywall({String? uid, String? country, String? email, String? phone, String? userName, String? fcm}) async {
+    String adminKey = await appUtils.getAdminKey();
+    try {
+      Response response = await _dio.post("/user/registration",
+          data: {
+            "amount": uid,
+            "description": country,
+            "memo": email,
+            "remembers": phone,
+            "url": userName
+          },
+          options: Options(
+              contentType: Headers.jsonContentType,
+              headers: {
+                "X-Api-Key": adminKey
+              }
+          )
+      );
+      print(response.data.toString());
+      return CommonModel.fromJson(response.data);
+    } on DioError catch (error, stacktrace) {
+
+      if (error.response != null)
+        return CommonModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
+  Future<CommonModel?> deletePaywall(String paywallId) async {
+    String invoiceKey = await appUtils.getInvoiceKey();
+    try {
+      Response response = await _dio.delete("https://www.lnbits.com/paywall/api/v1/paywalls/$paywallId",
+          queryParameters: {},
+          options: Options(
+            contentType: Headers.jsonContentType,
+            headers: {
+              "X-Api-Key": invoiceKey
+            }
+          )
+      );
+      print("--------------------"+ "${response.data.toString()}");
+      if(response.statusCode == 204){
+        return CommonModel.fromJson({
+          "status": true,
+          "message": "Deleted Successfully..",
+          "data": null
+        });
+      }
+      else{
+        return CommonModel.fromJson({
+          "status": false,
+          "message": "Something went wrong!",
+          "data": null
+        });
+      }
+    } on DioError catch (error, stacktrace) {
+      if (error.response != null)
+        return CommonModel.fromJson(error.response!.data);
+      print("Exception occured: $error stackTrace: $stacktrace");
+      return null;
+    }
+  }
+
 }

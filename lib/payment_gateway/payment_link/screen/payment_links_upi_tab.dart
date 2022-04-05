@@ -321,7 +321,7 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                       } else if (isConnected != true) {
                         Fluttertoast.showToast(msg: AlertMessages.INTERNET_ERROR);
                       } else {
-                        if(upiState.data.data?.merchantDetails?.upi == null || upiState.data.data?.merchantDetails?.upi?.trim() == ""){
+                        if(upiState.data?.data?.merchantDetails?.upi == null || upiState.data?.data?.merchantDetails?.upi?.trim() == ""){
                           Fluttertoast.showToast(msg: 'Please add upi id..');
                         }
                         else{
