@@ -4,7 +4,7 @@ import 'package:ninjapay/constants.dart';
 
 Widget customTextField(String hint,
     {Icon? suffixIcon,
-    TextInputFormatter? textInputFormatter,
+    List<TextInputFormatter>? inputFormatter,
     int? maxLength,
     double? width,TextEditingController? controller, String? Function(String?)? validator, bool? enable}) {
   return Container(
@@ -16,9 +16,7 @@ Widget customTextField(String hint,
       maxLength: maxLength ?? 50,
       controller: controller,
       validator: validator,
-      inputFormatters: [
-        textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
-      ],
+      inputFormatters: inputFormatter,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
           counterText: '',

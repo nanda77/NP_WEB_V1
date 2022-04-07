@@ -149,8 +149,9 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                       height: 5,
                     ),
                     customTextField('Enter Amount',
-                        textInputFormatter:
-                            FilteringTextInputFormatter.digitsOnly,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         controller: _amountController),
                   ],
                 ),

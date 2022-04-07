@@ -38,7 +38,7 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
             const SizedBox(
               height: 10,
             ),
-            createPaywallLink(),
+            createPaywallLink(context),
             const SizedBox(
               height: 10,
             ),
@@ -52,7 +52,7 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
                     color: kGreyTextColor,
                     height: 1,
                   ),
-                  _transactionList(),
+                  _transactionList(context),
                 ],
               ),
             ),
@@ -105,7 +105,7 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
     );
   }
 
-  Widget _transactionList() {
+  Widget _transactionList(BuildContext context) {
     return Expanded(
       child: BlocBuilder<PaywallListBloc, PaywallListState>(
         builder: (context, state) {
@@ -116,6 +116,8 @@ class _PaywallsBtcTabState extends State<PaywallsBtcTab> {
                   loaderDialog(context);
                 }
                 if (deleteState is DeletePaywallSuccessState) {
+                  state.response?.data?.removeAt(deleteState.index);
+                  Navigator.pop(context);
                   BlocProvider.of<PaywallListBloc>(context).add(PaywallListRefreshEvent());
                 }
                 if(deleteState is DeletePaywallErrorState){

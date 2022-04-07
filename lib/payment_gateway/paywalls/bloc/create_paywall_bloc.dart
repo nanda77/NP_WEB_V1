@@ -1,14 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/api_provider.dart';
 import 'package:ninjapay/payment_gateway/pay/model/common_model.dart';
+import 'package:ninjapay/payment_gateway/paywalls/models/create_paywall_model.dart';
 import 'package:ninjapay/payment_gateway/paywalls/models/paywall_list_model.dart';
 import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
 
 class CreatePaywallEvent {}
 
 class CreatePaywallRefreshEvent extends CreatePaywallEvent {
-  String name;
-  CreatePaywallRefreshEvent(this.name);
+  int? amount;
+  String? desc, memo, url;
+  CreatePaywallRefreshEvent({this.amount, this.desc, this.url, this.memo});
 }
 
 class CreatePaywallState {}
@@ -18,7 +20,7 @@ class CreatePaywallInitialState extends CreatePaywallState {}
 class CreatePaywallLoadingState extends CreatePaywallState {}
 
 class CreatePaywallSuccessState extends CreatePaywallState {
-  CommonModel? response;
+  CreatePaywallModel? response;
   CreatePaywallSuccessState(this.response);
 }
 
@@ -36,12 +38,12 @@ class CreatePaywallBloc extends Bloc<CreatePaywallEvent, CreatePaywallState> {
     try {
       if(event is CreatePaywallRefreshEvent) {
         yield CreatePaywallLoadingState();
-        var response = await provider.createPaywall();
-        if(response?.data != null && response?.data != []){
+        var response = await provider.createPaywall(amount: event.amount??0, desc: event.desc??"", memo: event.memo??"", url: event.url??"");
+        if(response?.data != null){
           yield CreatePaywallSuccessState(response);
         }
         else {
-          yield CreatePaywallErrorState("No Paywall data!");
+          yield CreatePaywallErrorState("Something went wrong!!");
         }
       }
     } catch(e, stacktrace) {

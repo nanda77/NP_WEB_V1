@@ -12,6 +12,7 @@ import 'package:ninjapay/payment_gateway/authentication/bloc/send_otp_bloc.dart'
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_exist_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/bloc/user_name_check_bloc.dart';
 import 'package:ninjapay/payment_gateway/authentication/services/auth_repo.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/update_transaction_state_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
@@ -133,6 +134,9 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider<CreatePaywallBloc>(
             create: (context) => CreatePaywallBloc(),
+          ),
+          BlocProvider<UpdateTransactionBloc>(
+            create: (context) => UpdateTransactionBloc(),
           ),
         ],
         child: MaterialApp(
