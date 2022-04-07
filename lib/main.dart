@@ -34,7 +34,7 @@ import 'package:ninjapay/tipsmodule/screens/tips_lead_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'landingpage/views/landing_page.dart';
 import 'landingpage/views/mediumlanding_page.dart';
-import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit//
+import 'landingpage/views/smalllanding_page.dart'; //flutter build web --web-renderer canvaskit/
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
