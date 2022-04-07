@@ -18,7 +18,8 @@ import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
 import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 
 class EnterTipPage extends StatefulWidget {
-  const EnterTipPage({Key? key}) : super(key: key);
+  String? userName;
+  EnterTipPage(this.userName, {Key? key}) : super(key: key);
 
   @override
   _EnterTipPageState createState() => _EnterTipPageState();
@@ -141,7 +142,9 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(
+                                                          widget.userName ??
+                                                              "")),
                                             );
                                           },
                                           child: customIcon(
@@ -192,7 +195,9 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(
+                                                          widget.userName ??
+                                                              "")),
                                             );
                                           },
                                           child: customIcon(
@@ -243,7 +248,9 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      CustomTipPage()),
+                                                      CustomTipPage(
+                                                          widget.userName ??
+                                                              "")),
                                             );
                                           },
                                           child: customIcon(
@@ -397,30 +404,27 @@ class _EnterTipPageState extends State<EnterTipPage> {
                         Navigator.pop(context);
                       }
                     },
-                    child: SimpleButton("NEXT", onTap: () {
-                      if (data == null) {
-                        Fluttertoast.showToast(
-                            msg: "Select btc value!",
-                            webBgColor:
-                                "linear-gradient(to right, #000000, #000000)");
-                      } else if (fiatValue == 0) {
-                        Fluttertoast.showToast(
-                            msg: "Enter right amount!",
-                            webBgColor:
-                                "linear-gradient(to right, #000000, #000000)");
-                      } else {
-                        String notes = noteController.text.trim().isEmpty
-                            ? "Tip"
-                            : "Tip: ${noteController.text}";
-                        BlocProvider.of<LightningTipBloc>(context).add(
-                            LightningTipRefreshEvent(
-                                notes: notes,
-                                tip: btcValue ?? 0.0,
-                                btcPrice: data?['USD'] ?? 0.0,
-                                fiatvalue: fiatValue,
-                                userName: state.response?.username ?? ""));
-                      }
-                    }),
+                    child: InkWell(
+                      onTap: () {
+                        if (data == null) {
+                          Fluttertoast.showToast(msg: "Select btc value!");
+                        } else if (fiatValue == 0) {
+                          Fluttertoast.showToast(msg: "Enter right amount!");
+                        } else {
+                          String notes = noteController.text.trim().isEmpty
+                              ? "Tip"
+                              : "Tip: ${noteController.text}";
+                          BlocProvider.of<LightningTipBloc>(context).add(
+                              LightningTipRefreshEvent(
+                                  notes: notes,
+                                  tip: btcValue ?? 0.0,
+                                  btcPrice: data?['USD'] ?? 0.0,
+                                  fiatvalue: fiatValue,
+                                  userName: widget.userName ?? ""));
+                        }
+                      },
+                      child: SimpleButton("NEXT"),
+                    ),
                   ),
                 ],
               ),
@@ -468,7 +472,8 @@ class _EnterTipPageState extends State<EnterTipPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CustomTipPage()),
+                                      builder: (context) =>
+                                          CustomTipPage(widget.userName ?? "")),
                                 );
                               },
                               child:

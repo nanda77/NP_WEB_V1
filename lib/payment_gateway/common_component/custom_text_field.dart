@@ -4,20 +4,19 @@ import 'package:ninjapay/constants.dart';
 
 Widget customTextField(String hint,
     {Icon? suffixIcon,
-    TextInputFormatter? textInputFormatter,
+    List<TextInputFormatter>? inputFormatter,
     int? maxLength,
-    double? width,TextEditingController? controller, String? Function(String?)? validator}) {
+    double? width,TextEditingController? controller, String? Function(String?)? validator, bool? enable}) {
   return Container(
     width: width ?? 300,
     child: TextFormField(
+      enabled: enable,
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,
       controller: controller,
       validator: validator,
-      inputFormatters: [
-        textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
-      ],
+      inputFormatters: inputFormatter,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
           counterText: '',
@@ -47,16 +46,20 @@ Widget simpleTextField(String hint, {
     TextEditingController? controller,
     String? Function(String?)? validator,
     Widget? prefix,
-    Widget? prefixIcon
+    Widget? prefixIcon,
+    bool? enabled,
+    void Function()? onTap
   }) {
   return Container(
     width: width ?? 300,
     child: TextFormField(
+      onTap: onTap,
       style: boldTextStyle,
       textAlignVertical: TextAlignVertical.center,
       maxLength: maxLength ?? 50,
       controller: controller,
       validator: validator,
+      enabled: enabled,
       inputFormatters: [
         textInputFormatter ?? FilteringTextInputFormatter.singleLineFormatter
       ],
@@ -76,9 +79,18 @@ Widget simpleTextField(String hint, {
             borderRadius: BorderRadius.circular(2.0),
             // borderSide: const BorderSide(color: Colors.grey),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                width: 1,
+                color: kGreyTextColor
+            ),
+            borderRadius: BorderRadius.circular(2.0),
+            // borderSide: const BorderSide(color: Colors.grey),
+          ),
           hintText: hint,
           suffixIcon: suffixIcon ?? SizedBox(),
-          hintStyle: boldTextStyle.copyWith(color: kTextSubColor)),
+          hintStyle: boldTextStyle.copyWith(color: kTextSubColor)
+      ),
     ),
   );
 }

@@ -12,13 +12,12 @@ import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart
 import 'package:ninjapay/payment_gateway/common_component/transaction_table_item.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_upi_bloc.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_bloc.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_events.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/create_payment/create_payment_states.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/bloc/payment_link_list/get_link_payment_events.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/widget/your_link.dart';
-
+import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_bloc.dart';
+import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_events.dart';
+import 'package:ninjapay/payment_gateway/payment_link/bloc/create_payment/create_payment_states.dart';
+import 'package:ninjapay/payment_gateway/payment_link/bloc/payment_link_list/get_link_payment_events.dart';
+import 'package:ninjapay/payment_gateway/payment_link/model/get_link_payments_model.dart';
+import 'package:ninjapay/payment_gateway/payment_link/widget/your_link.dart';
 import '../bloc/payment_link_list/get_link_payment_bloc.dart';
 import '../bloc/payment_link_list/get_link_payment_states.dart';
 
@@ -150,8 +149,9 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                       height: 5,
                     ),
                     customTextField('Enter Amount',
-                        textInputFormatter:
-                            FilteringTextInputFormatter.digitsOnly,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                         controller: _amountController),
                   ],
                 ),
@@ -234,9 +234,11 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                           padding: tablePadding,
                           child: Row(
                             children: [
-                              Text(
-                                dataList[index].customPaylink.toString(),
-                                style: tabBarTextStyle,
+                              Expanded(
+                                child: Text(
+                                  dataList[index].customPaylink.toString(),
+                                  style: tabBarTextStyle,
+                                ),
                               ),
                               const SizedBox(
                                 width: 0,
@@ -316,13 +318,11 @@ class _PaymentLinksUpiTabState extends State<PaymentLinksUpiTab> {
                       } else if (purpose.isEmpty) {
                         Fluttertoast.showToast(msg: "Please enter purpose.");
                       } else if (purpose.length > 30) {
-                        Fluttertoast.showToast(
-                            msg:
-                            "Purpose length must be less than or equal to 30 characters long.");
+                        Fluttertoast.showToast(msg: "Purpose length must be less than or equal to 30 characters long.");
                       } else if (isConnected != true) {
                         Fluttertoast.showToast(msg: AlertMessages.INTERNET_ERROR);
                       } else {
-                        if(upiState.data.data?.merchantDetails?.upi == null || upiState.data.data?.merchantDetails?.upi?.trim() == ""){
+                        if(upiState.data?.data?.merchantDetails?.upi == null || upiState.data?.data?.merchantDetails?.upi?.trim() == ""){
                           Fluttertoast.showToast(msg: 'Please add upi id..');
                         }
                         else{

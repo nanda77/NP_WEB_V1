@@ -12,6 +12,8 @@ import 'package:ninjapay/tipsmodule/models/user_name_model.dart';
 import 'package:ninjapay/tipsmodule/screens/enter_tip_page.dart';
 import 'package:ninjapay/tipsmodule/screens/enter_upi_tip_page.dart';
 import 'package:ninjapay/tipsmodule/widgets/button_with_icon.dart';
+import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_util.dart';
 
 class TipsLeadPage extends StatefulWidget {
   static const String route = '/leadPage';
@@ -23,15 +25,40 @@ class TipsLeadPage extends StatefulWidget {
 
 class _TipsLeadPageState extends State<TipsLeadPage> {
   String? baseUrl;
+  var uuid = Uuid();
 
   @override
   void initState() {
     super.initState();
+    var v1 = uuid.v1(); // -> '6c84fb90-12c4-11e1-840d-7b25c5ee775a'
+
+    var v1_exact = uuid.v1(options: {
+      'node': [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+      'clockSeq': 0x1234,
+      'mSecs': DateTime.utc(2011, 11, 01).millisecondsSinceEpoch,
+      'nSecs': 5678
+    }); // -> '710b962e-041c-11e1-9234-0123456789ab'
+
+    // Generate a v4 (random) id
+    var v4 = uuid.v4(); // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+    // Generate a v4 (crypto-random) id
+    var v4_crypto = uuid.v4(options: {'rng': UuidUtil.cryptoRNG});
+    // -> '110ec58a-a0f2-4ac4-8393-c866d813b8d1'
+
+    // Generate a v5 (namespace-name-sha1-based) id
+    var v5 = uuid.v5(Uuid.NAMESPACE_OID, 'www.google.com');
+
+    print(v1);
+    print(v1_exact);
+    print(v4);
+    print(v4_crypto);
+    print(v5);
+
     baseUrl = Uri.base.toString();
     print(baseUrl);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      BlocProvider.of<GetUserBloc>(context)
-          .add(GetUserRefreshEvent(baseUrl!.split("/").last /*"robin"*/));
+      BlocProvider.of<GetUserBloc>(context).add(GetUserRefreshEvent(baseUrl!.split("/").last));
     });
   }
 
@@ -45,9 +72,9 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
       body: BlocBuilder<GetUserBloc, GetUserState>(builder: (context, state) {
         if (state is GetUserSuccessState) {
           return Responsive(
-            desktop: DeskTopLeadPage(state.response),
-            mobile: MobileLeadPage(state.response),
-            tablet: DeskTopLeadPage(state.response),
+            desktop: DeskTopLeadPage(state.response, baseUrl!.split("/").last),
+            mobile: MobileLeadPage(state.response, baseUrl!.split("/").last),
+            tablet: DeskTopLeadPage(state.response, baseUrl!.split("/").last),
           );
           /*return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,7 +183,8 @@ class _TipsLeadPageState extends State<TipsLeadPage> {
 
 class DeskTopLeadPage extends StatefulWidget {
   UserData? response;
-  DeskTopLeadPage(this.response, {Key? key}) : super(key: key);
+  String userName;
+  DeskTopLeadPage(this.response, this.userName, {Key? key}) : super(key: key);
   @override
   _DeskTopLeadPageState createState() => _DeskTopLeadPageState();
 }
@@ -231,7 +259,7 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
         ButtonWithIcon("Tip using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EnterTipPage()),
+            MaterialPageRoute(builder: (context) => EnterTipPage(widget.userName)),
           );
         }),
         SizedBox(height: height * 0.04),
@@ -271,7 +299,8 @@ class _DeskTopLeadPageState extends State<DeskTopLeadPage> {
 
 class MobileLeadPage extends StatefulWidget {
   UserData? response;
-  MobileLeadPage(this.response, {Key? key}) : super(key: key);
+  String userName;
+  MobileLeadPage(this.response, this.userName, {Key? key}) : super(key: key);
   @override
   _MobileLeadPageState createState() => _MobileLeadPageState();
 }
@@ -343,7 +372,7 @@ class _MobileLeadPageState extends State<MobileLeadPage> {
         ButtonWithIcon("Tips using BTC", "assets/Icons/bt_ic.png", onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EnterTipPage()),
+            MaterialPageRoute(builder: (context) => EnterTipPage(widget.userName)),
           );
         }),
         widget.response?.upiEnabled == true

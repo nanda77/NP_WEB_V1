@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ninjapay/constants.dart';
-import 'package:ninjapay/payment_gateway/module/payment_link/widget/your_link.dart';
+import 'package:ninjapay/payment_gateway/payment_link/widget/your_link.dart';
 
 class PaymentLinksBtcTab extends StatefulWidget {
   @override

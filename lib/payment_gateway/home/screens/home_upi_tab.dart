@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
+import 'package:ninjapay/app_utils.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
+import 'package:ninjapay/payment_gateway/common_component/custom_loader.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
+import 'package:ninjapay/payment_gateway/home/bloc/update_transaction_state_bloc.dart';
+import 'package:ninjapay/payment_gateway/home/model/home_upi_model.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
@@ -51,17 +57,17 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       children: [
                         Expanded(
                           child: paymentStatusCard(orangeLightColor, orangeColor,
-                              'Pending', '$inrSign ${state.data.data?.balanceStatus?.pending ?? 0}'),
+                              'Pending', '$inrSign ${state.data?.data?.balanceStatus?.pending ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(greenLightColor, greenColor,
-                              'Approved', '$inrSign ${state.data.data?.balanceStatus?.approved ?? 0}'),
+                              'Approved', '$inrSign ${state.data?.data?.balanceStatus?.approved ?? 0}'),
                         ),
                         SizedBox(width: 15),
                         Expanded(
                           child: paymentStatusCard(
-                              redLightColor, redColor, 'Declined', '$inrSign ${state.data.data?.balanceStatus?.declined ?? 0}'),
+                              redLightColor, redColor, 'Declined', '$inrSign ${state.data?.data?.balanceStatus?.declined ?? 0}'),
                         ),
                       ],
                     ),
@@ -98,7 +104,86 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                                 color: kGreyTextColor,
                                 height: 1,
                               ),
-                              _transactionList(state.data.data?.transactionRecords??[]),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: state.data?.data?.transactionRecords?.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              tableItemText('${index + 1}', _tableItemWidth),
+                                              tableItemText('10 Mar, 9:13 am', _tableItemWidth),
+                                              tableItemText(state.data?.data?.transactionRecords?[index].utr??"", _tableItemWidth),
+                                              tableItemText('$inrSign ${state.data?.data?.transactionRecords?[index].price??""}', _tableItemWidth),
+                                              tableItemText(state.data?.data?.transactionRecords?[index].upi??"", _tableItemWidth),
+                                              tableItemText(state.data?.data?.transactionRecords?[index].purpose??"", _tableItemWidth),
+                                              tableItemText(state.data?.data?.transactionRecords?[index].orderId??"", _tableItemWidth),
+                                              Container(
+                                                padding: tablePadding,
+                                                child: state.data?.data?.transactionRecords?[index].status?.toLowerCase() == "Pending".toLowerCase()
+                                                  ? BlocListener<UpdateTransactionBloc, UpdateTransactionStates>(
+                                                    listener: (context, state){
+                                                      if(state is UpdateTransactionLoadingState){
+                                                        if(index == state.index){
+                                                          loaderDialog(context);
+                                                        }
+                                                      }
+                                                      if(state is UpdateTransactionSuccessState){
+                                                        if(index == state.index){
+                                                          BlocProvider.of<HomeUpiBloc>(context).add(GetHomeUpiDataEvent());
+                                                          Navigator.pop(context);
+                                                        }
+                                                      }
+                                                      if(state is UpdateTransactionErrorState){
+                                                        if(index == state.index){
+                                                          Navigator.pop(context);
+                                                          Fluttertoast.showToast(msg: state.data);
+                                                        }
+                                                      }
+                                                    },
+                                                    child: Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            BlocProvider.of<UpdateTransactionBloc>(context).add(UpdateTransactionStateRefreshEvent(status: "approved", utr: state.data?.data?.transactionRecords?[index].utr??"", index: index));
+                                                          },
+                                                          child: Image.asset(
+                                                            'assets/Icons/ic_accept.png',
+                                                            height: 24,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 10),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            BlocProvider.of<UpdateTransactionBloc>(context).add(UpdateTransactionStateRefreshEvent(status: "declined", utr: state.data?.data?.transactionRecords?[index].utr??"", index: index));
+                                                          },
+                                                          child: Image.asset(
+                                                            'assets/Icons/ic_decline.png',
+                                                            height: 24,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                  : tableItemText(state.data?.data?.transactionRecords?[index].status??"", _devWidth),
+                                                width: (_devWidth - 290) / 8,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Divider(
+                                          color: kGreyTextColor,
+                                          height: 1,
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -166,7 +251,6 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       child: Text(value),
                     ))
             .toList(),
-
         // add extra sugar..
         icon: Icon(Icons.arrow_drop_down),
         iconSize: 42,
@@ -224,7 +308,7 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
     );
   }
 
-  Widget _transactionList(List<String> list) {
+  Widget _transactionList(List<TransactionRecords> list) {
         return Expanded(
           child: ListView.builder(
             itemCount: list.length,
@@ -238,34 +322,55 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
                       children: [
                         tableItemText('${index + 1}', _tableItemWidth),
                         tableItemText('10 Mar, 9:13 am', _tableItemWidth),
-                        tableItemText('GD68H87JSG86', _tableItemWidth),
-                        tableItemText('$inrSign 434523', _tableItemWidth),
-                        tableItemText('7437878434788@icici', _tableItemWidth),
-                        tableItemText('Raw material', _tableItemWidth),
-                        tableItemText('GD68H87JSG86', _tableItemWidth),
+                        tableItemText(list[index].utr??"", _tableItemWidth),
+                        tableItemText('$inrSign ${list[index].price??""}', _tableItemWidth),
+                        tableItemText(list[index].upi??"", _tableItemWidth),
+                        tableItemText(list[index].purpose??"", _tableItemWidth),
+                        tableItemText(list[index].orderId??"", _tableItemWidth),
                         Container(
                           padding: tablePadding,
-                          child: index == 5
-                              ? Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        'assets/Icons/ic_accept.png',
-                                        height: 24,
+                          child: list[index].status?.toLowerCase() == "Pending".toLowerCase()
+                              ? BlocListener<UpdateTransactionBloc, UpdateTransactionStates>(
+                                  listener: (context, state){
+                                    if(state is UpdateTransactionLoadingState){
+                                      loaderDialog(context);
+                                    }
+                                    if(state is UpdateTransactionSuccessState){
+                                      if(index == state.index){
+                                        BlocProvider.of<HomeUpiBloc>(context).add(GetHomeUpiDataEvent());
+                                      }
+                                      Navigator.pop(context);
+                                    }
+                                    if(state is UpdateTransactionErrorState){
+                                      Navigator.pop(context);
+                                      Fluttertoast.showToast(msg: state.data);
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          BlocProvider.of<UpdateTransactionBloc>(context).add(UpdateTransactionStateRefreshEvent(status: "approved", utr: list[index].utr??"", index: index));
+                                        },
+                                        child: Image.asset(
+                                          'assets/Icons/ic_accept.png',
+                                          height: 24,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        'assets/Icons/ic_decline.png',
-                                        height: 24,
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          BlocProvider.of<UpdateTransactionBloc>(context).add(UpdateTransactionStateRefreshEvent(status: "declined", utr: list[index].utr??"", index: index));
+                                        },
+                                        child: Image.asset(
+                                          'assets/Icons/ic_decline.png',
+                                          height: 24,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 )
-                              : tableItemText('Approved', _devWidth),
+                              : tableItemText(list[index].status??"", _devWidth),
                           width: (_devWidth - 290) / 8,
                         ),
                       ],
@@ -300,4 +405,5 @@ class _HomeUpiTabState extends State<HomeUpiTab> {
       ),
     );
   }
+
 }

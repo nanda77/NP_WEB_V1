@@ -1,4 +1,5 @@
-import 'package:ninjapay/payment_gateway/module/payment_link/model/get_link_payments_model.dart';
+
+import 'package:ninjapay/payment_gateway/payment_link/model/get_link_payments_model.dart';
 
 class GetLinkPaymentStates {}
 

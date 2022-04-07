@@ -1,12 +1,16 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ninjapay/constants.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
+import 'package:ninjapay/payment_gateway/common_component/custom_loader.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/pay/bloc/complete_payment_bloc.dart';
+import 'package:ninjapay/tipsmodule/screens/expire_page.dart';
+import 'package:ninjapay/tipsmodule/screens/success_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:xid/xid.dart';
 
@@ -27,12 +31,18 @@ class _CompletePaymentState extends State<CompletePayment> {
   TextEditingController utrController = TextEditingController();
   final interval = const Duration(seconds: 1);
   String? upiId;
-  final int timerMaxSeconds = 30;
+  final int timerMaxSeconds = 120;
   var xid = Xid();
-
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  String? element, orderId;
   int currentSeconds = 0;
   Timer? countDownTimer;
   Timer? apiTimer;
+  final _formKey = GlobalKey<FormState>();
 
   String get timerText =>
       '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
@@ -46,6 +56,9 @@ class _CompletePaymentState extends State<CompletePayment> {
         if (timer.tick >= timerMaxSeconds) {
           timer.cancel();
           apiTimer?.cancel();
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const ExpirePage()),
+              (Route<dynamic> route) => false);
           //redirect to payment cancelled screen
         }
       });
@@ -55,6 +68,11 @@ class _CompletePaymentState extends State<CompletePayment> {
   @override
   void initState() {
     super.initState();
+    orderId = widget.userName?.substring(0, 2);
+    element =
+        "$orderId${DateTime.now().millisecondsSinceEpoch.toString().substring(0, 7)}${getRandomString(4)}";
+    print("Random: $element");
+    print("${DateTime.now().millisecondsSinceEpoch} $orderId");
     startTimeout();
     upiId =
         "upi://pay?pa=${widget.userId?.trim()}&pn=${widget.userName?.trim()}&am=${widget.amount?.trim() ?? ""}&tn=${widget.purpose?.trim() ?? ""}";
@@ -96,7 +114,7 @@ class _CompletePaymentState extends State<CompletePayment> {
           ),
 
           Text(
-            '#$xid / Amount - ₹${widget.amount}',
+            '#${element!.toUpperCase()} / Amount - ₹${widget.amount}',
             style: TextStyle(
                 fontWeight: FontWeight.w300, fontSize: 14, color: kBlueColor),
           ),
@@ -179,33 +197,51 @@ class _CompletePaymentState extends State<CompletePayment> {
           BlocListener<CompletePaymentBloc, CompletePaymentState>(
             listener: (context, state) {
               if (state is CompletePaymentLoadingState) {
+                loaderDialog(context);
               } else if (state is CompletePaymentSuccessState) {
-                /*if(state.response?.data?.status == "success"){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SuccessPage()),
-                  );
-                }*/
-              } else if (state is CompletePaymentErrorState) {}
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: state.response?.message ?? "");
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) => const SuccessPage()),
+                    (Route<dynamic> route) => false);
+              } else if (state is CompletePaymentErrorState) {
+                Navigator.pop(context);
+                Fluttertoast.showToast(msg: state.errorMessage);
+              }
             },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                customTextField('Enter 12 digit UTR',
-                    width: 300, controller: utrController),
-                SizedBox(width: 20),
-                blueRoundButton('SUBMIT', width: 200, onTap: () {
-                  print(xid);
-                  BlocProvider.of<CompletePaymentBloc>(context).add(
-                      CompletePaymentRefreshEvent(
-                          utr: utrController.text,
-                          upi: widget.userId,
-                          purpose: widget.purpose,
-                          orderId: xid.toString(),
-                          emailOrPhone: widget.emailOrPhone,
-                          amount: widget.amount,
-                          userName: widget.userName));
-                })
-              ],
+            child: Form(
+              key: _formKey,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  customTextField('Enter 12 digit UTR',
+                      width: 300, controller: utrController, validator: (val) {
+                    if (val!.trim().isEmpty) {
+                      return "Enter UTR!";
+                    } else if (val.length < 12 || val.length > 12) {
+                      return "Utr length equal to 12!";
+                    } else {
+                      return null;
+                    }
+                  }),
+                  SizedBox(width: 20),
+                  blueRoundButton('SUBMIT', width: 200, onTap: () {
+                    print(xid);
+                    if (_formKey.currentState!.validate()) {
+                      BlocProvider.of<CompletePaymentBloc>(context).add(
+                          CompletePaymentRefreshEvent(
+                              utr: utrController.text,
+                              upi: widget.userId,
+                              purpose: widget.purpose,
+                              orderId: element!.toUpperCase(),
+                              emailOrPhone: widget.emailOrPhone,
+                              amount: widget.amount,
+                              userName: widget.userName));
+                    }
+                  })
+                ],
+              ),
             ),
           ),
         ],

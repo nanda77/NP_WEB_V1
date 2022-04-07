@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ninjapay/api_provider.dart';
+import 'package:ninjapay/app_utils.dart';
+import 'package:ninjapay/payment_gateway/common_component/api_urls.dart';
 import 'package:ninjapay/payment_gateway/home/model/profile_dashboard_model.dart';
 
 class HomeBtcEvent {}
@@ -28,6 +30,8 @@ class HomeBtcBloc extends Bloc<HomeBtcEvent, HomeBtcState> {
 
   @override
   Stream<HomeBtcState> mapEventToState(HomeBtcEvent event) async* {
+    AppUtils appUtils = AppUtils();
+    authToken = await appUtils.getFCMToken();
     try {
       if(event is HomeBtcRefreshEvent) {
         yield HomeBtcLoadingState();

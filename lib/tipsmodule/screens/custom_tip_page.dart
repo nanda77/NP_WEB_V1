@@ -17,7 +17,8 @@ import 'package:ninjapay/tipsmodule/widgets/custom_textfieds.dart';
 import '../../responsive.dart';
 
 class CustomTipPage extends StatefulWidget {
-  CustomTipPage({Key? key}) : super(key: key);
+  String userName;
+  CustomTipPage(this.userName, {Key? key}) : super(key: key);
   @override
   State<CustomTipPage> createState() => _CustomTipPageState();
 }
@@ -230,16 +231,19 @@ class _CustomTipPageState extends State<CustomTipPage> {
                           } else if (state is LightningTipSuccessState) {
                             print(state.response?.data?.toJson() ?? "");
                             Navigator.pop(context);
-                           /* Navigator.push(
+                            /* Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => QRPage(
                                       state.response?.data?.transactionId ??
                                           "")),
                             );*/
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => QRPage(
-                                state.response?.data?.transactionId ??
-                                    "")));
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => QRPage(
+                                        state.response?.data?.transactionId ??
+                                            "")));
                           } else if (state is LightningTipErrorState) {
                             Navigator.pop(context);
                           }
@@ -265,7 +269,7 @@ class _CustomTipPageState extends State<CustomTipPage> {
                                     tip: btcValue ?? 0.0,
                                     btcPrice: data?['USD'] ?? 0.0,
                                     fiatvalue: fiatValue,
-                                    userName: state.response?.username ?? ""));
+                                    userName: widget.userName));
                           }
                         }),
                       )

@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_buttons.dart';
 import 'package:ninjapay/payment_gateway/common_component/custom_text_field.dart';
 import 'package:ninjapay/payment_gateway/home/bloc/upi/home_btc_bloc.dart';
+import 'package:ninjapay/payment_gateway/home/model/profile_dashboard_model.dart';
 import 'package:ninjapay/payment_gateway/home/widget/amountCard.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_header_text.dart';
 import 'package:ninjapay/payment_gateway/home/widget/table_item_text.dart';
-
 import '../../../constants.dart';
 
 class HomeBtcTab extends StatefulWidget {
@@ -222,7 +222,7 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
     );
   }
 
-  Widget _transactionList(List<dynamic> list) {
+  Widget _transactionList(List<Last3Transaction> list) {
     return Expanded(
       child: ListView.builder(
         itemCount: list.length,
@@ -246,11 +246,11 @@ class _HomeBtcTabState extends State<HomeBtcTab> {
                       ),
                       tableItemText('10 Mar, 9:13 am', _tableItemWidth),
                       tableItemText('@pankaj', _tableItemWidth),
-                      tableItemText('$inrSign 434523', _tableItemWidth),
+                      tableItemText('$inrSign ${list[index].amount??0}', _tableItemWidth),
                       tableItemText('+376727 SAT', _tableItemWidth),
-                      tableItemText('Raw material', _tableItemWidth),
-                      tableItemText('0%', _tableItemWidth),
-                      tableItemText('Pending', _tableItemWidth),
+                      tableItemText(list[index].note??"", _tableItemWidth),
+                      tableItemText('${list[index].fee??0}%', _tableItemWidth),
+                      tableItemText(list[index].status??"", _tableItemWidth),
                     ],
                   ),
                 ),

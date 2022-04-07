@@ -44,7 +44,10 @@ class _QRPageState extends State<QRPage> {
           timer.cancel();
           apiTimer?.cancel();
           upiId = null;
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => ExpirePage()));
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ExpirePage()));
           /*Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => ExpirePage()),
@@ -85,7 +88,10 @@ class _QRPageState extends State<QRPage> {
             } else if (state is TransactionStatusSuccessState) {
               if (state.response?.data?.status == "success") {
                 apiTimer?.cancel();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => SuccessPage()));
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => SuccessPage()));
                 /*Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SuccessPage()),
